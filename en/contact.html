@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CoreWear &ndash; Kontakt</title>
+  <meta name="description" content="Kontakt & Anfrage bei CoreWear. B2B-Textilfertigung ab 100 Stück mit zuverlässiger Qualitätssicherung und klaren Timelines." />
+
+  <!-- SEO: Canonical & Hreflang -->
+  <link rel="canonical" href="https://corewear.pro/de/contact.html" />
+  <link rel="alternate" hreflang="de" href="https://corewear.pro/de/contact.html" />
+  <link rel="alternate" hreflang="en" href="https://corewear.pro/en/contact.html" />
+  <link rel="alternate" hreflang="x-default" href="https://corewear.pro/en/contact.html" />
+
+  <!-- Sprachspezifische Assets (root-relativ) -->
+  <link rel="stylesheet" href="/assets/css/index.css" />
+  <link rel="icon" type="image/png" href="/assets/img/favicon.png" />
+</head>
+
+<body>
+  <header>
+    <div class="header-bar">
+      <!-- Logo -->
+      <a href="/de/" class="brand">
+        <img id="logo" src="/assets/img/Logo.png" alt="CoreWear Logo" />
+      </a>
+
+      <!-- Mehrseiten-Navigation -->
+      <nav class="main-nav">
+        <a href="/de/">Start</a>
+        <a href="/de/products.html">Produkte</a>
+        <a href="/de/process.html">Prozess</a>
+        <a href="/de/about.html">Über uns</a>
+        <a href="/de/faq.html">FAQ</a>
+        <a href="/de/contact.html" class="btn active" aria-current="page">Kontakt</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero kompakt -->
+    <section class="hero" style="grid-template-columns:1fr; margin-top:24px">
+      <div class="hero-card">
+        <h1>Kontakt &ndash; Projektanfrage</h1>
+        <p class="sub">
+          Sag uns kurz, was du vorhast. Für Bestellanfragen ab <strong>100 Stück</strong> können wir nach Briefing meist zügig
+          eine Einschätzung und ein erstes Angebot geben.
+        </p>
+        <div class="badges">
+          <span class="badge">Direkte Fabrikpartner</span>
+          <span class="badge">QC vor Ort</span>
+          <span class="badge">Private Label / OEM</span>
+          <span class="badge">Transparente Timelines</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Kontaktbereich: Formular links, Infos rechts -->
+    <section class="contact">
+      <!-- Formular -->
+      <form id="contactForm" class="card" novalidate>
+        <h3>Dein Anliegen</h3>
+
+        <div class="field">
+          <label for="type">Anliegen</label>
+          <select id="type" name="type" required>
+            <option value="Order">Bestellanfrage (ab 100 Stück)</option>
+            <option value="Question">Allgemeine Frage</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="name">Name*</label>
+          <input id="name" name="name" required />
+        </div>
+
+        <div class="field">
+          <label for="company">Firma</label>
+          <input id="company" name="company" />
+        </div>
+
+        <div class="field">
+          <label for="email">E-Mail*</label>
+          <input id="email" name="email" type="email" required />
+        </div>
+
+        <div class="field">
+          <label for="phone">Telefon (optional)</label>
+          <input id="phone" name="phone" type="tel" placeholder="+49 ..." />
+        </div>
+
+        <div id="orderFields" style="display:grid;gap:12px">
+          <div class="field">
+            <label for="product">Produkttyp</label>
+            <select id="product" name="product">
+              <option>Trikot</option>
+              <option>Workwear</option>
+              <option>Streetwear</option>
+              <option>Hoodies / Sweats</option>
+              <option>T-Shirts</option>
+              <option>Jacken</option>
+              <option>Kinderbekleidung</option>
+              <option>Sonstiges</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="qty">Geplante Stückzahl*</label>
+            <input id="qty" name="qty" type="number" min="1" placeholder="z. B. 2500" />
+            <span class="hint">MOQ 100 pro Modell/Farbe</span>
+          </div>
+
+          <div class="field">
+            <label for="target_price">Zielpreis (optional)</label>
+            <input id="target_price" name="target_price" type="text" placeholder="z. B. 12,50 € / Stück" />
+          </div>
+
+          <div class="field">
+            <label for="timeline">Gewünschte Timeline (optional)</label>
+            <input id="timeline" name="timeline" type="text" placeholder="z. B. Auslieferung in 2&ndash;4 Wochen" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="message">Nachricht*</label>
+          <textarea id="message" name="message" placeholder="Kurzbeschreibung, Referenzen/Skizzen (Links), Besonderheiten, Branding …" required></textarea>
+        </div>
+
+        <div class="field">
+        <label>
+            <input type="checkbox" id="privacy" required />
+            Ich habe die 
+            <a href="de/datenschutz.html" class="underline">Datenschutzerklärung</a> 
+            und die 
+            <a href="de/agb.html" class="underline">AGB</a> 
+            gelesen und stimme der Verarbeitung zu.
+        </label>
+        </div>
+
+        <button class="btn primary" type="submit">Absenden</button>
+        <p id="formStatus" class="hint" role="status" aria-live="polite"></p>
+
+        <p class="hint">Direkter Kontakt: <a href="mailto:hello@deine-domain.de">hello@deine-domain.de</a></p>
+      </form>
+
+      <!-- Kontaktinfos -->
+      <aside class="card">
+        <h3>Direkter Kontakt</h3>
+        <ul class="list">
+          <li>📧 hello@deine-domain.de</li>
+          <li>☎️ +49&nbsp;30&nbsp;1234567</li>
+          <li>📍 Core Wear UG (haftungsbeschränkt), Musterstraße&nbsp;1, 12345 Berlin</li>
+        </ul>
+
+        <h3 style="margin-top:16px">Geschäftszeiten</h3>
+        <ul class="list">
+          <li>Mo &ndash; Fr: 09:00 &ndash; 17:30</li>
+          <li>Sa & So: nach Vereinbarung</li>
+        </ul>
+
+        <p class="notice">
+          Tipp: Je mehr Infos (Stückzahl, Zielpreis, Materialien, Referenzbilder) du teilst, desto schneller können wir kalkulieren.
+        </p>
+      </aside>
+    </section>
+
+    <!-- Rechtliches kompakt -->
+    <section class="grid cols-1" style="max-width:var(--max);margin:0 auto 48px;padding:0 20px">
+      <article class="card">
+        <h3>Datenschutz (Kurz)</h3>
+        <p class="muted">
+          Wir verarbeiten die im Formular übermittelten Daten ausschließlich zur Bearbeitung deiner Anfrage (Art. 6 Abs. 1 lit. b DSGVO).
+          Eine Weitergabe an Dritte erfolgt nur, soweit dies zur Angebotserstellung/Produktion erforderlich ist (z. B. geprüfte Fabrikpartner).
+          Auf Wunsch löschen wir deine Daten &ndash; schreib uns einfach eine E-Mail.
+        </p>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <small>© <span id="y"></span> CoreWear</small>
+      <div style="display:flex;gap:14px">
+        <a href="de/impressum.html">Impressum</a>
+        <a href="de/datenschutz.html">Datenschutz</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Jahr im Footer
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // Formular: Felder je nach Anliegen umschalten
+    const typeSel = document.getElementById('type');
+    const orderFields = document.getElementById('orderFields');
+    function toggleOrderFields(){
+      const isOrder = typeSel.value === 'Order';
+      orderFields.style.display = isOrder ? 'grid' : 'none';
+      // Pflichtfeld-Handling für MOQ-Felder nur bei Order
+      document.getElementById('qty').required = isOrder;
+    }
+    typeSel.addEventListener('change', toggleOrderFields);
+    toggleOrderFields();
+
+    // --- OPTION A: Formspree (ohne Backend).
+    // 1) Erstelle ein Projekt auf formspree.io,
+    // 2) ersetze die URL unten durch deine Endpoint-URL
+    const FORMSPREE_ENDPOINT = 'https://formspree.io/f/DEIN_ENDPOINT'; // TODO: ersetzen
+
+    // --- OPTION B: Eigene Serverless-Function (Vercel/Netlify) unter /api/contact
+    // Wenn du Option B nutzt, setze USE_SERVERLESS = true und implementiere /api/contact entsprechend.
+    const USE_SERVERLESS = false;
+
+    const form = document.getElementById('contactForm');
+    const statusEl = document.getElementById('formStatus');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      statusEl.textContent = 'Sende…';
+      statusEl.style.color = '';
+
+      const data = new FormData(form);
+      const payload = Object.fromEntries(data.entries());
+
+      // MOQ-Prüfung nur bei Bestellanfrage
+      const isOrder = payload.type === 'Order';
+      const qtyNum = Number(payload.qty || 0);
+      if (isOrder && (!qtyNum || qtyNum < 100)) {
+        statusEl.textContent = 'Bitte beachte die MOQ von 100 Stück für Bestellanfragen.';
+        statusEl.style.color = '#ffb7b7';
+        return;
+      }
+
+      try {
+        const endpoint = USE_SERVERLESS ? '/api/contact' : FORMSPREE_ENDPOINT;
+        const resp = await fetch(endpoint, {
+          method: 'POST',
+          headers: USE_SERVERLESS ? { 'Content-Type':'application/json' } : { 'Accept':'application/json' },
+          body: USE_SERVERLESS ? JSON.stringify(payload) : data
+        });
+        if (!resp.ok) throw new Error('Netzwerkfehler');
+        statusEl.textContent = 'Danke! Wir melden uns kurzfristig per E-Mail.';
+        statusEl.style.color = '#9fe2b0';
+        form.reset();
+        toggleOrderFields();
+      } catch (err) {
+        statusEl.textContent = 'Uups, etwas ist schiefgelaufen. Bitte schreib direkt an hello@deine-domain.de';
+        statusEl.style.color = '#ffb7b7';
+      }
+    });
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+  </script>
+</body>
+</html>

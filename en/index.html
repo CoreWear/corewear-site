@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CoreWear</title>
+  <meta name="description" content="CoreWear: B2B apparel manufacturing from 100 units. Reliable quality, in-house production control, clear timelines." />
+
+  <!-- hreflang: DE/EN + x-default -->
+  <link rel="alternate" href="https://corewear.pro/de/" hreflang="de" />
+  <link rel="alternate" href="https://corewear.pro/en/" hreflang="en" />
+  <link rel="alternate" href="https://corewear.pro/en/" hreflang="x-default" />
+
+  <!-- canonical (self) -->
+  <link rel="canonical" href="https://corewear.pro/en/" />
+
+  <link rel="stylesheet" href="/assets/css/index.css" />
+  <link rel="icon" type="image/png" href="/assets/img/favicon.png" />
+</head>
+<body>
+  <header>
+    <div class="header-bar">
+      <!-- Logo → English homepage -->
+      <a href="/en/" class="brand">
+        <img id="logo" src="/assets/img/Logo.png" alt="CoreWear logo" />
+      </a>
+
+      <!-- Main navigation (en) -->
+      <nav class="main-nav">
+        <a href="/en/" class="active" aria-current="page">Home</a>
+        <a href="/en/products.html">Products</a>
+        <a href="/en/process.html">Process</a>
+        <a href="/en/about.html">About</a>
+        <a href="/en/faq.html">FAQ</a>
+        <a href="/en/contact.html" class="btn">Contact</a>
+
+        <!-- Language switcher -->
+        <div class="lang-switch">
+          <a href="/de/" aria-label="Deutsch" class="flag de" title="Deutsch"></a>
+          <a href="/en/" aria-label="English" class="flag gb active" title="English"></a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="home">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-card">
+        <h1>Apparel manufacturing<br/>from <span style="color:var(--ok)">100 units</span></h1>
+        <p class="sub">
+          From concept to mass production &ndash; CoreWear manages development, production, and quality assurance.
+        </p>
+        <div class="badges">
+          <span class="badge">Industrial quality</span>
+          <span class="badge">Quality assurance</span>
+          <span class="badge">Private Label / OEM</span>
+          <span class="badge">Fast quotes</span>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center">
+          <a href="#contact" class="btn primary">Start your request</a>
+          <a href="/en/products.html" class="btn ghost">Browse products</a>
+        </div>
+        <p class="notice">Minimum order quantity (MOQ): 100 units per style/colour.</p>
+      </div>
+    </section>
+
+    <!-- QUICK LINKS -->
+    <div class="section-title" style="justify-content:center;text-align:center">
+      <h2>Jump right in</h2>
+      <span class="muted">Pick a topic &ndash; details on the dedicated pages.</span>
+    </div>
+
+    <section class="grid cols-3">
+      <a class="card" href="/en/products.html" style="display:block">
+        <h3>Products</h3>
+        <p class="muted">Tops, bottoms, workwear, dresses, outerwear, activewear &ndash; with specific fabric & production details.</p>
+      </a>
+      <a class="card" href="/en/process.html" style="display:block">
+        <h3>Process</h3>
+        <p class="muted">Transparent 5-step flow incl. QC gates & sampling phases.</p>
+      </a>
+      <a class="card" href="/en/about.html" style="display:block">
+        <h3>About</h3>
+        <p class="muted">Team, values, and how we work. Why CoreWear is the right partner.</p>
+      </a>
+    </section>
+
+    <!-- USPs -->
+    <div class="section-title" style="justify-content:center;text-align:center">
+      <h2>Why CoreWear?</h2>
+      <span class="muted">Predictable quality &ndash; fast communication &ndash; fair pricing.</span>
+    </div>
+    <section class="grid cols-4">
+      <article class="card"><h3>Scalable</h3><p class="muted">Series production from 100 units &ndash; reliable for reorders.</p></article>
+      <article class="card"><h3>Quality</h3><p class="muted">QC gates, AQL checks, documented batches.</p></article>
+      <article class="card"><h3>Speed</h3><p class="muted">Short response times, clear timelines, clean tracking.</p></article>
+      <article class="card"><h3>Branding</h3><p class="muted">Hangtags, care labels, packaging &ndash; one stop.</p></article>
+    </section>
+
+    <!-- CTA -->
+    <section class="grid cols-1" style="max-width:var(--max);margin:0 auto 32px;padding:0 20px">
+      <article class="card" style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+        <div>
+          <h3>Ready to start?</h3>
+          <p class="muted">Share a few details &ndash; we’ll follow up quickly with questions or an initial quote.</p>
+        </div>
+        <a href="#contact" class="btn primary">Request now</a>
+      </article>
+    </section>
+
+    <!-- CONTACT FORM (same structure as /en/contact.html) -->
+    <div class="section-title" id="contact" style="justify-content:center;text-align:center">
+      <h2>Contact &amp; Request</h2>
+      <span class="muted">Project requests from 100 units &ndash; or send us your question.</span>
+    </div>
+
+    <section class="contact">
+      <!-- Form -->
+      <form id="contactForm" class="card" novalidate>
+        <h3>Your request</h3>
+
+        <div class="field">
+          <label for="type">Type</label>
+          <select id="type" name="type" required>
+            <option value="Order">Order request (from 100 units)</option>
+            <option value="Question">General question</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="name">Name*</label>
+          <input id="name" name="name" required />
+        </div>
+
+        <div class="field">
+          <label for="company">Company</label>
+          <input id="company" name="company" />
+        </div>
+
+        <div class="field">
+          <label for="email">Email*</label>
+          <input id="email" name="email" type="email" required />
+        </div>
+
+        <div class="field">
+          <label for="phone">Phone (optional)</label>
+          <input id="phone" name="phone" type="tel" placeholder="+44 ..." />
+        </div>
+
+        <div id="orderFields" style="display:grid;gap:12px">
+          <div class="field">
+            <label for="product">Product type</label>
+            <select id="product" name="product">
+              <option>Jersey</option>
+              <option>Workwear</option>
+              <option>Streetwear</option>
+              <option>Hoodies / Sweats</option>
+              <option>T-Shirts</option>
+              <option>Jackets</option>
+              <option>Kidswear</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="qty">Planned quantity*</label>
+            <input id="qty" name="qty" type="number" min="1" placeholder="e.g. 2,500" />
+            <span class="hint">MOQ 100 per style/colour</span>
+          </div>
+
+          <div class="field">
+            <label for="target_price">Target price (optional)</label>
+            <input id="target_price" name="target_price" type="text" placeholder="e.g. €12.50 / unit" />
+          </div>
+
+          <div class="field">
+            <label for="timeline">Desired timeline (optional)</label>
+            <input id="timeline" name="timeline" type="text" placeholder="e.g. delivery in 2&ndash;4 weeks" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label>
+            <input type="checkbox" id="privacy" required />
+            I have read the
+            <a href="/en/privacy.html" class="underline">Privacy Policy</a>
+            and the
+            <a href="/en/terms.html" class="underline">Terms</a>
+            and agree to the processing of my data.
+          </label>
+        </div>
+
+        <button class="btn primary" type="submit">Send</button>
+        <p id="formStatus" class="hint" role="status" aria-live="polite"></p>
+
+        <p class="hint">Direct contact: <a href="mailto:hello@your-domain.com">hello@your-domain.com</a></p>
+      </form>
+
+      <!-- Contact info -->
+      <aside class="card">
+        <h3>Direct contact</h3>
+        <ul class="list">
+          <li>📧 hello@your-domain.com</li>
+          <li>☎️ +49&nbsp;30&nbsp;1234567</li>
+          <li>📍 Core Wear UG (limited liability), Musterstraße&nbsp;1, 12345 Berlin</li>
+        </ul>
+
+        <h3 style="margin-top:16px">Business hours</h3>
+        <ul class="list">
+          <li>Mon &ndash; Fri: 09:00 &ndash; 17:30</li>
+          <li>Sat & Sun: by appointment</li>
+        </ul>
+
+        <p class="notice">
+          Tip: The more info you share (qty, target price, materials, reference images), the faster we can quote.
+        </p>
+      </aside>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <small>© <span id="y"></span> CoreWear</small>
+      <div style="display:flex;gap:14px">
+        <a href="/en/imprint.html">Imprint</a>
+        <a href="/en/privacy.html">Privacy</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Footer year
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // Show/hide order fields
+    const typeSel = document.getElementById('type');
+    const orderFields = document.getElementById('orderFields');
+    function toggleOrderFields(){
+      const isOrder = typeSel.value === 'Order';
+      orderFields.style.display = isOrder ? 'grid' : 'none';
+      document.getElementById('qty').required = isOrder;
+    }
+    typeSel.addEventListener('change', toggleOrderFields);
+    toggleOrderFields();
+
+    // Form handling (Formspree or serverless)
+    const FORMSPREE_ENDPOINT = 'https://formspree.io/f/YOUR_ENDPOINT'; // TODO
+    const USE_SERVERLESS = false;
+
+    const form = document.getElementById('contactForm');
+    const statusEl = document.getElementById('formStatus');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      statusEl.textContent = 'Sending…';
+      statusEl.style.color = '';
+
+      const data = new FormData(form);
+      const payload = Object.fromEntries(data.entries());
+
+      // MOQ check for order requests
+      const isOrder = payload.type === 'Order';
+      const qtyNum = Number(payload.qty || 0);
+      if (isOrder && (!qtyNum || qtyNum < 100)) {
+        statusEl.textContent = 'Please note the MOQ of 100 units for order requests.';
+        statusEl.style.color = '#ffb7b7';
+        return;
+      }
+
+      try {
+        const endpoint = USE_SERVERLESS ? '/api/contact' : FORMSPREE_ENDPOINT;
+        const resp = await fetch(endpoint, {
+          method: 'POST',
+          headers: USE_SERVERLESS ? { 'Content-Type':'application/json' } : { 'Accept':'application/json' },
+          body: USE_SERVERLESS ? JSON.stringify(payload) : data
+        });
+        if (!resp.ok) throw new Error('Network error');
+        statusEl.textContent = 'Thanks! We will get back to you shortly by email.';
+        statusEl.style.color = '#9fe2b0';
+        form.reset();
+        toggleOrderFields();
+      } catch (err) {
+        statusEl.textContent = 'Oops, something went wrong. Please email hello@your-domain.com directly.';
+        statusEl.style.color = '#ffb7b7';
+      }
+    });
+
+    // Always start at top on refresh
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    window.addEventListener('beforeunload', () => window.scrollTo(0,0));
+  </script>
+</body>
+</html>
