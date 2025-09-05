@@ -619,7 +619,7 @@
     }
 
     // Betreff sinnvoll anreichern
-    const subj = `[${isOrder ? 'Order' : 'Frage'}] ${payload.company || '-'} – ${payload.name || '-'}`;
+    const subj = `[${isOrder ? 'Order' : 'Frage'}] ${payload.company || '-'} &ndash; ${payload.name || '-'}`;
     fd.set('_subject', subj);
     fd.set('_template', 'table');
     fd.set('_captcha', 'false');

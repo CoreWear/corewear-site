@@ -1,0 +1,2 @@
+Zum am Handy Debuggen
+npx http-server . -a 0.0.0.0 -p 8080

@@ -18,6 +18,10 @@
   --nav-panel-w: min(40%, 200px);
 }
 
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
 /* Reset & Basics */
 * { box-sizing: border-box; }
 html, body {
@@ -26,9 +30,15 @@ html, body {
   color: var(--txt);
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Inter, Arial, sans-serif;
   line-height: 1.5;
+  overflow-x: hidden;
 }
 a { color: var(--txt); text-decoration: none; }
 html { scroll-behavior: smooth; }
+img { max-width: 100%; height: auto; display: block; }
+
+body {
+  margin-top: var(--header-h);
+}
 
 /* =========================
    Header
@@ -54,26 +64,10 @@ header {
 .brand { display: inline-flex; align-items: center; }
 #logo { height: 42px; width: auto; display: block; }
 
-/* ===== Hamburger Button (sichtbar nur mobil per MQ unten) ===== */
-.hamburger {
-  display: inline-flex;
-  align-items: center;
-  justify-content: end;
-  height: 40px;
-  width: 44px;
-  border: 1px solid #2a3342;
-  background: #1a2030;
-  color: var(--txt);
-  border-radius: 10px;
-  cursor: pointer;
-  justify-self: end;
-}
-
 /* =========================
    Navigation – Desktop-Basis (transparent)
    ========================= */
 .main-nav {
-  /* Desktop-Default: klassische Leiste */
   position: static;
   height: auto; 
   width: auto;
@@ -89,32 +83,38 @@ header {
   gap: 16px;
   overflow: visible;
   justify-content: flex-end;
-  background: transparent;  /* wichtig: kein Panel-Look am Desktop */
+  background: transparent;
   z-index: 1;
 }
+
 .main-nav a {
   padding: 8px 12px;
   border-radius: 8px;
   white-space: nowrap;
   opacity: .85;
 }
-.main-nav a:hover { background: transparent; opacity: 1; }
+
+.main-nav a:hover { opacity: 1; }
 .main-nav a.active { opacity: 1; text-decoration: underline; }
 
-/* Overlay (aus, klickt nicht durch) */
+/* Overlay soll NICHT unter dem Header liegen */
 .nav-overlay {
   position: fixed;
-  inset: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: var(--header-h);      /* <— wichtiger Teil */
   background: rgba(0,0,0,.45);
-  backdrop-filter: saturate(120%) blur(2px);
-  z-index: 700;
+  backdrop-filter: saturate(120%) blur(2px); /* optional */
+  z-index: 900;              /* unter dem Header (950) lassen */
   display: none;
   pointer-events: none;
 }
 
-/* Zustand "offen" (wird mobil durch MQ relevant) */
-body.menu-open .nav-overlay { display: block; pointer-events: auto; }
-body.menu-open { overflow: hidden; }
+body.menu-open .nav-overlay {
+  display: block;
+  pointer-events: auto;
+}
 
 /* =========================
    Buttons
@@ -198,7 +198,6 @@ h1 { font-size: 30px; line-height: 1.15; margin: 6px 0 10px; }
   font-size: 13px;
   color: #cbd6f6;
 }
-
 .notice { font-size: 13px; color: #a9b9df; margin-top: 8px; }
 
 /* =========================
@@ -223,6 +222,7 @@ h1 { font-size: 30px; line-height: 1.15; margin: 6px 0 10px; }
   border: 1px solid #1f2532;
   border-radius: 18px;
   padding: 16px;
+  overflow: hidden; /* Sicherheitsnetz gegen Überhang */
 }
 .card h3 { margin: 6px 0 6px; }
 .muted { color: var(--muted); font-size: 14px; }
@@ -336,8 +336,8 @@ label { font-size: 14px; color: #c8d2f0; }
 /* Checkbox + Text */
 .privacy-field { margin-top: 0; margin-bottom: 24px; }
 #contactForm.has-attachments .privacy-field { margin-top: 16px; }
-.privacy-label { display: flex; align-items: flex-start; gap: 10px; }
-.privacy-label input[type="checkbox"] { margin-top: 3px; }
+.privacy-label { display: flex; align-items: flex-start; gap: 0; }
+.privacy-label input[type="checkbox"] { margin-top: 8; }
 .privacy-label span { display: block; line-height: 1.5; }
 
 /* Honeypot */
@@ -476,7 +476,7 @@ input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin
 a.underline { text-decoration: underline; }
 
 /* =========================
-   Prozess-Seite
+   Prozess-Seite (zentriert + Bild-Fit)
    ========================= */
 .steps {
   max-width: var(--max);
@@ -484,19 +484,23 @@ a.underline { text-decoration: underline; }
   padding: 0 16px;
   display: grid;
   gap: 14px;
-  grid-template-columns: 1fr;
+  grid-template-columns: min(100%, 780px); /* Spalte begrenzen */
+  justify-content: center;                  /* Spalte mittig */
 }
 .step {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: minmax(0,1fr) clamp(120px, 28vw, 140px); /* Bildspalte flexibel, nie zu breit */
   align-items: center;
   gap: 14px;
+  width: 100%;
 }
 .step h3 { margin: 4px 0 6px; }
 .step p { margin: 0; }
 .step ul { margin: 8px 0 0; padding-left: 18px; color: #c8d2f0; }
+
 .thumb {
-  width: 140px; height: 90px;
+  width: 100%;                 /* füllt die rechte Spalte */
+  aspect-ratio: 14 / 9;        /* konsistente 140x90-Proportion */
   object-fit: cover;
   border-radius: 10px;
   border: 1px solid #1f2532;
@@ -523,7 +527,6 @@ a.underline { text-decoration: underline; }
 /* Zusätzliche Hilfsklassen */
 .section-title .muted { max-width: 760px; }
 .info-slot { margin-top: 20px; }
-
 .upload-hint { display: block; margin: 0; }
 
 /* =========================
@@ -579,16 +582,25 @@ select:-moz-autofill {
 /* ===== Mobile Off-Canvas: nur bis 959px aktiv ===== */
 @media (max-width: 959.98px) {
   /* Hamburger sichtbar */
-  .hamburger { display: inline-flex; }
-
-  /* Overlay aktivierbar über body.menu-open (oben) */
-
+  .hamburger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start; /* oben ausrichten */
+    height: 40px;
+    width: 44px;
+    border: 1px solid #2a3342;
+    background: #1a2030;
+    color: var(--txt);
+    border-radius: 10px;
+    cursor: pointer;
+    justify-self: end;
+  }
   /* Mobile Panel-Styles */
   .main-nav {
     position: fixed;
-    top: 0;
+    top: var(--header-h);
     right: 0;
-    height: 100dvh;
+    height: calc(100dvh - var(--header-h));
     width: var(--nav-panel-w);
     background: #0f1421;
     border-left: 1px solid #1f2532;
@@ -596,18 +608,16 @@ select:-moz-autofill {
     padding: 18px;
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
     gap: 10px;
     overflow-y: auto;
     transform: translateX(100%);
-    right: -100%; /* Fallback */
     transition: transform .25s ease, right .25s ease;
     z-index: 900;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;   /* <— statt default/space-between */
     text-align: center;
     align-items: stretch;          /* Links füllen die Breite */
-    padding-top: 18px;             /* optional: etwas Luft oben */
+    padding-top: 16px;             /* etwas Luft oben */
+    margin-top: 2.99px;
   }
   .main-nav a {
     padding: 12px 14px;
@@ -618,13 +628,168 @@ select:-moz-autofill {
   .main-nav a:hover { background: rgba(255,255,255,.05); opacity: 1; }
 
   /* Zustand "offen" */
-  body.menu-open .main-nav { transform: translateX(0); right: 0; }
+  body.menu-open .main-nav { 
+    transform: translateX(0); 
+    right: 0; 
+    pointer-events: auto; 
+  }
+
+  .grid.cols-1 .card {
+  text-align: center;       /* Textzeilen zentrieren */
+  display: flex;            /* damit align-items wirkt */
+  flex-direction: column;   /* Paragraphen untereinander */
+  align-items: center;      /* Blocke selbst mittig */
+  justify-content: center;  /* vertikal mittig, wenn Höhe vorhanden */
+  }
+
+  section.grid.cols-1:has(> .card > a[href="/de/process.html"].btn.ghost) .card {
+    justify-content: center !important; /* inline override */
+    text-align: center;
+  }
+  section.grid.cols-1:has(> .card > a[href="/de/process.html"].btn.ghost) .card > a.btn {
+    margin: 0 auto; /* zentriert den Button */
+  }
+
+  /* Falls eine Karte intern Flex nutzt → Inhalte auch horizontal zentrieren */
+  main#home section.grid.cols-4 .card {
+    align-items: center; /* hat nur Effekt, wenn .card display:flex ist */
+  }
+  .contact {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center; /* Texte zentriert */
+  }
+
+  .contact .card {
+    width: 100%;
+    max-width: 480px;  /* optional, damit es nicht zu breit wird */
+    margin: 0 auto 20px auto;
+  }
+
+  .contact .field,
+  .contact label,
+  .contact input,
+  .contact textarea,
+  .contact select,
+  .contact button {
+    text-align: center;
+  }
+
+  .contact button {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
+  /* File-Upload-Button + Text mittig */
+  #files-main {
+    display: block;
+    margin: 0 auto;        /* zentriert das Element */
+    text-align: center;    /* falls Browser die Beschriftung interpretiert */
+      /* kleiner linker Innenabstand, gleicht Button-Rahmen aus */
+    padding-left: 34px; 
+  }
+
+  /* Die Beschriftung "Anhänge (optional)" auch mittig */
+  label[for="files-main"] {
+    display: block;
+    text-align: center;
+  }
+
+  /* Liste der hochgeladenen Dateien mittig */
+  #file-list {
+    text-align: center;
+  }
+  #file-list li {
+    justify-content: center;  /* falls Flex-Styles greifen */
+  }
+  /* Karte "Direkter Kontakt" mittig */
+  .contact aside.card { text-align: center; }
+
+  /* Liste neutralisieren + zentrieren */
+  .contact aside.card .list {
+    padding-left: 0;
+    list-style: none;
+    margin: 0 auto;
+    display: block !important;   /* override evtl. grid/flex */
+  }
+
+  /* Jede Zeile wirklich mittig – auch wenn li als Flex läuft */
+  .contact aside.card .list li {
+    width: 100%;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;                    /* Abstand nach dem Emoji */
+    text-align: center;
+  }
+
+  /* Falls irgendein Marker übrig bleibt */
+  .contact aside.card .list li::marker { content: ""; }
+
+  /* Autoverlinkte E-Mail in manchen Browsern */
+  .contact aside.card .list a {
+    display: inline-block;
+    text-align: center;
+  }
+  .main-nav { 
+    z-index: 1000;        /* Panel über Header */
+  }
+  .faq-item summary {
+    /* iOS/Android Tipp-Highlight deaktivieren */
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Focus-Ring für das FAQ komplett abschalten (nur Touch) */
+  .faq-item:focus,
+  .faq-item summary:focus,
+  .faq-item summary:focus-visible,
+  .faq-item:focus-within {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+  body.menu-open header {
+    background: rgba(11,13,16,.65);
+    backdrop-filter: saturate(180%) blur(14px);
+    -webkit-backdrop-filter: saturate(180%) blur(14px); /* iOS */
+    transition: backdrop-filter .2s ease, background-color .2s ease;
+  }
+  /* Scroll-Lock ohne JS, ohne top/width-Änderungen */
+  @media (max-width: 959.98px) {
+    /* 1) Viewport selbst nicht scrollen */
+    html:has(body.menu-open) {
+      overflow: hidden;
+      height: 100dvh; /* stabil auf iOS/Android */
+    }
+
+    /* 2) Body vorsichtshalber auch dicht machen */
+    body.menu-open {
+      overflow: hidden;
+      overscroll-behavior: contain; /* verhindert Scroll-Chaining */
+    }
+
+    /* 3) Overlay fängt Touch-Pan ab, damit nix durchgeht */
+    body.menu-open .nav-overlay {
+      touch-action: none;
+    }
+  }
+  html, body {
+    text-align: center;          /* ← NEU: alle Texte zentrieren */
+  }
+  article.card.step { 
+    text-align: left;
+  }
+  .product-rows {
+    text-align: left;
+  }
 }
 
 /* ≥ 960px: Desktop */
 @media (min-width: 960px) {
   /* Hamburger aus, Overlay weg */
-  .hamburger { display: none; }
+  .hamburger { 
+    display: none; 
+  }
   .nav-overlay { display: none !important; }
   body { overflow: auto; }
 
@@ -652,13 +817,21 @@ select:-moz-autofill {
   .row-items { --cols: 4; }
   .info-panel { position: sticky; top: 90px; }
 
-  /* Steps Seite: zwei Spalten */
-  .steps { grid-template-columns: 1fr 1fr; }
-
-  /* Footer nebeneinander */
+  /* Mobile-Default: Footer zentriert */
   footer .wrap {
-    grid-template-columns: 1fr auto;
-    text-align: left;
+    display: grid;          /* einfache Zentrierung */
+    place-items: center;    /* Inhalt horizontal & vertikal zentrieren */
+    gap: 8px;
+    text-align: center;
+  }
+
+  footer .wrap > div {
+    /* überschreibt nur die Ausrichtung, dein inline display:flex bleibt gültig */
+    justify-content: center;  /* "Impressum" + "Datenschutz" mittig */
+  }
+
+  footer .wrap a {
+    display: inline-block;
   }
 }
 
@@ -666,3 +839,45 @@ select:-moz-autofill {
 @media (min-width: 1100px) {
   .row-items { --cols: 5; }
 }
+
+/* Sehr schmale Screens: Bild unter Text stapeln */
+@media (max-width: 420px) {
+  .step { grid-template-columns: 1fr; }
+  .thumb { width: 100%; }
+}
+
+/* Default = Mobile Styles */
+footer .wrap {
+  display: grid;          /* einfache Zentrierung */
+  place-items: center;    /* Inhalt horizontal & vertikal zentrieren */
+  gap: 8px;
+  text-align: center;
+}
+
+footer .wrap > div {
+  justify-content: center;  /* "Impressum" + "Datenschutz" mittig */
+}
+
+footer .wrap a {
+  display: inline-block;
+}
+
+main#home section.grid.cols-4 .card {
+   text-align: center;
+}
+
+/* ==== Immer sichtbarer Header (inkl. Hamburger) ==== */
+:root { --header-h: 64px; }           /* Mobile Höhe */
+@media (min-width: 960px) { 
+  :root { --header-h: 80px; }         /* Desktop Höhe */
+}
+
+/* Header fixieren & über Inhalt legen */
+header {
+  position: fixed;        /* statt sticky */
+  top: 0; left: 0; right: 0;
+  z-index: 950;           /* über Content, unter dem Off-Canvas-Panel */
+}
+
+.privacy-label span { text-align: left !important; }
+

@@ -258,8 +258,8 @@
         <aside class="card">
           <h3>Direkter Kontakt</h3>
           <ul class="list">
-            <li>📧 hello@corewear.pro</li>
-            <li>📍 Core Wear, Bensbergerstraße&nbsp;192, 51503 Rösrath</li>
+            <li>hello@corewear.pro</li>
+            <li>Core Wear<br>Bensbergerstraße&nbsp;192<br>51503 Rösrath</li>
           </ul>
 
         <p class="notice">
@@ -581,7 +581,7 @@
       const qtyNum  = Number(payload.qty || 0);
       if (isOrder && (!qtyNum || qtyNum < 100)) { renderErrors(['Bitte beachte die MOQ von 100 Stück für Bestellanfragen.']); statusEl.textContent = ''; submitting = false; return; }
 
-      const subj = `[${isOrder ? 'Order' : 'Frage'}] ${payload.company || '-'} – ${payload.name || '-'}`;
+      const subj = `[${isOrder ? 'Order' : 'Frage'}] ${payload.company || '-'} &ndash; ${payload.name || '-'}`;
       fd.set('_subject', subj);
       fd.set('_template', 'table');
       fd.set('_captcha', 'false');
