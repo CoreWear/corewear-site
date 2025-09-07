@@ -1,123 +1,144 @@
 <!doctype html>
-<html lang="de">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>CoreWear &ndash; FAQ</title>
-  <meta name="description" content="Häufige Fragen zu CoreWear: Bestellung, MOQ, Produktion, Qualitätssicherung, Logistik, Branding und mehr." />
+  <meta name="description" content="Frequently asked questions about CoreWear: ordering, MOQ, production, quality control, logistics, branding, and more." />
 
   <!-- SEO -->
-  <link rel="canonical" href="https://corewear.pro/de/faq.html" />
+  <link rel="canonical" href="https://corewear.pro/en/faq.html" />
   <link rel="alternate" hreflang="de" href="https://corewear.pro/de/faq.html" />
   <link rel="alternate" hreflang="en" href="https://corewear.pro/en/faq.html" />
   <link rel="alternate" hreflang="x-default" href="https://corewear.pro/en/faq.html" />
 
   <link rel="stylesheet" href="/assets/css/index.css" />
   <link rel="icon" type="image/png" href="/assets/img/favicon.png" />
+  <meta referrerpolicy="strict-origin-when-cross-origin">
 </head>
 
 <body>
   <header>
     <div class="header-bar">
-      <a href="/de/" class="brand">
-        <img id="logo" src="/assets/img/Logo.png" alt="CoreWear Logo" />
+      <a href="/en/" class="brand">
+        <img id="logo" src="/assets/img/Logo.png" alt="CoreWear logo" />
       </a>
-      <nav class="main-nav">
-        <a href="/de/">Start</a>
-        <a href="/de/products.html">Produkte</a>
-        <a href="/de/process.html">Prozess</a>
-        <a href="/de/about.html">Über uns</a>
-        <a href="/de/faq.html" class="active" aria-current="page">FAQ</a>
-        <a href="/de/contact.html" class="btn">Kontakt</a>
+
+      <!-- Hamburger (mobile only) -->
+      <button class="hamburger" aria-label="Open menu" aria-controls="mobile-nav" aria-expanded="false">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+
+      <nav id="mobile-nav" class="main-nav">
+        <a href="/en/">Home</a>
+        <a href="/en/products.html">Products</a>
+        <a href="/en/process.html">Process</a>
+        <a href="/en/about.html">About</a>
+        <a href="/en/faq.html" class="active" aria-current="page">FAQ</a>
+        <a href="/en/contact.html" class="btn">Contact</a>
+
+        <!-- ▶️ Language switch (DE | EN) -->
+        <div class="lang-switch" role="group" aria-label="Language selection">
+          <a class="lang-link" href="/de/faq.html" data-lang="de" role="button" aria-pressed="false" title="Deutsch">
+            <img src="/assets/img/de.jpg" width="36" height="24" alt="Deutsch" decoding="async" loading="eager">
+          </a>
+          <a class="lang-link" href="/en/faq.html" data-lang="en" role="button" aria-pressed="true" aria-current="true" title="English">
+            <img src="/assets/img/en.jpg" width="36" height="24" alt="English" decoding="async" loading="eager">
+          </a>
+        </div>
       </nav>
     </div>
   </header>
 
+  <!-- Overlay for off-canvas -->
+  <div class="nav-overlay" hidden></div>
 
   <main>
-    <!-- Kopfbereich -->
+    <!-- Header -->
     <div class="section-title">
       <h2>FAQ</h2>
-      <span class="muted">Kurz &amp; klar beantwortet. Brauchst du mehr Details? Schreib uns.</span>
+      <span class="muted">Short and clear answers. Need more detail? Drop us a line.</span>
     </div>
 
-    <!-- FAQ-GRID -->
+    <!-- FAQ GRID -->
     <section class="grid cols-2" style="max-width:var(--max);margin:0 auto 48px;padding:0 20px">
-      <!-- Bestellung & MOQ -->
+      <!-- Ordering & MOQ -->
       <details class="faq-item" open>
-        <summary>Welche Mindestbestellmenge (MOQ) gilt?</summary>
-        <p>Standardmäßig 100 Stück pro Modell/Farbe. Bei Sonderfällen (z. B. aufwändige Materialien) kann die MOQ abweichen. Teile uns kurz Stil, Stückzahl und Timeline mit &ndash; wir prüfen die beste Option.</p>
+        <summary>What is the minimum order quantity (MOQ)?</summary>
+        <p>The standard MOQ is 100 units per style/color. In special cases (e.g., complex materials), MOQ may vary. Share your style, quantity, and timeline — we&rsquo;ll confirm the best option.</p>
       </details>
 
       <details class="faq-item">
-        <summary>Wie starte ich eine Bestellanfrage?</summary>
-        <p>Über <a href="de/contact.html">Kontakt</a> oder per E-Mail. Sende Skizzen/Referenzen, geplante Stückzahlen, Zielpreise und den gewünschten Lieferzeitraum. Wir melden uns mit Rückfragen oder einem ersten Angebot.</p>
+        <summary>How do I start an order request?</summary>
+        <p>Via <a href="/en/contact.html">Contact</a> or email. Send sketches/references, planned quantities, target prices, and desired delivery window. We&rsquo;ll follow up with questions or an initial quote.</p>
       </details>
 
-      <!-- Produktentwicklung & Samples -->
+      <!-- Product development & samples -->
       <details class="faq-item">
-        <summary>Bietet ihr Samples/Prototypen an?</summary>
-        <p>Ja. Je nach Produkt: Proto-Sample, Size-Set und Pre-Production Sample (PPS). Kosten werden bei Auftrag teilweise angerechnet.</p>
-      </details>
-
-      <details class="faq-item">
-        <summary>Unterstützt ihr bei Schnitt, Materialien und Branding?</summary>
-        <p>Ja. Wir helfen bei Schnittentwicklung, Materialauswahl, Labels/Hangtags, Verpackungen sowie Druck &amp; Stick. Corporate-Branding nach CI (Corporate Identity) ist möglich.</p>
-      </details>
-
-      <!-- Produktion -->
-      <details class="faq-item">
-        <summary>Welche Produktgruppen könnt ihr fertigen?</summary>
-        <p>Sehr breit: Streetwear, Sportswear/Trikots, Workwear/Business, Kinderbekleidung u. v. m. Schau dir die <a href="de/products.html">Produkte</a> an &ndash; und wenn dein Artikel fehlt, prüfen wir die Machbarkeit über unser Netzwerk.</p>
+        <summary>Do you offer samples/prototypes?</summary>
+        <p>Yes. Depending on the product: proto sample, size set, and pre-production sample (PPS). Costs may be partially credited upon order.</p>
       </details>
 
       <details class="faq-item">
-        <summary>Wo produziert ihr?</summary>
-        <p>Ausschließlich bei geprüften Partnern in der Türkei. Kurze Wege, zuverlässige Kommunikation und solide Lead-Times.</p>
+        <summary>Do you support patterns, materials, and branding?</summary>
+        <p>Yes. We help with pattern development, material sourcing, labels/hangtags, packaging, and print & embroidery. Corporate branding according to your CI is possible.</p>
       </details>
 
-      <!-- Qualität & QC -->
+      <!-- Production -->
       <details class="faq-item">
-        <summary>Wie stellt ihr die Qualität sicher (QC)?</summary>
-        <p>QC-Gates in mehreren Stufen: Materialeingang, Inline-Kontrolle, Endkontrolle. Auf Wunsch zusätzliche AQL-Prüfungen und unabhängige Inspektionen.</p>
-      </details>
-
-      <details class="faq-item">
-        <summary>Könnt ihr Zertifikate bereitstellen?</summary>
-        <p>Je nach Material/Partner: z. B. OEKO-TEX&reg;, GOTS (auf Anfrage), REACH-Konformität. Nenne uns die geforderten Standards im Briefing.</p>
-      </details>
-
-      <!-- Logistik -->
-      <details class="faq-item">
-        <summary>Übernehmt ihr Logistik &ndash; Versand, Zoll, Dokumente?</summary>
-        <p>Ja, optional. Wir verpacken, palettieren und erstellen Exportdokumente. Versand per LKW, Luft- oder Seefracht &ndash; je nach Budget und Timeline.</p>
+        <summary>Which product categories can you manufacture?</summary>
+        <p>Broad range: streetwear, sportswear/jerseys, workwear/business, kidswear, and more. Check our <a href="/en/products.html">Products</a> — if your item is missing, we&rsquo;ll assess feasibility through our network.</p>
       </details>
 
       <details class="faq-item">
-        <summary>Wie lange sind die Lieferzeiten?</summary>
-        <p>Abhängig von Produktkomplexität und Auslastung. Typisch (ohne Sampling): ca. 2&ndash;4 Wochen Produktion nach Freigabe, plus Transitzeit. Wir bestätigen die realistische Timeline im Angebot.</p>
+        <summary>Where do you produce?</summary>
+        <p>Exclusively with vetted partners in European countries. Shorter distances, reliable communication, and solid lead times.</p>
       </details>
 
-      <!-- Preise & Zahlung -->
+      <!-- Quality & QC -->
       <details class="faq-item">
-        <summary>Wie setzt sich der Preis zusammen?</summary>
-        <p>Material, Verarbeitung, Veredelung (Druck/Stick), Verpackung, Menge und Logistik. Teile uns deine Zielpreise mit &ndash; wir optimieren die Stückliste entsprechend.</p>
-      </details>
-
-      <details class="faq-item">
-        <summary>Welche Zahlungsbedingungen gibt es?</summary>
-        <p>Üblich sind Anzahlung bei Auftrag und Rest vor Versand. Alternative Modelle sind bei wiederkehrenden Aufträgen möglich.</p>
-      </details>
-
-      <!-- Branding & Kollektionen -->
-      <details class="faq-item">
-        <summary>Private Label &ndash; übernehmt ihr Komplett-Branding?</summary>
-        <p>Ja. Vom Nackenlabel bis zur Retail-Verpackung. Wir koordinieren Labels, Hangtags, Pflegeetiketten, Barcodes und Kartonage nach deinem CI (Corporate Identity).</p>
+        <summary>How do you ensure quality (QC)?</summary>
+        <p>QC gates at multiple stages: material intake, inline control, and final inspection. Optional AQL checks and independent inspections on request.</p>
       </details>
 
       <details class="faq-item">
-        <summary>Könnt ihr bestehende Kollektionen „nachbauen“ oder neue entwickeln?</summary>
-        <p>Beides. Wir können vorhandene Styles <strong>neu interpretieren</strong> oder gemeinsam komplett <strong>neue Kollektionen konzipieren und fertigen</strong> &ndash; stets unter Beachtung rechtlicher Vorgaben und Markenrechte.</p>
+        <summary>Can you provide certifications?</summary>
+        <p>Depending on material/partner: e.g., OEKO-TEX&reg;, GOTS (on request), and REACH compliance. Tell us the required standards in your brief.</p>
+      </details>
+
+      <!-- Logistics -->
+      <details class="faq-item">
+        <summary>Do you handle logistics — shipping, customs, documents?</summary>
+        <p>Yes, optionally. We pack, palletize, and prepare export documents. Shipping via road, air, or sea — aligned with budget and timeline.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary>What are the lead times?</summary>
+        <p>It depends on product complexity and workload. Typical (without sampling): around 2&ndash;4 weeks of production after approval, plus transit time. We confirm realistic timelines in the quote.</p>
+      </details>
+
+      <!-- Pricing & payment -->
+      <details class="faq-item">
+        <summary>How is pricing calculated?</summary>
+        <p>Materials, workmanship, embellishments (print/embroidery), packaging, quantity, and logistics. Share your target prices — we&rsquo;ll optimize the bill of materials accordingly.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary>What are your payment terms?</summary>
+        <p>Typically a deposit upon order and the balance before shipment. Alternative models may be available for recurring orders.</p>
+      </details>
+
+      <!-- Branding & collections -->
+      <details class="faq-item">
+        <summary>Private label — do you handle full branding?</summary>
+        <p>Yes. From neck labels to retail packaging. We coordinate labels, hangtags, care labels, barcodes, and cartons per your CI.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary>Can you reproduce existing collections or develop new ones?</summary>
+        <p>Both. We can <strong>re-interpret</strong> existing styles or jointly <strong>develop and manufacture new collections</strong> — always respecting legal requirements and IP rights.</p>
       </details>
     </section>
 
@@ -125,10 +146,10 @@
     <section class="grid cols-1" style="max-width:var(--max);margin:0 auto 60px;padding:0 20px">
       <article class="card" style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
         <div>
-          <h3>Noch Fragen?</h3>
-          <p class="muted">Schick uns dein Briefing &ndash; wir prüfen Machbarkeit, Timing und Budget.</p>
+          <h3>Still have questions?</h3>
+          <p class="muted">Send us your brief — we&rsquo;ll check feasibility, timing, and budget.</p>
         </div>
-        <a href="de/contact.html" class="btn primary">Unverbindlich anfragen</a>
+        <a href="/en/contact.html" class="btn primary">Inquire now</a>
       </article>
     </section>
   </main>
@@ -137,18 +158,104 @@
     <div class="wrap">
       <small>© <span id="y"></span> CoreWear</small>
       <div style="display:flex;gap:14px">
-        <a href="de/impressum.html">Impressum</a>
-        <a href="de/datenschutz.html">Datenschutz</a>
+        <a href="/en/legal.html">Legal Notice</a>
+        <a href="/en/privacy.html">Privacy</a>
       </div>
     </div>
   </footer>
 
+  <!-- SEO: FAQ structured data -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {"@type":"Question","name":"What is the minimum order quantity (MOQ)?","acceptedAnswer":{"@type":"Answer","text":"The standard MOQ is 100 units per style/color. In special cases, MOQ may vary depending on materials or complexity."}},
+      {"@type":"Question","name":"How do I start an order request?","acceptedAnswer":{"@type":"Answer","text":"Use our contact form or email and share references, quantities, target prices, and delivery window. We&rsquo;ll reply with questions or an initial quote."}},
+      {"@type":"Question","name":"Do you offer samples/prototypes?","acceptedAnswer":{"@type":"Answer","text":"Yes — proto samples, size sets, and pre-production samples (PPS). Costs may be partially credited upon order."}},
+      {"@type":"Question","name":"Do you support patterns, materials, and branding?","acceptedAnswer":{"@type":"Answer","text":"Yes. We support pattern development, material sourcing, labels/hangtags, packaging, and print & embroidery per your brand CI."}},
+      {"@type":"Question","name":"Which product categories can you manufacture?","acceptedAnswer":{"@type":"Answer","text":"Streetwear, sportswear/jerseys, workwear/business, kidswear, and more. If your item isn&rsquo;t listed, we can assess feasibility."}},
+      {"@type":"Question","name":"Where do you produce?","acceptedAnswer":{"@type":"Answer","text":"Exclusively with vetted partners in European countries for reliable communication and solid lead times."}},
+      {"@type":"Question","name":"How do you ensure quality (QC)?","acceptedAnswer":{"@type":"Answer","text":"QC gates at multiple stages: material intake, inline control, and final inspection. Optional AQL checks and independent inspections."}},
+      {"@type":"Question","name":"Can you provide certifications?","acceptedAnswer":{"@type":"Answer","text":"Depending on material/partner: e.g., OEKO-TEX®, GOTS (on request), and REACH compliance."}},
+      {"@type":"Question","name":"Do you handle logistics — shipping, customs, documents?","acceptedAnswer":{"@type":"Answer","text":"Yes, optionally. Packing, palletizing, export documents, and shipping via road, air, or sea."}},
+      {"@type":"Question","name":"What are the lead times?","acceptedAnswer":{"@type":"Answer","text":"Typically around 2&ndash4 weeks of production after approval (without sampling), plus transit time. Exact timelines are confirmed in the quote."}},
+      {"@type":"Question","name":"How is pricing calculated?","acceptedAnswer":{"@type":"Answer","text":"Materials, workmanship, embellishments, packaging, quantity, and logistics. Share target prices to optimize the BOM."}},
+      {"@type":"Question","name":"What are your payment terms?","acceptedAnswer":{"@type":"Answer","text":"Usually a deposit upon order and the balance before shipment. Alternative models may be possible for repeat orders."}},
+      {"@type":"Question","name":"Private label — do you handle full branding?","acceptedAnswer":{"@type":"Answer","text":"Yes. From neck labels to retail packaging including labels, hangtags, care labels, barcodes, and cartons per your CI."}},
+      {"@type":"Question","name":"Can you reproduce existing collections or develop new ones?","acceptedAnswer":{"@type":"Answer","text":"Both. We can re-interpret existing styles or develop new collections while respecting legal requirements and IP."}}
+    ]
+  }
+  </script>
+
   <script>
-    // Jahr im Footer
-    document.getElementById('y').textContent = new Date().getFullYear();
-    if ('scrollRestoration' in history) {
-      history.scrollRestoration = 'manual';
-    }
+    // Year in footer
+    const yEl = document.getElementById('y'); if (yEl) yEl.textContent = new Date().getFullYear();
+    if ('scrollRestoration' in history) { history.scrollRestoration = 'manual'; }
+
+    // ===== Off-canvas navigation toggle =====
+    (function () {
+      const btn = document.querySelector('.hamburger');
+      const nav = document.getElementById('mobile-nav');
+      const overlay = document.querySelector('.nav-overlay');
+
+      if (!btn || !nav || !overlay) return;
+
+      function openMenu() {
+        document.body.classList.add('menu-open');
+        overlay.hidden = false;
+        btn.setAttribute('aria-expanded', 'true');
+        const firstLink = nav.querySelector('a');
+        if (firstLink) firstLink.focus({preventScroll:true});
+      }
+      function closeMenu() {
+        document.body.classList.remove('menu-open');
+        overlay.hidden = true;
+        btn.setAttribute('aria-expanded', 'false');
+        btn.focus({preventScroll:true});
+      }
+      function toggleMenu() {
+        if (document.body.classList.contains('menu-open')) closeMenu();
+        else openMenu();
+      }
+
+      btn.addEventListener('click', toggleMenu);
+      overlay.addEventListener('click', closeMenu);
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && document.body.classList.contains('menu-open')) {
+          closeMenu();
+        }
+      });
+
+      nav.addEventListener('click', (e) => {
+        const a = e.target.closest('a');
+        if (a) closeMenu();
+      });
+    })();
+
+    // ===== Language switch: mark active & store preference =====
+    (function(){
+      const box = document.querySelector('.lang-switch'); if(!box) return;
+      const links = box.querySelectorAll('.lang-link');
+      const path = location.pathname;
+      const current = /\/de(\/|$)/.test(path) ? 'de' : (/\/en(\/|$)/.test(path) ? 'en' : null);
+
+      links.forEach(a => a.setAttribute('aria-pressed', a.dataset.lang === current ? 'true' : 'false'));
+
+      box.addEventListener('click', e=>{
+        const a = e.target.closest('.lang-link'); if(!a) return;
+        try{ localStorage.setItem('cw_lang', a.dataset.lang); }catch(_){}
+      });
+
+      // If someone lands without /de|/en/, redirect to preference (fallback en) for this route
+      if(!current){
+        let pref = null; try{ pref = localStorage.getItem('cw_lang'); }catch(_){}
+        const fallback = (navigator.language||'en').toLowerCase().startsWith('de') ? 'de' : 'en';
+        const target = pref || fallback;
+        location.replace(`/${target}/faq.html`);
+      }
+    })();
   </script>
 </body>
 </html>

@@ -31,6 +31,15 @@
       <a href="/de/about.html">Über uns</a>
       <a href="/de/faq.html">FAQ</a>
       <a href="/de/contact.html" class="btn">Kontakt</a>
+      <!-- ▶️ Sprachschalter (DE | EN) – Bildvariante -->
+      <div class="lang-switch" role="group" aria-label="Sprachauswahl">
+        <a class="lang-link" href="/de/" data-lang="de" role="button" aria-pressed="false" title="Deutsch">
+          <img src="/assets/img/de.jpg">
+        </a>
+        <a class="lang-link" href="/en/" data-lang="en" role="button" aria-pressed="false" title="English">
+          <img src="/assets/img/en.jpg">
+        </a>
+        </div>
     </nav>
   </div>
 </header>
@@ -72,8 +81,8 @@
   <div class="wrap">
     <small>© <span id="y"></span> CoreWear</small>
     <div style="display:flex;gap:14px">
-      <a href="impressum.html">Impressum</a>
-      <a href="datenschutz.html">Datenschutz</a>
+      <a href="legal.html">Impressum</a>
+      <a href="privacy.html">Datenschutz</a>
     </div>
   </div>
 </footer>
@@ -93,6 +102,29 @@
     const safeDir = dir.split("/").map(encodePathSegment).join("/");
     const safeFile = encodePathSegment(baseName) + ".png";
     return `${IMG_BASE}/${safeDir}/${safeFile}`;
+  }
+
+  // =========================
+  // NEU: Mobile-Only Scroll Helpers
+  // =========================
+  const MOBILE_MAX = 959.98; // identisch zu deinem CSS-Breakpoint
+
+  function isMobile() {
+    return window.matchMedia(`(max-width: ${MOBILE_MAX}px)`).matches;
+  }
+
+  function getHeaderHeight() {
+    // liest --header-h aus :root; fallback 64px
+    const val = getComputedStyle(document.documentElement).getPropertyValue('--header-h').trim();
+    const n = parseFloat(val);
+    return Number.isFinite(n) ? n : 64;
+  }
+
+  function scrollToPanel(panelEl) {
+    if (!panelEl) return;
+    const extraOffset = 10; // etwas Luft
+    const y = panelEl.getBoundingClientRect().top + window.scrollY - getHeaderHeight() - extraOffset;
+    window.scrollTo({ top: y, behavior: 'smooth' });
   }
 
   // Kategorien (deutsche Ordner + deutsche Dateinamen)
@@ -491,7 +523,6 @@
 
   // Render-Logik
   const rowsWrap = document.querySelector('.product-rows');
-  let openPanelEl = null;
 
   function createRow(cat, index){
     const row = document.createElement('section');
@@ -520,7 +551,16 @@
         <img src="${src}" alt="${it.de}">
         <span class="pc-title">${it.de}</span>
       `;
-      card.addEventListener('click', () => showInfoInline(cat, it, row));
+
+      // REPLACED: Event mit Zugriff auf e.target (für IMG-Prüfung) + mobiles Scrollen
+      card.addEventListener('click', (e) => {
+        const panel = showInfoInline(cat, it, row);   // zeigt/ersetzt Panel
+        // Nur auf Mobile & nur wenn direkt das Bild getappt wurde → scrollen
+        if (isMobile() && e.target && e.target.tagName === 'IMG') {
+          scrollToPanel(panel);
+        }
+      });
+
       itemsWrap.appendChild(card);
     });
 
@@ -528,12 +568,6 @@
   }
 
   function showInfoInline(cat, item, rowEl){
-    // altes Panel schließen
-    if (openPanelEl && openPanelEl.parentElement) {
-      openPanelEl.parentElement.removeChild(openPanelEl);
-      openPanelEl = null;
-    }
-
     // Details ziehen: Schlüssel = deutscher Name (oder file)
     const key = item.file || item.de;
     const det = ITEM_DETAILS[key] || {};
@@ -567,7 +601,15 @@
     const slot = rowEl.querySelector('.info-slot');
     slot.innerHTML = '';
     slot.appendChild(panel);
-    openPanelEl = panel;
+
+    // NEU: A11y – Headline kurz fokussierbar machen (kein Scrollsprung)
+    const h3 = panel.querySelector('.info-inline-head h3');
+    if (h3) {
+      h3.setAttribute('tabindex', '-1');
+      h3.focus({ preventScroll: true });
+    }
+
+    return panel; // REPLACED: Panel zurückgeben, damit createRow scrollen kann
   }
 
   CATEGORIES.forEach((c, i) => rowsWrap.appendChild(createRow(c, i)));
@@ -617,6 +659,45 @@
       const a = e.target.closest('a');
       if (a) closeMenu();
     });
+  })();
+  (function(){
+    const box = document.querySelector('.lang-switch'); if(!box) return;
+    const links = box.querySelectorAll('.lang-link');
+
+    // Pfad normalisieren: /index.html -> /, Query/Hash entfernen, doppelte Slashes glätten
+    const norm = (p)=>{
+      if(!p.startsWith('/')) p = '/'+p;
+      p = p.split('#')[0].split('?')[0];
+      p = p.replace(/\/index\.html?$/i,'/');
+      p = p.replace(/\/{2,}/g,'/');
+      return p;
+    };
+
+    const path = norm(location.pathname);
+    const m = path.match(/^\/(de|en)(\/.*)?$/);
+    const currentLang = m ? m[1] : null;
+    const rest = m ? (m[2] || '/') : '/';
+
+    // Ziel-Links für beide Sprachen dynamisch setzen (Unterseite bleibt erhalten)
+    links.forEach(a=>{
+      const lang = a.dataset.lang;
+      a.href = `/${lang}${rest === '/' ? '/' : rest}`;
+      a.setAttribute('aria-pressed', lang === currentLang ? 'true' : 'false');
+    });
+
+    // Klick speichert Präferenz (Navigation übernimmt der href)
+    box.addEventListener('click', e=>{
+      const a = e.target.closest('.lang-link'); if(!a) return;
+      try{ localStorage.setItem('cw_lang', a.dataset.lang); }catch(_){}
+    });
+
+    // Erster Besuch ohne /de|/en/ → leite auf gespeicherte oder Browser-Sprache
+    if(!currentLang){
+      let pref = null; try{ pref = localStorage.getItem('cw_lang'); }catch(_){}
+      const fallback = (navigator.language||'en').toLowerCase().startsWith('de') ? 'de' : 'en';
+      const target = pref || fallback;
+      location.replace(`/${target}/`);
+    }
   })();
 </script>
 </body>

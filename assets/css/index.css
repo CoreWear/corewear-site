@@ -247,7 +247,7 @@ a.card:hover {
   box-shadow: 0 4px 12px rgba(0,0,0,0.35);
   border-color: var(--acc);
 }
-a.card h3 { margin-bottom: 8px; font-size: 1.2rem; color: var(--ok); }
+a.card h3 { margin-bottom: 8px; font-size: 1.2rem; color:rgb(23, 103, 250) }
 a.card p.muted { font-size: 0.95rem; color: #c8d2f0; }
 
 /* =========================
@@ -782,6 +782,88 @@ select:-moz-autofill {
   .product-rows {
     text-align: left;
   }
+  /* ==== Impressum: Adressliste zentrieren (global, alle Breakpoints) ==== */
+  .list.imprint-address { 
+    /* Eltern ist ein Grid → Items zentrieren */
+    justify-items: center; 
+  }
+
+  .list.imprint-address li { 
+    /* li ist Flex → Inhalt horizontal zentrieren */
+    justify-content: center; 
+    text-align: center;
+  }
+
+  /* 0) Alles, was nach links zieht, neutralisieren */
+  .info-grid ul { padding-left: 0 !important; }   /* überschreibt dein 18px-Indent */
+
+  /* 1) Karten & Maßnahmen-Box zentrieren */
+  .grid.cols-1 .card,
+  .legal-box {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* 2) UI-Listen (.list) mittig – auch mehrzeilig */
+  .card .list {
+    justify-items: center;           /* Grid-Items in der UL */
+  }
+  .card .list li {
+    justify-content: center;         /* Flex-Inhalt mittig */
+    text-align: center;              /* mehrzeilige Texte mittig */
+    width: 100%;                     /* damit justify-content wirkt */
+  }
+
+  /* 3) Rechtstext-Listen (Bullets) schön mittig */
+  .legal-list {
+    display: block;
+    text-align: center;
+    padding-left: 0;                 /* kein Außen-Indent */
+    list-style-position: inside;     /* Bullet nach innen, wirkt mittiger */
+    line-height: 1.6;
+  }
+  .legal-list li {
+    display: list-item;
+    margin: 6px 0;
+  }
+
+  /* 4) Adressliste im Kopf */
+  .list.imprint-address { justify-items: center; }
+  .list.imprint-address li {
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+  }
+
+  /* 5) Maßnahmen-Box (ul) */
+  .legal-box ul {
+    padding-left: 0;
+    list-style-position: inside;
+    text-align: center;
+  }
+
+  /* 6) Dienstleister-Kacheln: einspaltig + zentriert */
+  .service-grid {
+    grid-template-columns: 1fr !important;
+    justify-items: center;
+  }
+  .service-card {
+    text-align: center;
+    width: 100%;
+    max-width: 520px;
+  }
+  /* ===== Datenschutz: Listen ohne Punkte ===== */
+  .legal-list,
+  .legal-list li,
+  .legal-box ul,
+  .legal-box li {
+    list-style: none !important;   /* Punkte weg */
+    padding-left: 0 !important;    /* Einzug weg */
+    margin-left: 0 !important;     /* Sicherheitsnetz */
+    text-align: center;            /* Inhalt mittig */
+  }
 }
 
 /* ≥ 960px: Desktop */
@@ -880,3 +962,138 @@ header {
 }
 
 .privacy-label span { text-align: left !important; }
+
+/* Datenschutz: Maßnahmen-Box */
+.legal-box {
+  background: var(--card);
+  border: 1px solid #232a39;
+  border-radius: 16px;
+  padding: 18px 20px;
+}
+
+.legal-box h3 {
+  margin: 0 0 12px;
+  font-size: 1.2rem;
+}
+
+.legal-box ul {
+  margin: 0;
+  padding-left: 20px;
+  list-style: disc;
+  line-height: 1.6;
+}
+
+.legal-box li {
+  margin-bottom: 8px;
+}
+
+/* Dienstleister-Transparenz Übersicht */
+.service-grid {
+  display: grid;
+  gap: 16px;
+  margin: 16px 0;
+}
+
+@media (min-width: 640px) {
+  .service-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.service-card {
+  background: var(--card);
+  border: 1px solid #232a39;
+  border-radius: 14px;
+  padding: 14px 16px;
+}
+
+.service-card h4 {
+  margin: 0 0 6px;
+}
+
+.service-card p {
+  margin: 0;
+  font-size: 14px;
+  color: #c8d2f0;
+  line-height: 1.5;
+}
+
+/* ==== Sprachschalter: robust (Desktop & Mobile) ==== */
+
+/* 1) Nav-Links stylen – aber NICHT die Flaggen-Links */
+.main-nav > a:not(.lang-link) {
+  padding: 8px 12px;
+  border-radius: 8px;
+  white-space: nowrap;
+  opacity: .85;
+}
+.main-nav > a:not(.lang-link):hover { opacity: 1; }
+
+/* 2) Sprachschalter (immer untereinander) */
+.lang-switch{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+/* 3) Flaggen-Kachel: fixes Format + kompletter Reset */
+.lang-link{
+  --flag-w: 25px;
+  display:flex;               /* stabil in transform/overflow-Containern */
+  align-items:stretch;
+  justify-content:center;
+  width:var(--flag-w);
+  aspect-ratio:3 / 2;         /* 3:2-Flaggenformat */
+  padding:0 !important;       /* generisches Nav-Padding aus */
+  line-height:0;              /* keine Baseline-Lücke */
+  border:1px solid #2a3342;
+  border-radius:8px;
+  background:#0f1421;
+  overflow:hidden;
+  transition:transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+}
+.lang-link:hover{ transform:translateY(-1px); border-color:#3a4458; }
+
+/* 4) Bild füllt die Kachel komplett */
+.lang-link img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+}
+
+/* 5) Positionierung neben "Kontakt" (Desktop) */
+@media (min-width:960px){
+  .main-nav{ flex-wrap:nowrap; align-items:center; gap:16px; }
+  .main-nav > .btn{ order:100; }
+  .lang-switch{ order:101; margin-left:8px; align-self:center; }
+}
+
+/* 6) Im Hamburger unter "Kontakt" (Mobile) */
+@media (max-width:959.98px){
+  .main-nav{ display:flex; flex-direction:column; align-items:stretch; }
+  .main-nav > .btn{ order:100; }
+  .lang-switch{ order:101; align-items:center; padding-top:6px; }
+}
+
+/* ==== Sprachschalter: Active-State dezent ==== */
+
+/* Grundzustand leicht gedimmt, Hover minimal betont */
+.lang-link { opacity: .82; }
+.lang-link:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+  border-color: #3a4458;
+}
+
+/* Aktivierte Sprache: subtiler Ring + Akzent-Border */
+.lang-link.is-active,
+.lang-link[aria-current="true"],
+.lang-link[aria-pressed="true"] {
+  opacity: 1;
+  border-color: rgba(1, 96, 238, 0.692);
+  /* sehr dezenter Ring */
+  box-shadow: 0 0 0 2px rgba(79, 123, 255, 0);
+  outline: none;
+}

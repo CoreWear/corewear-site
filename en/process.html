@@ -1,167 +1,179 @@
 <!doctype html>
-<html lang="de">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CoreWear &ndash; Prozess</title>
-  <meta name="description" content="So arbeiten wir: Vom Briefing über Stoffprüfung, Zuschnitt, Nähen und Veredelung bis zu QC, Verpackung und Logistik." />
+  <title>CoreWear &ndash; Process</title>
+  <meta name="description" content="How we work: from briefing through fabric inspection, cutting, sewing, embellishment, QC, packaging, and logistics." />
 
   <!-- SEO -->
-  <link rel="canonical" href="https://corewear.pro/de/process/" />
+  <link rel="canonical" href="https://corewear.pro/en/process/" />
   <link rel="alternate" hreflang="de" href="https://corewear.pro/de/process/" />
   <link rel="alternate" hreflang="en" href="https://corewear.pro/en/process/" />
   <link rel="alternate" hreflang="x-default" href="https://corewear.pro/en/process/" />
 
   <link rel="stylesheet" href="/assets/css/index.css" />
   <link rel="icon" type="image/png" href="/assets/img/favicon.png" />
+  <meta referrerpolicy="strict-origin-when-cross-origin">
 </head>
 <body>
   <header>
     <div class="header-bar">
-      <a href="/de/" class="brand">
-        <img id="logo" src="/assets/img/Logo.png" alt="CoreWear Logo" />
+      <a href="/en/" class="brand">
+        <img id="logo" src="/assets/img/Logo.png" alt="CoreWear logo" loading="lazy" decoding="async" />
       </a>
-      <nav class="main-nav">
-        <a href="/de/">Start</a>
-        <a href="/de/products.html">Produkte</a>
-        <a href="/de/process.html" class="active" aria-current="page">Prozess</a>
-        <a href="/de/about.html">Über uns</a>
-        <a href="/de/faq.html">FAQ</a>
-        <a href="/de/contact.html" class="btn">Kontakt</a>
+
+      <!-- Hamburger (mobile only) -->
+      <button class="hamburger" aria-label="Open menu" aria-controls="mobile-nav" aria-expanded="false">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+
+      <nav id="mobile-nav" class="main-nav">
+        <a href="/en/">Home</a>
+        <a href="/en/products.html">Products</a>
+        <a href="/en/process.html" class="active" aria-current="page">Process</a>
+        <a href="/en/about.html">About</a>
+        <a href="/en/faq.html">FAQ</a>
+        <a href="/en/contact.html" class="btn">Contact</a>
+
+        <!-- ▶️ Language switch (DE | EN) -->
+        <div class="lang-switch" role="group" aria-label="Language selection">
+          <a class="lang-link" href="/de/process.html" data-lang="de" role="button" aria-pressed="false" title="Deutsch">
+            <img src="/assets/img/de.jpg" width="36" height="24" alt="Deutsch" decoding="async" loading="eager">
+          </a>
+          <a class="lang-link" href="/en/process.html" data-lang="en" role="button" aria-pressed="true" aria-current="true" title="English">
+            <img src="/assets/img/en.jpg" width="36" height="24" alt="English" decoding="async" loading="eager">
+          </a>
+        </div>
       </nav>
     </div>
   </header>
 
+  <!-- Overlay for off-canvas -->
+  <div class="nav-overlay" hidden></div>
+
   <main>
-    <!-- Kopfbereich -->
+    <!-- Hero -->
     <section class="hero" style="grid-template-columns:1fr; margin-top:24px">
       <div class="hero-card">
-        <h1>So arbeiten wir</h1>
+        <h1>How We Work</h1>
         <p class="sub">
-          Transparent, planbar, industriell: Von der ersten Skizze bis zur Auslieferung. Mit QC-Gates, sauberer Doku und verlässlichen Timelines.
+          Transparent, predictable, industrial: from the first sketch to delivery — with QC gates, clean documentation, and reliable timelines.
         </p>
         <div class="badges">
-          <span class="badge">Direkte Fabrikpartner</span>
-          <span class="badge">QC &ndash; Inline &amp; Final</span>
-          <span class="badge">CAD/CAM Zuschnitt</span>
-          <span class="badge">Export & Logistik</span>
+          <span class="badge">Direct factory partners</span>
+          <span class="badge">QC — inline &amp; final</span>
+          <span class="badge">CAD/CAM cutting</span>
+          <span class="badge">Export &amp; logistics</span>
         </div>
       </div>
     </section>
 
-    <!-- dezente Bildstreifen-Deko -->
-    <div class="process-strip" aria-hidden="true">
-      <img src="resources/img/process/Textil%20Stoffkontrolle.jpg" alt="">
-      <img src="resources/img/process/Stoffkontrolle%20Wiegen.jpg" alt="">
-      <img src="resources/img/process/Modellhaus-Cad-Cam.jpg" alt="">
-      <img src="resources/img/process/Schneidemaschine.jpg" alt="">
-      <img src="resources/img/process/Schneidemaschiene2.jpg" alt="">
-      <img src="resources/img/process/Waschmaschienen.jpg" alt="">
-    </div>
-
     <!-- Steps -->
     <div class="section-title">
-      <h2>Prozess in 7 Schritten</h2>
-      <span class="muted">Jeder Schritt ist dokumentiert &ndash; mit klaren Freigaben und Qualitätskontrollen.</span>
+      <h2>Process in 7 Steps</h2>
+      <span class="muted">Each step is documented with clear approvals and quality checks.</span>
     </div>
 
     <section class="steps">
       <!-- 1 Briefing -->
       <article class="card step">
         <div>
-          <h3>1. Briefing & Konzept</h3>
-          <p class="muted">Ziele, Stückzahlen, Budget, Timeline. Skizzen/Referenzen oder Tech Pack willkommen.</p>
+          <h3>1. Briefing &amp; Concept</h3>
+          <p class="muted">Goals, quantities, budget, timeline. Sketches/references or a tech pack are welcome.</p>
           <ul>
-            <li>Materialvorschläge &amp; passende Grammaturen</li>
-            <li>CI-Vorgaben &amp; Brandingoptionen (Stick/Druck/Labels)</li>
-            <li>Erste Machbarkeits- und Risikoanalyse</li>
+            <li>Material proposals &amp; suitable weights</li>
+            <li>CI requirements &amp; branding options (embroidery/print/labels)</li>
+            <li>Initial feasibility &amp; risk assessment</li>
           </ul>
         </div>
-        <img class="thumb" src="resources/img/process/Zeichnung.jpg" alt="Skizze/Design-Entwurf">
+        <img class="thumb" src="resources/img/Prozess/Zeichnung.jpg" alt="Sketch/design concept" loading="lazy" decoding="async">
       </article>
 
-      <!-- 2 Materialeingang & Stoffprüfung -->
+      <!-- 2 Fabric intake & inspection -->
       <article class="card step">
         <div>
-          <h3>2. Materialeingang & Stoffprüfung</h3>
-          <p class="muted">Wareneingangskontrolle nach Spezifikation, Lagerung klimaneutral.</p>
+          <h3>2. Fabric Intake &amp; Inspection</h3>
+          <p class="muted">Incoming goods control per spec; climate-appropriate storage.</p>
           <ul>
-            <li>Stoffkontrolle am Leuchttisch (Fehler, Schattierungen)</li>
-            <li>Gewichtsprüfung (GSM) &amp; Handgefühl</li>
-            <li>Batch/Charge dokumentiert für Rückverfolgbarkeit</li>
+            <li>Inspection on light table (defects, shading)</li>
+            <li>GSM verification &amp; hand feel</li>
+            <li>Batch/lot recorded for traceability</li>
           </ul>
         </div>
-        <img class="thumb" src="resources/img/process/Textil%20Stoffkontrolle.jpg" alt="Stoffkontrollmaschine">
+        <img class="thumb" src="resources/img/Prozess/Textil%20Stoffkontrolle.jpg" alt="Fabric inspection machine" loading="lazy" decoding="async">
       </article>
 
-      <!-- 3 CAD/CAM & Zuschnitt -->
+      <!-- 3 CAD/CAM & cutting -->
       <article class="card step">
         <div>
-          <h3>3. CAD/CAM & Zuschnitt</h3>
-          <p class="muted">Schnittbilder per CAD, effizienter Wareneinsatz, exakte Größenläufe.</p>
+          <h3>3. CAD/CAM &amp; Cutting</h3>
+          <p class="muted">Markers via CAD, efficient fabric utilization, precise size runs.</p>
           <ul>
-            <li>Marker-Optimierung &ndash; Verschnitt minimieren</li>
-            <li>Automatischer Cutter oder Handzuschnitt je nach Stoff</li>
-            <li>Teilekennzeichnung für fehlerfreien Nähfluss</li>
+            <li>Marker optimization — minimizing waste</li>
+            <li>Automatic cutter or manual cutting depending on fabric</li>
+            <li>Part labeling for error-free sewing flow</li>
           </ul>
         </div>
-        <img class="thumb" src="resources/img/process/Modellhaus-Cad-Cam.jpg" alt="CAD/CAM Zuschnitt">
+        <img class="thumb" src="resources/img/Prozess/Modellhaus-Cad-Cam.jpg" alt="CAD/CAM cutting" loading="lazy" decoding="async">
       </article>
 
-      <!-- 4 Nähen & Inline-QC -->
+      <!-- 4 Sewing & inline QC -->
       <article class="card step">
         <div>
-          <h3>4. Nähen & Inline-QC</h3>
-          <p class="muted">Linienaufbau nach Produkt: Jersey, Webware, Denim, Workwear.</p>
+          <h3>4. Sewing &amp; Inline QC</h3>
+          <p class="muted">Line setup by product: jersey, wovens, denim, workwear.</p>
           <ul>
-            <li>Sticharten gemäß Tech Pack (z. B. Flatlock, Cover, Kettenstich)</li>
-            <li>Inline-Kontrollen nach definierten QC-Gates</li>
-            <li>Rework-Schleife und Ursachenanalyse bei Abweichungen</li>
+            <li>Stitch types per tech pack (e.g., flatlock, cover, chain)</li>
+            <li>Inline checks based on defined QC gates</li>
+            <li>Rework loop &amp; root-cause analysis for deviations</li>
           </ul>
         </div>
-        <img class="thumb" src="resources/img/process/Schneidemaschine.jpg" alt="Näh-/Produktionsdetail">
+        <img class="thumb" src="resources/img/Prozess/Schneidemaschine.jpg" alt="Sewing/production detail" loading="lazy" decoding="async">
       </article>
 
-      <!-- 5 Veredelung / Waschen -->
+      <!-- 5 Embellishment / washing -->
       <article class="card step">
         <div>
-          <h3>5. Veredelung &amp; Waschen</h3>
-          <p class="muted">Je nach Produkt: Drucken, Sticken, Wascheffekte, Thermofixierung.</p>
+          <h3>5. Embellishment &amp; Washing</h3>
+          <p class="muted">Depending on product: print, embroidery, wash effects, thermo-fixation.</p>
           <ul>
-            <li>DTF/DTG/Siebdruck, Stickerei, Heat-Transfer</li>
-            <li>Enzyme/Stone/Micro-Wash für Denim &amp; Fleece</li>
-            <li>Fixieröfen &amp; Trockner nach Spezifikation</li>
+            <li>DTF/DTG/screen print, embroidery, heat transfer</li>
+            <li>Enzyme/stone/micro-wash for denim &amp; fleece</li>
+            <li>Fixing ovens &amp; dryers per specification</li>
           </ul>
         </div>
-        <img class="thumb" src="resources/img/process/Waschmaschienen.jpg" alt="Industriewaschmaschinen">
+        <img class="thumb" src="resources/img/Prozess/Waschmaschienen.jpg" alt="Industrial washing machines" loading="lazy" decoding="async">
       </article>
 
-      <!-- 6 Endkontrolle & Branding -->
+      <!-- 6 Final QC & branding -->
       <article class="card step">
         <div>
-          <h3>6. Endkontrolle & Branding</h3>
-          <p class="muted">Finale Prüfung &amp; vollständiges Branding vor dem Verpacken.</p>
+          <h3>6. Final QC &amp; Branding</h3>
+          <p class="muted">Final inspection &amp; complete branding before packing.</p>
           <ul>
-            <li>AQL-Sampling auf Wunsch &amp; unabhängige Inspektionen</li>
-            <li>Hangtags, Pflegeetiketten, Barcodes, Größensticker</li>
-            <li>Folding/Polybag/Kartonage nach Kundenvorgabe</li>
+            <li>AQL sampling on request &amp; independent inspections</li>
+            <li>Hangtags, care labels, barcodes, size stickers</li>
+            <li>Folding/polybag/cartons per your spec</li>
           </ul>
         </div>
-        <img class="thumb" src="resources/img/process/Stoffkontrolle%20Wiegen.jpg" alt="Qualitätsmessung/Wiegen">
+        <img class="thumb" src="resources/img/Prozess/Stoffkontrolle%20Wiegen.jpg" alt="Quality measurement/weighing" loading="lazy" decoding="async">
       </article>
 
-      <!-- 7 Versand & Dokumente -->
+      <!-- 7 Shipping & documents -->
       <article class="card step">
         <div>
-          <h3>7. Versand & Dokumente</h3>
-          <p class="muted">Export-Ready: sauber gepackt, palettiert und etikettiert.</p>
+          <h3>7. Shipping &amp; Documents</h3>
+          <p class="muted">Export-ready: packed, palletized, and labeled.</p>
           <ul>
-            <li>Seefracht, Luftfracht oder EU-LKW &ndash; je nach Timeline</li>
-            <li>Packlisten, Zolldokumente, Ursprungsnachweise</li>
-            <li>Tracking &amp; Übergabe an deine Logistik oder 3PL</li>
+            <li>Sea, air, or EU road — aligned with your timeline</li>
+            <li>Packing lists, customs docs, certificates of origin</li>
+            <li>Tracking &amp; handover to your logistics or 3PL</li>
           </ul>
         </div>
-        <img class="thumb" src="resources/img/process/Schneidemaschiene2.jpg" alt="Produktionsdetail Maschine">
+        <img class="thumb" src="resources/img/Prozess/Schneidemaschiene2.jpg" alt="Production machine detail" loading="lazy" decoding="async">
       </article>
     </section>
   </main>
@@ -170,15 +182,100 @@
     <div class="wrap">
       <small>© <span id="y"></span> CoreWear</small>
       <div style="display:flex;gap:14px">
-        <a href="impressum.html">Impressum</a>
-        <a href="datenschutz.html">Datenschutz</a>
+        <a href="/en/legal.html">Legal Notice</a>
+        <a href="/en/privacy.html">Privacy</a>
       </div>
     </div>
   </footer>
 
+  <!-- Structured data: HowTo -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "CoreWear Garment Production Process",
+    "description": "Transparent, predictable manufacturing with QC gates from briefing to shipment.",
+    "totalTime": "P0DT0H0M",
+    "step": [
+      {"@type":"HowToStep","name":"Briefing & Concept","text":"Goals, quantities, budget, timeline. Share sketches/references or a tech pack.","image":"https://corewear.pro/resources/img/Prozess/Zeichnung.jpg"},
+      {"@type":"HowToStep","name":"Fabric Intake & Inspection","text":"Incoming goods control, GSM verification, defects/shading checks.","image":"https://corewear.pro/resources/img/Prozess/Textil%20Stoffkontrolle.jpg"},
+      {"@type":"HowToStep","name":"CAD/CAM & Cutting","text":"Marker optimization, automatic or manual cutting, part labeling.","image":"https://corewear.pro/resources/img/Prozess/Modellhaus-Cad-Cam.jpg"},
+      {"@type":"HowToStep","name":"Sewing & Inline QC","text":"Stitch types per tech pack and inline QC gates.","image":"https://corewear.pro/resources/img/Prozess/Schneidemaschine.jpg"},
+      {"@type":"HowToStep","name":"Embellishment & Washing","text":"Print/embroidery, wash effects, thermo-fixation.","image":"https://corewear.pro/resources/img/Prozess/Waschmaschienen.jpg"},
+      {"@type":"HowToStep","name":"Final QC & Branding","text":"AQL sampling, labels/hangtags/barcodes, folding and packing.","image":"https://corewear.pro/resources/img/Prozess/Stoffkontrolle%20Wiegen.jpg"},
+      {"@type":"HowToStep","name":"Shipping & Documents","text":"Export documents, palletization, tracking and handover.","image":"https://corewear.pro/resources/img/Prozess/Schneidemaschiene2.jpg"}
+    ],
+    "publisher": {"@type":"Organization","name":"CoreWear","url":"https://corewear.pro"}
+  }
+  </script>
+
   <script>
-    // Jahr im Footer
-    document.getElementById('y').textContent = new Date().getFullYear();
+    // Year in footer
+    const yEl = document.getElementById('y'); if (yEl) yEl.textContent = new Date().getFullYear();
+
+    // ===== Off-canvas navigation toggle =====
+    (function () {
+      const btn = document.querySelector('.hamburger');
+      const nav = document.getElementById('mobile-nav');
+      const overlay = document.querySelector('.nav-overlay');
+
+      if (!btn || !nav || !overlay) return;
+
+      function openMenu() {
+        document.body.classList.add('menu-open');
+        overlay.hidden = false;
+        btn.setAttribute('aria-expanded', 'true');
+        const firstLink = nav.querySelector('a');
+        if (firstLink) firstLink.focus({preventScroll:true});
+      }
+      function closeMenu() {
+        document.body.classList.remove('menu-open');
+        overlay.hidden = true;
+        btn.setAttribute('aria-expanded', 'false');
+        btn.focus({preventScroll:true});
+      }
+      function toggleMenu() {
+        if (document.body.classList.contains('menu-open')) closeMenu();
+        else openMenu();
+      }
+
+      btn.addEventListener('click', toggleMenu);
+      overlay.addEventListener('click', closeMenu);
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && document.body.classList.contains('menu-open')) {
+          closeMenu();
+        }
+      });
+
+      nav.addEventListener('click', (e) => {
+        const a = e.target.closest('a');
+        if (a) closeMenu();
+      });
+    })();
+
+    // ===== Language switch: mark active & store preference =====
+    (function(){
+      const box = document.querySelector('.lang-switch'); if(!box) return;
+      const links = box.querySelectorAll('.lang-link');
+      const path = location.pathname;
+      const current = /\/de(\/|$)/.test(path) ? 'de' : (/\/en(\/|$)/.test(path) ? 'en' : null);
+
+      links.forEach(a => a.setAttribute('aria-pressed', a.dataset.lang === current ? 'true' : 'false'));
+
+      box.addEventListener('click', e=>{
+        const a = e.target.closest('.lang-link'); if(!a) return;
+        try{ localStorage.setItem('cw_lang', a.dataset.lang); }catch(_){}
+      });
+
+      // If someone lands without /de|/en/, redirect to preference (fallback en) for this route
+      if(!current){
+        let pref = null; try{ pref = localStorage.getItem('cw_lang'); }catch(_){}
+        const fallback = (navigator.language||'en').toLowerCase().startsWith('de') ? 'de' : 'en';
+        const target = pref || fallback;
+        location.replace(`/${target}/process.html`);
+      }
+    })();
   </script>
 </body>
 </html>

@@ -1,2 +1,8 @@
 Zum am Handy Debuggen
 npx http-server . -a 0.0.0.0 -p 8080
+
+
+
+git add .
+git commit -m "Many Changes"
+git push origin main

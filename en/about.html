@@ -1,17 +1,18 @@
 <!doctype html>
-<html lang="de">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CoreWear &ndash; Über uns</title>
-  <meta name="description" content="CoreWear verbindet Marken mit geprüften Textilfabriken. Produktion ab 100 Stück, Qualitätssicherung, zuverlässige Logistik. Lernen Sie uns kennen." />
+  <title>CoreWear &ndash; About</title>
+  <meta name="description" content="CoreWear connects brands with vetted apparel factories. Production from 100 units, on-site quality control, and reliable logistics. Get to know us." />
 
-  <!-- Styles & Favicon (sprachspezifische Assets) -->
+  <!-- Styles & Favicon -->
   <link rel="stylesheet" href="/assets/css/index.css" />
   <link rel="icon" type="image/png" href="/assets/img/favicon.png" />
+  <meta referrerpolicy="strict-origin-when-cross-origin">
 
   <!-- SEO: Canonical & Hreflang -->
-  <link rel="canonical" href="https://corewear.pro/de/about.html" />
+  <link rel="canonical" href="https://corewear.pro/en/about.html" />
   <link rel="alternate" hreflang="de" href="https://corewear.pro/de/about.html" />
   <link rel="alternate" hreflang="en" href="https://corewear.pro/en/about.html" />
   <link rel="alternate" hreflang="x-default" href="https://corewear.pro/en/about.html" />
@@ -20,88 +21,108 @@
 <body>
   <header>
     <div class="header-bar">
-      <a href="/de/" class="brand">
-        <img id="logo" src="/assets/img/Logo.png" alt="CoreWear Logo" />
+      <a href="/en/" class="brand">
+        <img id="logo" src="/assets/img/Logo.png" alt="CoreWear logo" />
       </a>
-      <nav class="main-nav">
-        <a href="/de/">Start</a>
-        <a href="/de/products.html">Produkte</a>
-        <a href="/de/process.html">Prozess</a>
-        <a href="/de/about.html" class="active" aria-current="page">Über uns</a>
-        <a href="/de/faq.html">FAQ</a>
-        <a href="/de/contact.html" class="btn">Kontakt</a>
+
+      <!-- Hamburger (mobile only) -->
+      <button class="hamburger" aria-label="Open menu" aria-controls="mobile-nav" aria-expanded="false">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+
+      <nav id="mobile-nav" class="main-nav">
+        <a href="/en/">Home</a>
+        <a href="/en/products.html">Products</a>
+        <a href="/en/process.html">Process</a>
+        <a href="/en/about.html" class="active" aria-current="page">About</a>
+        <a href="/en/faq.html">FAQ</a>
+        <a href="/en/contact.html" class="btn">Contact</a>
+
+        <!-- ▶️ Language switch (DE | EN) -->
+        <div class="lang-switch" role="group" aria-label="Language selection">
+          <a class="lang-link" href="/de/about.html" data-lang="de" role="button" aria-pressed="false" title="Deutsch">
+            <img src="/assets/img/de.jpg" width="36" height="24" alt="Deutsch" decoding="async" loading="eager">
+          </a>
+          <a class="lang-link" href="/en/about.html" data-lang="en" role="button" aria-pressed="true" aria-current="true" title="English">
+            <img src="/assets/img/en.jpg" width="36" height="24" alt="English" decoding="async" loading="eager">
+          </a>
+        </div>
       </nav>
     </div>
   </header>
 
+  <!-- Overlay for off-canvas -->
+  <div class="nav-overlay" hidden></div>
 
   <main>
-    <!-- Hero (schmaler, aber im selben Stil) -->
+    <!-- Hero (compact, same style) -->
     <section class="hero" style="grid-template-columns:1fr; margin-top:24px">
       <div class="hero-card">
-        <h1>Über CoreWear</h1>
+        <h1>About CoreWear</h1>
         <p class="sub">
-          Wir sind Ihr B2B-Partner für skalierbare Textilfertigung &ndash; von der Idee bis zur Serienproduktion.
-          Mit direkten Fabrikpartnern in der Türkei, Qualitätssicherung vor Ort und klarer Kommunikation.
+          We&rsquo;re your B2B partner for scalable apparel manufacturing — from idea to series production.
+          With direct factory partners across our network, on-site quality assurance, and clear communication.
         </p>
         <div class="badges">
-          <span class="badge">MOQ 100/Stück</span>
-          <span class="badge">Direkte Fabrikpartner</span>
+          <span class="badge">MOQ 100 units</span>
+          <span class="badge">Direct factory partners</span>
           <span class="badge">Private Label / OEM</span>
-          <span class="badge">QC & Logistik</span>
+          <span class="badge">QC & logistics</span>
         </div>
       </div>
     </section>
 
-    <!-- Mission / Werte -->
+    <!-- Mission / Values -->
     <div class="section-title">
-      <h2>Mission & Werte</h2>
-      <span class="muted">Worauf Sie sich verlassen können.</span>
+      <h2>Mission & Values</h2>
+      <span class="muted">What you can count on.</span>
     </div>
     <section class="grid cols-3">
       <article class="card">
-        <h3>Skalierung</h3>
-        <p class="muted">Serienfertigung ab 100 Stück pro Modell/Farbe &ndash; planbar, wiederholbar, effizient.</p>
+        <h3>Scale</h3>
+        <p class="muted">Series production from 100 units per style/color — predictable, repeatable, efficient.</p>
       </article>
       <article class="card">
-        <h3>Qualität</h3>
-        <p class="muted">QC-Gates, Materialprüfungen und saubere Kommunikation in jedem Schritt.</p>
+        <h3>Quality</h3>
+        <p class="muted">QC gates, material tests, and clear communication at every step.</p>
       </article>
       <article class="card">
-        <h3>Transparenz</h3>
-        <p class="muted">Realistische Timelines, nachvollziehbare Kosten, direkte Ansprechpartner.</p>
+        <h3>Transparency</h3>
+        <p class="muted">Realistic timelines, traceable costs, direct points of contact.</p>
       </article>
     </section>
 
-    <!-- Wie wir arbeiten -->
+    <!-- How we work -->
     <div class="section-title">
-      <h2>Wie wir arbeiten</h2>
-      <span class="muted">Vom Briefing bis zur Lieferung.</span>
+      <h2>How We Work</h2>
+      <span class="muted">From briefing to delivery.</span>
     </div>
     <section class="grid cols-4">
-      <article class="card"><h3>1. Briefing</h3><p class="muted">Design/Referenzen, Stückzahl, Budget, Timeline &ndash; wir prüfen Machbarkeit.</p></article>
-      <article class="card"><h3>2. Angebot</h3><p class="muted">Kalkulation & Fabrik-Matching passend zu Produkt und Volumen.</p></article>
-      <article class="card"><h3>3. Sampling</h3><p class="muted">Proto-/PP-Samples nach Bedarf, Feedback-Schleifen inklusive.</p></article>
-      <article class="card"><h3>4. Produktion & QC</h3><p class="muted">CMT bis Full-Package, QC-Prüfungen, Verpackung & Versandvorbereitung.</p></article>
+      <article class="card"><h3>1. Briefing</h3><p class="muted">Design/references, quantity, budget, timeline — we check feasibility.</p></article>
+      <article class="card"><h3>2. Quotation</h3><p class="muted">Costing & factory matching aligned with product and volume.</p></article>
+      <article class="card"><h3>3. Sampling</h3><p class="muted">Proto / PP samples as needed, including feedback loops.</p></article>
+      <article class="card"><h3>4. Production & QC</h3><p class="muted">CMT through full-package, QC checks, packing & pre-shipment.</p></article>
     </section>
 
-    <!-- Team / Ansprechpartner (Platzhalter) -->
+    <!-- Team / Contacts (placeholders) -->
     <div class="section-title">
-      <h2>Team & Ansprechpartner</h2>
-      <span class="muted">Direkte Kommunikation &ndash; schnell & verbindlich.</span>
+      <h2>Team & Contacts</h2>
+      <span class="muted">Direct communication — fast & reliable.</span>
     </div>
     <section class="grid cols-3">
       <article class="card">
         <h3>Mustafa</h3>
-        <p class="muted">Operations & Fabrikkoordination</p>
+        <p class="muted">Operations & factory coordination</p>
       </article>
       <article class="card">
         <h3>Diren</h3>
-        <p class="muted">Projektmanagement & Vertrieb</p>
+        <p class="muted">Project management & sales</p>
       </article>
       <article class="card">
-        <h3>QC-Partner</h3>
-        <p class="muted">Qualitätssicherung vor Ort in der Türkei</p>
+        <h3>QC Partners</h3>
+        <p class="muted">On-site quality assurance</p>
       </article>
     </section>
 
@@ -109,10 +130,10 @@
     <section class="grid cols-1" style="max-width:var(--max);margin:0 auto 48px;padding:0 20px">
       <article class="card" style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
         <div>
-          <h3>Projekt starten?</h3>
-          <p class="muted">Wir melden uns schnell mit Rückfragen oder einem ersten Angebot.</p>
+          <h3>Ready to start a project?</h3>
+          <p class="muted">We&rsquo;ll follow up quickly with questions or an initial quote.</p>
         </div>
-        <a href="de/contact.html" class="btn primary">Jetzt anfragen</a>
+        <a href="/en/contact.html" class="btn primary">Request a quote</a>
       </article>
     </section>
   </main>
@@ -121,20 +142,71 @@
     <div class="wrap">
       <small>© <span id="y"></span> CoreWear</small>
       <div style="display:flex;gap:14px">
-        <a href="de/faq.html">FAQ</a>
-        <a href="de/contact.html">Kontakt</a>
-        <a href="de/impressum.html">Impressum</a>
-        <a href="de/datenschutz.html">Datenschutz</a>
+        <a href="/en/faq.html">FAQ</a>
+        <a href="/en/contact.html">Contact</a>
+        <a href="/en/legal.html">Legal Notice</a>
+        <a href="/en/privacy.html">Privacy</a>
       </div>
     </div>
   </footer>
 
   <script>
-    // Jahr im Footer
-    document.getElementById('y').textContent = new Date().getFullYear();
-    if ('scrollRestoration' in history) {
-      history.scrollRestoration = 'manual';
-    }
+    // Year in footer
+    const y = document.getElementById('y'); if (y) y.textContent = new Date().getFullYear();
+    if ('scrollRestoration' in history) { history.scrollRestoration = 'manual'; }
+
+    // ===== Off-canvas navigation toggle =====
+    (function () {
+      const btn = document.querySelector('.hamburger');
+      const nav = document.getElementById('mobile-nav');
+      const overlay = document.querySelector('.nav-overlay');
+      if (!btn || !nav || !overlay) return;
+
+      function openMenu() {
+        document.body.classList.add('menu-open');
+        overlay.hidden = false;
+        btn.setAttribute('aria-expanded', 'true');
+        const firstLink = nav.querySelector('a');
+        if (firstLink) firstLink.focus({preventScroll:true});
+      }
+      function closeMenu() {
+        document.body.classList.remove('menu-open');
+        overlay.hidden = true;
+        btn.setAttribute('aria-expanded', 'false');
+        btn.focus({preventScroll:true});
+      }
+      function toggleMenu() {
+        if (document.body.classList.contains('menu-open')) closeMenu();
+        else openMenu();
+      }
+      btn.addEventListener('click', toggleMenu);
+      overlay.addEventListener('click', closeMenu);
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && document.body.classList.contains('menu-open')) closeMenu();
+      });
+      nav.addEventListener('click', (e) => {
+        const a = e.target.closest('a'); if (a) closeMenu();
+      });
+    })();
+
+    // ===== Language switch: mark active & store preference =====
+    (function(){
+      const box = document.querySelector('.lang-switch'); if(!box) return;
+      const links = box.querySelectorAll('.lang-link');
+      const path = location.pathname;
+      const current = /\/de(\/|$)/.test(path) ? 'de' : (/\/en(\/|$)/.test(path) ? 'en' : null);
+      links.forEach(a => a.setAttribute('aria-pressed', a.dataset.lang === current ? 'true' : 'false'));
+      box.addEventListener('click', e=>{
+        const a = e.target.closest('.lang-link'); if(!a) return;
+        try{ localStorage.setItem('cw_lang', a.dataset.lang); }catch(_){}
+      });
+      if(!current){
+        let pref = null; try{ pref = localStorage.getItem('cw_lang'); }catch(_){}
+        const fallback = (navigator.language||'en').toLowerCase().startsWith('de') ? 'de' : 'en';
+        const target = pref || fallback;
+        location.replace(`/${target}/about.html`);
+      }
+    })();
   </script>
 </body>
 </html>

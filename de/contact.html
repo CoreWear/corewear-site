@@ -41,6 +41,15 @@
         <a href="/de/about.html">Über uns</a>
         <a href="/de/faq.html">FAQ</a>
         <a href="/de/contact.html" class="btn active" aria-current="page">Kontakt</a>
+        <!-- ▶️ Sprachschalter (DE | EN) – Bildvariante -->
+        <div class="lang-switch" role="group" aria-label="Sprachauswahl">
+          <a class="lang-link" href="/de/" data-lang="de" role="button" aria-pressed="false" title="Deutsch">
+            <img src="/assets/img/de.jpg">
+          </a>
+          <a class="lang-link" href="/en/" data-lang="en" role="button" aria-pressed="false" title="English">
+            <img src="/assets/img/en.jpg">
+          </a>
+        </div>
       </nav>
     </div>
   </header>
@@ -185,7 +194,7 @@
             <input type="checkbox" id="privacy" required />
             <span>
               Ich habe die
-              <a href="/de/datenschutz.html" class="underline" rel="noopener">Datenschutzerklärung</a>
+              <a href="/de/privacy.html" class="underline" rel="noopener">Datenschutzerklärung</a>
               gelesen und stimme der Verarbeitung zu.
             </span>
           </label>
@@ -206,7 +215,7 @@
         <h3>Direkter Kontakt</h3>
         <ul class="list">
           <li>hello@corewear.pro</li>
-          <li>Core Wear<br>Bensbergerstraße&nbsp;192<br>51503 Rösrath</li>
+          <li>Diren Bulut<br>Core Wear<br>Bensbergerstraße&nbsp;192<br>51503 Rösrath</li>
         </ul>
 
         <p class="notice">
@@ -220,8 +229,8 @@
     <div class="wrap">
       <small>© <span id="y"></span> CoreWear</small>
       <div style="display:flex;gap:14px">
-        <a href="/de/impressum.html">Impressum</a>
-        <a href="/de/datenschutz.html">Datenschutz</a>
+        <a href="/de/legal.html">Impressum</a>
+        <a href="/de/privacy.html">Datenschutz</a>
       </div>
     </div>
   </footer>
@@ -843,6 +852,45 @@
       const a = e.target.closest('a');
       if (a) closeMenu();
     });
+  })();
+  (function(){
+    const box = document.querySelector('.lang-switch'); if(!box) return;
+    const links = box.querySelectorAll('.lang-link');
+
+    // Pfad normalisieren: /index.html -> /, Query/Hash entfernen, doppelte Slashes glätten
+    const norm = (p)=>{
+      if(!p.startsWith('/')) p = '/'+p;
+      p = p.split('#')[0].split('?')[0];
+      p = p.replace(/\/index\.html?$/i,'/');
+      p = p.replace(/\/{2,}/g,'/');
+      return p;
+    };
+
+    const path = norm(location.pathname);
+    const m = path.match(/^\/(de|en)(\/.*)?$/);
+    const currentLang = m ? m[1] : null;
+    const rest = m ? (m[2] || '/') : '/';
+
+    // Ziel-Links für beide Sprachen dynamisch setzen (Unterseite bleibt erhalten)
+    links.forEach(a=>{
+      const lang = a.dataset.lang;
+      a.href = `/${lang}${rest === '/' ? '/' : rest}`;
+      a.setAttribute('aria-pressed', lang === currentLang ? 'true' : 'false');
+    });
+
+    // Klick speichert Präferenz (Navigation übernimmt der href)
+    box.addEventListener('click', e=>{
+      const a = e.target.closest('.lang-link'); if(!a) return;
+      try{ localStorage.setItem('cw_lang', a.dataset.lang); }catch(_){}
+    });
+
+    // Erster Besuch ohne /de|/en/ → leite auf gespeicherte oder Browser-Sprache
+    if(!currentLang){
+      let pref = null; try{ pref = localStorage.getItem('cw_lang'); }catch(_){}
+      const fallback = (navigator.language||'en').toLowerCase().startsWith('de') ? 'de' : 'en';
+      const target = pref || fallback;
+      location.replace(`/${target}/`);
+    }
   })();
   </script>
 </body>

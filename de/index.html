@@ -40,7 +40,17 @@
           <a href="/de/about.html">Über uns</a>
           <a href="/de/faq.html">FAQ</a>
           <a href="/de/contact.html" class="btn">Kontakt</a>
-        </nav>
+          <!-- ▶️ Sprachschalter (DE | EN) – Bildvariante -->
+          <div class="lang-switch" role="group" aria-label="Sprachauswahl">
+            <a class="lang-link" href="/de/" data-lang="de" role="button" aria-pressed="false" title="Deutsch">
+              <img src="/assets/img/de.jpg">
+            </a>
+            <a class="lang-link" href="/en/" data-lang="en" role="button" aria-pressed="false" title="English">
+              <img src="/assets/img/en.jpg">
+            </a>
+          </div>
+      </div>
+
       </div>
     </header>
 
@@ -51,7 +61,7 @@
       <!-- HERO -->
       <section class="hero">
         <div class="hero-card">
-          <h1>Textilfertigung in Rekordzeit<br/>ab <span style="color:var(--ok)">100 Stück</span></h1>
+          <h1>Textilfertigung in Rekordzeit<br/>ab <span style="color:rgb(23, 103, 250)">100 Stück</span></h1>
           <p class="sub">
             Angebot in <strong>24&nbsp;Stunden</strong>, Muster in <strong>7&ndash;10&nbsp;Tagen</strong>, Serienstart ab <strong>14&ndash;21&nbsp;Tagen</strong> &ndash; abhängig vom Modell.
           </p>
@@ -238,7 +248,7 @@
               <input type="checkbox" id="privacy" required />
               <span>
                 Ich habe die
-                <a href="/de/datenschutz.html" class="underline" rel="noopener">Datenschutzerklärung</a>
+                <a href="/de/privacy.html" class="underline" rel="noopener">Datenschutzerklärung</a>
                 gelesen und stimme der Verarbeitung zu.
               </span>
             </label>
@@ -273,8 +283,8 @@
       <div class="wrap">
         <small>© <span id="y"></span> CoreWear</small>
         <div style="display:flex;gap:14px">
-          <a href="/de/impressum.html">Impressum</a>
-          <a href="/de/datenschutz.html">Datenschutz</a>
+          <a href="/de/legal.html">Impressum</a>
+          <a href="/de/privacy.html">Datenschutz</a>
         </div>
       </div>
     </footer>
@@ -760,6 +770,30 @@
         const a = e.target.closest('a');
         if (a) closeMenu();
       });
+    })();
+    (function(){
+      const box = document.querySelector('.lang-switch'); if(!box) return;
+      const links = box.querySelectorAll('.lang-link');
+
+      const path = location.pathname;
+      const current = /\/de(\/|$)/.test(path) ? 'de' : (/\/en(\/|$)/.test(path) ? 'en' : null);
+
+      // aktive Flagge darstellen
+      links.forEach(a => a.setAttribute('aria-pressed', a.dataset.lang === current ? 'true' : 'false'));
+
+      // Klick speichert Präferenz (href übernimmt Navigation)
+      box.addEventListener('click', e=>{
+        const a = e.target.closest('.lang-link'); if(!a) return;
+        try{ localStorage.setItem('cw_lang', a.dataset.lang); }catch(_){}
+      });
+
+      // Erster Besuch ohne /de/|/en/ → auf gespeicherte oder Browser-Sprache
+      if(!current){
+        let pref = null; try{ pref = localStorage.getItem('cw_lang'); }catch(_){}
+        const fallback = (navigator.language||'en').toLowerCase().startsWith('de') ? 'de' : 'en';
+        const target = pref || fallback;
+        location.replace(`/${target}/`);
+      }
     })();
     </script>
   </body>

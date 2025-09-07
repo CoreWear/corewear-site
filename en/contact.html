@@ -1,179 +1,226 @@
 <!doctype html>
-<html lang="de">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CoreWear &ndash; Kontakt</title>
-  <meta name="description" content="Kontakt & Anfrage bei CoreWear. B2B-Textilfertigung ab 100 Stück mit zuverlässiger Qualitätssicherung und klaren Timelines." />
+  <title>CoreWear &ndash; Contact</title>
+  <meta name="description" content="Contact & inquiry at CoreWear. B2B apparel manufacturing from 100 units with reliable quality control and clear timelines." />
 
   <!-- SEO: Canonical & Hreflang -->
-  <link rel="canonical" href="https://corewear.pro/de/contact.html" />
+  <link rel="canonical" href="https://corewear.pro/en/contact.html" />
   <link rel="alternate" hreflang="de" href="https://corewear.pro/de/contact.html" />
   <link rel="alternate" hreflang="en" href="https://corewear.pro/en/contact.html" />
   <link rel="alternate" hreflang="x-default" href="https://corewear.pro/en/contact.html" />
 
-  <!-- Sprachspezifische Assets (root-relativ) -->
+  <!-- Assets -->
   <link rel="stylesheet" href="/assets/css/index.css" />
   <link rel="icon" type="image/png" href="/assets/img/favicon.png" />
+  <meta referrerpolicy="strict-origin-when-cross-origin">
 </head>
 
 <body>
   <header>
     <div class="header-bar">
       <!-- Logo -->
-      <a href="/de/" class="brand">
-        <img id="logo" src="/assets/img/Logo.png" alt="CoreWear Logo" />
+      <a href="/en/" class="brand">
+        <img id="logo" src="/assets/img/Logo.png" alt="CoreWear logo" />
       </a>
 
-      <!-- Mehrseiten-Navigation -->
-      <nav class="main-nav">
-        <a href="/de/">Start</a>
-        <a href="/de/products.html">Produkte</a>
-        <a href="/de/process.html">Prozess</a>
-        <a href="/de/about.html">Über uns</a>
-        <a href="/de/faq.html">FAQ</a>
-        <a href="/de/contact.html" class="btn active" aria-current="page">Kontakt</a>
+      <!-- Hamburger (Mobile) -->
+      <button class="hamburger" aria-label="Open menu" aria-controls="mobile-nav" aria-expanded="false">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+
+      <!-- Nav + language switch (like index.html) -->
+      <nav id="mobile-nav" class="main-nav">
+        <a href="/en/">Home</a>
+        <a href="/en/products.html">Products</a>
+        <a href="/en/process.html">Process</a>
+        <a href="/en/about.html">About</a>
+        <a href="/en/faq.html">FAQ</a>
+        <a href="/en/contact.html" class="btn active" aria-current="page">Contact</a>
+        <!-- ▶️ Sprachschalter (DE | EN) – Bildvariante -->
+        <div class="lang-switch" role="group" aria-label="Sprachauswahl">
+          <a class="lang-link" href="/de/" data-lang="de" role="button" aria-pressed="false" title="Deutsch">
+            <img src="/assets/img/de.jpg">
+          </a>
+          <a class="lang-link" href="/en/" data-lang="en" role="button" aria-pressed="false" title="English">
+            <img src="/assets/img/en.jpg">
+          </a>
+        </div>
       </nav>
     </div>
   </header>
 
+  <!-- Overlay for Off-Canvas -->
+  <div class="nav-overlay" hidden></div>
+
   <main>
-    <!-- Hero kompakt -->
+    <!-- Compact hero -->
     <section class="hero" style="grid-template-columns:1fr; margin-top:24px">
       <div class="hero-card">
-        <h1>Kontakt &ndash; Projektanfrage</h1>
+        <h1>Contact — Project Inquiry</h1>
         <p class="sub">
-          Sag uns kurz, was du vorhast. Für Bestellanfragen ab <strong>100 Stück</strong> können wir nach Briefing meist zügig
-          eine Einschätzung und ein erstes Angebot geben.
+          Tell us briefly what you&rsquo;re planning. For order requests from <strong>100 units</strong> we can usually provide
+          a quick assessment and an initial quote after your briefing.
         </p>
         <div class="badges">
-          <span class="badge">Direkte Fabrikpartner</span>
-          <span class="badge">QC vor Ort</span>
+          <span class="badge">Direct factory partners</span>
+          <span class="badge">On-site QC</span>
           <span class="badge">Private Label / OEM</span>
-          <span class="badge">Transparente Timelines</span>
+          <span class="badge">Transparent timelines</span>
         </div>
       </div>
     </section>
 
-    <!-- Kontaktbereich: Formular links, Infos rechts -->
+    <!-- Contact area: form left, info right -->
     <section class="contact">
-      <!-- Formular -->
+      <!-- Form (mirrors index.html) -->
       <form id="contactForm" class="card" novalidate>
-        <h3>Dein Anliegen</h3>
+        <h3>Your request</h3>
 
         <div class="field">
-          <label for="type">Anliegen</label>
+          <label for="type">Inquiry type</label>
           <select id="type" name="type" required>
-            <option value="Order">Bestellanfrage (ab 100 Stück)</option>
-            <option value="Question">Allgemeine Frage</option>
+            <option value="Question">General question</option>
+            <option value="Order">Order inquiry (from 100 units)</option>
           </select>
         </div>
 
         <div class="field">
           <label for="name">Name*</label>
-          <input id="name" name="name" required />
+          <input id="name" name="name" required autocomplete="name" />
         </div>
 
         <div class="field">
-          <label for="company">Firma</label>
-          <input id="company" name="company" />
+          <label for="company">Company</label>
+          <input id="company" name="company" autocomplete="organization" />
         </div>
 
         <div class="field">
-          <label for="email">E-Mail*</label>
-          <input id="email" name="email" type="email" required />
+          <label for="email">Email*</label>
+          <input id="email" name="email" type="email" required autocomplete="email" inputmode="email" />
         </div>
 
         <div class="field">
-          <label for="phone">Telefon (optional)</label>
-          <input id="phone" name="phone" type="tel" placeholder="+49 ..." />
+          <label for="phone">Phone (optional)</label>
+          <input id="phone" name="phone" type="tel" placeholder="+49 ..." autocomplete="tel" inputmode="tel" pattern="[\d\s()+-]{6,}" />
         </div>
 
+        <!-- Contact preference -->
+        <div class="field">
+          <fieldset class="contact-pref" style="border:0;padding:0;margin:0">
+            <legend style="font-size:14px;color:#c8d2f0;margin-bottom:6px">How should we contact you?</legend>
+            <label style="display:inline-flex;align-items:center;gap:8px;margin-right:16px">
+              <input type="radio" name="contact_pref" value="Email" checked>
+              <span>Email</span>
+            </label>
+            <label style="display:inline-flex;align-items:center;gap:8px">
+              <input type="radio" name="contact_pref" value="Phone">
+              <span>Phone</span>
+            </label>
+            <small class="hint" style="display:block;margin-top:6px">We&rsquo;ll use your preferred channel.</small>
+          </fieldset>
+        </div>
+
+        <!-- Order fields -->
         <div id="orderFields" style="display:grid;gap:12px">
           <div class="field">
-            <label for="product">Produkttyp</label>
+            <label for="product">Product type</label>
             <select id="product" name="product">
-              <option>Trikot</option>
+              <option>Jersey</option>
               <option>Workwear</option>
               <option>Streetwear</option>
               <option>Hoodies / Sweats</option>
               <option>T-Shirts</option>
-              <option>Jacken</option>
-              <option>Kinderbekleidung</option>
-              <option>Sonstiges</option>
+              <option>Jackets</option>
+              <option>Kidswear</option>
+              <option>Other</option>
             </select>
           </div>
 
           <div class="field">
-            <label for="qty">Geplante Stückzahl*</label>
-            <input id="qty" name="qty" type="number" min="1" placeholder="z. B. 2500" />
-            <span class="hint">MOQ 100 pro Modell/Farbe</span>
+            <label for="qty">Planned quantity*</label>
+            <input id="qty" name="qty" type="number" min="1" placeholder="e.g., 2500" />
+            <span class="hint">MOQ 100 per style/color</span>
           </div>
 
           <div class="field">
-            <label for="target_price">Zielpreis (optional)</label>
-            <input id="target_price" name="target_price" type="text" placeholder="z. B. 12,50 € / Stück" />
+            <label for="target_price">Target price (optional)</label>
+            <input id="target_price" name="target_price" type="text" placeholder="e.g., €12.50 / unit" />
           </div>
 
           <div class="field">
-            <label for="timeline">Gewünschte Timeline (optional)</label>
-            <input id="timeline" name="timeline" type="text" placeholder="z. B. Auslieferung in 2&ndash;4 Wochen" />
+            <label for="timeline">Desired timeline (optional)</label>
+            <input id="timeline" name="timeline" type="text" placeholder="e.g., delivery in 2&ndash;4 weeks" />
           </div>
         </div>
 
+        <!-- Message -->
         <div class="field">
-          <label for="message">Nachricht*</label>
-          <textarea id="message" name="message" placeholder="Kurzbeschreibung, Referenzen/Skizzen (Links), Besonderheiten, Branding …" required></textarea>
+          <label for="message"><span id="messageLabel">Message*</span></label>
+          <textarea id="message" name="message" rows="4"
+            placeholder="Tell us your request or additional details"
+            required></textarea>
         </div>
 
+        <!-- Attachments -->
         <div class="field">
-        <label>
+          <label for="files-main">Attachments (optional)</label>
+
+          <input
+            id="files-main"
+            type="file"
+            multiple
+            accept=".pdf,.jpg,.jpeg,.png,.webp,.svg,.ai,.psd,.tif,.tiff,.eps,.heic"
+          />
+
+          <span class="hint upload-hint">
+            Up to 5&nbsp;MB total, max 5&nbsp;MB per file. For larger assets, please share a link (Drive/Dropbox).
+          </span>
+
+          <!-- Hidden container for real file inputs -->
+          <div id="file-inputs" style="display:none;"></div>
+
+          <!-- Visible list -->
+          <ul id="file-list" class="file-list"></ul>
+        </div>
+
+        <!-- Privacy -->
+        <div class="field privacy-field">
+          <label for="privacy" class="privacy-label">
             <input type="checkbox" id="privacy" required />
-            Ich habe die 
-            <a href="de/datenschutz.html" class="underline">Datenschutzerklärung</a> 
-            und die 
-            <a href="de/agb.html" class="underline">AGB</a> 
-            gelesen und stimme der Verarbeitung zu.
-        </label>
+            <span>
+              I&rsquo;ve read and agree to the
+              <a href="/en/privacy.html" class="underline" rel="noopener">Privacy Policy</a>.
+            </span>
+          </label>
         </div>
 
-        <button class="btn primary" type="submit">Absenden</button>
-        <p id="formStatus" class="hint" role="status" aria-live="polite"></p>
+        <!-- Honeypot -->
+        <div class="hp" style="display:none;">
+          <label for="ignore_this">Leave this field empty</label>
+          <input type="text" id="ignore_this" name="ignore_this" />
+        </div>
 
-        <p class="hint">Direkter Kontakt: <a href="mailto:hello@deine-domain.de">hello@deine-domain.de</a></p>
+        <button class="btn primary" type="submit">Send</button>
+        <p id="formStatus" class="hint" role="status" aria-live="polite"></p>
       </form>
 
-      <!-- Kontaktinfos -->
+      <!-- Contact info -->
       <aside class="card">
-        <h3>Direkter Kontakt</h3>
+        <h3>Direct contact</h3>
         <ul class="list">
-          <li>📧 hello@deine-domain.de</li>
-          <li>☎️ +49&nbsp;30&nbsp;1234567</li>
-          <li>📍 Core Wear UG (haftungsbeschränkt), Musterstraße&nbsp;1, 12345 Berlin</li>
-        </ul>
-
-        <h3 style="margin-top:16px">Geschäftszeiten</h3>
-        <ul class="list">
-          <li>Mo &ndash; Fr: 09:00 &ndash; 17:30</li>
-          <li>Sa & So: nach Vereinbarung</li>
+          <li>hello@corewear.pro</li>
+          <li>Diren Bulut<br>Core Wear<br>Bensbergerstraße&nbsp;192<br>51503 Rösrath</li>
         </ul>
 
         <p class="notice">
-          Tipp: Je mehr Infos (Stückzahl, Zielpreis, Materialien, Referenzbilder) du teilst, desto schneller können wir kalkulieren.
+          Tip: The more info you share (quantity, target price, materials, reference images), the faster we can quote.
         </p>
       </aside>
-    </section>
-
-    <!-- Rechtliches kompakt -->
-    <section class="grid cols-1" style="max-width:var(--max);margin:0 auto 48px;padding:0 20px">
-      <article class="card">
-        <h3>Datenschutz (Kurz)</h3>
-        <p class="muted">
-          Wir verarbeiten die im Formular übermittelten Daten ausschließlich zur Bearbeitung deiner Anfrage (Art. 6 Abs. 1 lit. b DSGVO).
-          Eine Weitergabe an Dritte erfolgt nur, soweit dies zur Angebotserstellung/Produktion erforderlich ist (z. B. geprüfte Fabrikpartner).
-          Auf Wunsch löschen wir deine Daten &ndash; schreib uns einfach eine E-Mail.
-        </p>
-      </article>
     </section>
   </main>
 
@@ -181,77 +228,671 @@
     <div class="wrap">
       <small>© <span id="y"></span> CoreWear</small>
       <div style="display:flex;gap:14px">
-        <a href="de/impressum.html">Impressum</a>
-        <a href="de/datenschutz.html">Datenschutz</a>
+        <a href="/en/legal.html">Legal Notice</a>
+        <a href="/en/privacy.html">Privacy</a>
       </div>
     </div>
   </footer>
 
+  <!-- 1:1 script from DE (translated) + off-canvas toggle -->
   <script>
-    // Jahr im Footer
-    document.getElementById('y').textContent = new Date().getFullYear();
+  /* ===============================
+    CoreWear – Frontend Script (v8)
+    =============================== */
 
-    // Formular: Felder je nach Anliegen umschalten
-    const typeSel = document.getElementById('type');
-    const orderFields = document.getElementById('orderFields');
-    function toggleOrderFields(){
-      const isOrder = typeSel.value === 'Order';
-      orderFields.style.display = isOrder ? 'grid' : 'none';
-      // Pflichtfeld-Handling für MOQ-Felder nur bei Order
-      document.getElementById('qty').required = isOrder;
+  // Year in footer
+  const yEl = document.getElementById('y');
+  if (yEl) yEl.textContent = new Date().getFullYear();
+
+  // --- Elements ---
+  const form         = document.getElementById('contactForm');
+  const statusEl     = document.getElementById('formStatus');
+  const typeSel      = document.getElementById('type');
+  const orderWrap    = document.getElementById('orderFields');
+  const qtyInput     = document.getElementById('qty');
+  const message      = document.getElementById('message');
+  const messageLabel = document.getElementById('messageLabel');
+  const privacyCb    = document.getElementById('privacy');
+
+  const emailEl      = document.getElementById('email');
+  const phoneEl      = document.getElementById('phone');
+  const contactRadios= form.querySelectorAll('input[name="contact_pref"]');
+
+  const filePicker   = document.getElementById('files-main'); // visible button
+  const fileList     = document.getElementById('file-list');  // visible list
+  const fileBox      = document.getElementById('file-inputs'); // hidden container
+
+  // --- Error box above privacy field ---
+  const privacyField = document.querySelector('.privacy-field');
+  let errorBox = null;
+  function ensureErrorBox() {
+    if (!errorBox) {
+      errorBox = document.createElement('div');
+      errorBox.id = 'formErrors';
+      errorBox.setAttribute('role','alert');
+      errorBox.style.display = 'none';
+      errorBox.style.margin = '0 0 12px 0';
+      errorBox.style.color = '#ffb7b7';
+      errorBox.style.fontSize = '14px';
+      // insert before privacy field
+      if (privacyField && privacyField.parentNode) {
+        privacyField.parentNode.insertBefore(errorBox, privacyField);
+      } else {
+        form.insertBefore(errorBox, form.firstChild);
+      }
     }
-    typeSel.addEventListener('change', toggleOrderFields);
+    return errorBox;
+  }
+  function renderErrors(errs) {
+    const box = ensureErrorBox();
+    if (!errs || errs.length === 0) {
+      box.innerHTML = '';
+      box.style.display = 'none';
+      return;
+    }
+    const ul = document.createElement('ul');
+    ul.style.margin = '0';
+    ul.style.paddingLeft = '18px';
+    ul.style.listStyle = 'disc';
+    errs.forEach(msg => {
+      const li = document.createElement('li');
+      li.textContent = msg;
+      ul.appendChild(li);
+    });
+    box.innerHTML = '';
+    box.appendChild(ul);
+    box.style.display = 'block';
+  }
+  function clearErrors() { renderErrors([]); }
+
+  // --- Endpoints & limits ---
+  const FORM_ENDPOINTS = {
+    // AJAX (no redirect) → only without attachments
+    Order:    'https://formsubmit.co/ajax/orders@corewear.pro',
+    Question: 'https://formsubmit.co/ajax/hello@corewear.pro'
+  };
+  const FORM_ENDPOINTS_RAW = {
+    // classic POST → for upload in hidden iFrame (files!)
+    Order:    'https://formsubmit.co/orders@corewear.pro',
+    Question: 'https://formsubmit.co/hello@corewear.pro'
+  };
+
+  const MAX_TOTAL_MB = 5; // total
+  const MAX_FILE_MB  = 5; // per file
+  const toMB = b => b / (1024 * 1024);
+
+  // Whitelist & blocks
+  const allowedExts = ['pdf','jpg','jpeg','png','webp','svg','ai','psd','tif','tiff','eps','heic'];
+  const archiveExts = ['zip','7z','rar'];
+  const blockedMimes = [
+    'application/zip',
+    'application/x-zip-compressed',
+    'application/x-7z-compressed',
+    'application/x-rar-compressed',
+    'application/vnd.rar'
+  ];
+
+  // Hint text (failsafe)
+  document.querySelectorAll('.upload-hint').forEach(el => {
+    el.textContent = 'Up to 5 MB total, max 5 MB per file. For larger assets, please share a link (Drive/Dropbox).';
+  });
+
+  // --- Required fields / UI toggle ---
+  function toggleOrderFields() {
+    const isOrder = typeSel.value === 'Order';
+    orderWrap.style.display = isOrder ? 'grid' : 'none';
+    qtyInput.required = isOrder;
+    message.required  = !isOrder;
+    messageLabel.textContent = isOrder ? 'Additional information (optional)' : 'Message*';
+  }
+  typeSel.addEventListener('change', () => { toggleOrderFields(); clearErrors(); });
+
+  // Default: "General question", but respect browser restore
+  (function ensureDefaultType() {
+    const v = (typeSel && typeSel.value) || '';
+    if (v !== 'Order' && v !== 'Question') typeSel.value = 'Question';
     toggleOrderFields();
+  })();
 
-    // --- OPTION A: Formspree (ohne Backend).
-    // 1) Erstelle ein Projekt auf formspree.io,
-    // 2) ersetze die URL unten durch deine Endpoint-URL
-    const FORMSPREE_ENDPOINT = 'https://formspree.io/f/DEIN_ENDPOINT'; // TODO: ersetzen
+  // Contact preference → required fields dynamically
+  function syncContactRequired() {
+    const pref = (form.querySelector('input[name="contact_pref"]:checked') || {}).value;
+    // reset all
+    emailEl.required = false;
+    phoneEl.required = false;
+    // set per preference
+    if (pref === 'Email') {
+      emailEl.required = true;
+    } else if (pref === 'Phone') {
+      phoneEl.required = true;
+    }
+  }
+  contactRadios.forEach(r => r.addEventListener('change', () => { syncContactRequired(); clearErrors(); }));
+  syncContactRequired();
 
-    // --- OPTION B: Eigene Serverless-Function (Vercel/Netlify) unter /api/contact
-    // Wenn du Option B nutzt, setze USE_SERVERLESS = true und implementiere /api/contact entsprechend.
-    const USE_SERVERLESS = false;
+  /* ===============================
+    Files — store as real inputs
+    =============================== */
+  let attachCounter = 0; // unique names: attachment_1, attachment_2, ...
 
-    const form = document.getElementById('contactForm');
-    const statusEl = document.getElementById('formStatus');
+  function getStoredFileInputs() {
+    return Array.from(fileBox.querySelectorAll('input[type="file"][data-attachment="1"]'));
+  }
+  function getTotalBytes() {
+    return getStoredFileInputs().reduce((sum, inp) => {
+      const fl = inp.files;
+      return sum + (fl && fl[0] ? fl[0].size : 0);
+    }, 0);
+  }
+  function refreshHasAttachmentsFlag() {
+    const has = getStoredFileInputs().length > 0;
+    if (has) form.classList.add('has-attachments');
+    else form.classList.remove('has-attachments');
+  }
+  function renderList() {
+    const inputs = getStoredFileInputs();
+    fileList.innerHTML = '';
+    if (inputs.length === 0) {
+      fileList.style.display = 'none';
+      refreshHasAttachmentsFlag();
+      return;
+    }
+    fileList.style.display = 'block';
+    refreshHasAttachmentsFlag();
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      statusEl.textContent = 'Sende…';
-      statusEl.style.color = '';
+    inputs.forEach((inp, idx) => {
+      const f = inp.files && inp.files[0];
+      if (!f) return;
+      const li = document.createElement('li');
+      li.className = 'file-row';
+      li.style.display = 'flex';
+      li.style.alignItems = 'center';
+      li.style.gap = '8px';
+      li.style.margin = idx === 0 ? '0 0 6px 0' : '6px 0 0 0';
 
-      const data = new FormData(form);
-      const payload = Object.fromEntries(data.entries());
+      const rm = document.createElement('button');
+      rm.type = 'button';
+      rm.textContent = '✕';
+      rm.className = 'rm';
+      rm.title = 'Remove';
+      rm.style.border = '0';
+      rm.style.background = 'none';
+      rm.style.cursor = 'pointer';
+      rm.setAttribute('aria-label', `Remove file: ${f.name}`);
+      rm.addEventListener('click', () => {
+        inp.remove();
+        renderList();
+        clearErrors();
+        statusEl.textContent = '';
+        statusEl.style.color = '';
+      });
 
-      // MOQ-Prüfung nur bei Bestellanfrage
-      const isOrder = payload.type === 'Order';
-      const qtyNum = Number(payload.qty || 0);
-      if (isOrder && (!qtyNum || qtyNum < 100)) {
-        statusEl.textContent = 'Bitte beachte die MOQ von 100 Stück für Bestellanfragen.';
-        statusEl.style.color = '#ffb7b7';
-        return;
+      const name = document.createElement('span');
+      name.textContent = f.name;
+
+      const size = document.createElement('small');
+      size.className = 'muted';
+      size.textContent = `(${toMB(f.size).toFixed(2)} MB)`;
+
+      li.appendChild(rm);
+      li.appendChild(name);
+      li.appendChild(size);
+      fileList.appendChild(li);
+    });
+  }
+  fileList.style.display = 'none';
+  refreshHasAttachmentsFlag();
+
+  // prevent duplicates
+  const seenFiles = new Set(); // key: name_size
+  function fileKey(file) { return (file.name || '_') + '_' + (file.size || 0); }
+
+  // store single file as hidden <input type="file">
+  function storeSingleFile(file) {
+    const dt = new DataTransfer();
+    dt.items.add(file);
+
+    const inp = document.createElement('input');
+    inp.type = 'file';
+    inp.name = `attachment_${++attachCounter}`; // unique name
+    inp.setAttribute('data-attachment','1');
+    inp.style.display = 'none';
+    inp.files = dt.files;
+
+    fileBox.appendChild(inp);
+  }
+
+  // file picker
+  filePicker.addEventListener('change', () => {
+    clearErrors();
+    statusEl.textContent = '';
+    statusEl.style.color = '';
+
+    const picked = Array.from(filePicker.files || []);
+    if (picked.length === 0) return;
+
+    let total = getTotalBytes();
+    const errors = [];
+
+    for (const f of picked) {
+      const name = f.name || '';
+      const ext = (name.includes('.') ? name.split('.').pop() : '').toLowerCase();
+      const k = fileKey(f);
+
+      // 0) duplicates
+      if (seenFiles.has(k)) {
+        errors.push(`Already added: ${name}`);
+        continue;
       }
 
+      // 1) block archives
+      if (archiveExts.includes(ext) || blockedMimes.includes(f.type)) {
+        errors.push(`Archives cannot be submitted. Please share as a link (Drive/Dropbox): ${name}`);
+        continue;
+      }
+      // 2) only allowed extensions
+      if (!allowedExts.includes(ext)) {
+        errors.push(`Unsupported file type: ${name}. Allowed: .${allowedExts.join(' .')}`);
+        continue;
+      }
+      // 3) per-file limit
+      const sizeMB = toMB(f.size);
+      if (sizeMB > MAX_FILE_MB) {
+        errors.push(`File too large (> ${MAX_FILE_MB} MB): ${name}`);
+        continue;
+      }
+      // 4) total limit
+      if (toMB(total + f.size) > MAX_TOTAL_MB) {
+        errors.push(`Total size > ${MAX_TOTAL_MB} MB — not added: ${name}`);
+        continue;
+      }
+
+      // 5) OK → store
+      storeSingleFile(f);
+      seenFiles.add(k);
+      total += f.size;
+    }
+
+    renderList();
+    if (errors.length) renderErrors(errors);
+
+    // reset picker
+    filePicker.value = '';
+  });
+
+  function validateAllFilesBeforeSubmit() {
+    const errors = [];
+    const totalMB = toMB(getTotalBytes());
+    if (totalMB > MAX_TOTAL_MB) {
+      errors.push(`Total size of attachments exceeds ${MAX_TOTAL_MB} MB.`);
+    }
+    const inputs = getStoredFileInputs();
+    for (const inp of inputs) {
+      const f = inp.files && inp.files[0];
+      if (!f) continue;
+      if (toMB(f.size) > MAX_FILE_MB) {
+        errors.push(`A file is larger than ${MAX_FILE_MB} MB: ${f.name}`);
+      }
+    }
+    if (errors.length) {
+      renderErrors(errors);
+      return false;
+    }
+    return true;
+  }
+
+  /* ===============================
+    Hidden iFrame for uploads
+    =============================== */
+  function ensureHiddenIframe() {
+    let ifr = document.getElementById('fs-transport');
+    if (!ifr) {
+      ifr = document.createElement('iframe');
+      ifr.name = 'fs-transport';
+      ifr.id = 'fs-transport';
+      ifr.style.display = 'none';
+      document.body.appendChild(ifr);
+    }
+    return ifr;
+  }
+
+  /* ===============================
+    Submit (Hybrid: iFrame/FETCH)
+    =============================== */
+  let submitting = false;
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (submitting) return; // double-submit guard
+    submitting = true;
+    clearErrors();
+    statusEl.textContent = 'Sending…';
+    statusEl.style.color = '';
+
+    // apply contact preference requireds
+    syncContactRequired();
+
+    // soft checks for clearer feedback
+    const pref = (form.querySelector('input[name="contact_pref"]:checked') || {}).value;
+    const softErrs = [];
+    if (pref === 'Email' && !emailEl.value.trim()) softErrs.push('Please enter your email or choose “Phone” as contact method.');
+    if (pref === 'Phone' && !phoneEl.value.trim()) softErrs.push('Please enter your phone number or choose “Email” as contact method.');
+    if (softErrs.length) {
+      renderErrors(softErrs);
+      statusEl.textContent = '';
+      submitting = false;
+      return;
+    }
+
+    // required fields & privacy
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      renderErrors(['Please check the required fields.']);
+      statusEl.textContent = '';
+      submitting = false;
+      return;
+    }
+    if (!privacyCb.checked) {
+      renderErrors(['Please confirm the Privacy Policy.']);
+      statusEl.textContent = '';
+      const label = document.querySelector('.privacy-label');
+      if (label) label.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      submitting = false;
+      return;
+    }
+    if (!validateAllFilesBeforeSubmit()) {
+      statusEl.textContent = '';
+      submitting = false;
+      return;
+    }
+
+    // FormData (for logic & hidden fields)
+    const fd = new FormData(form);
+    const payload = Object.fromEntries(fd.entries());
+
+    // honeypot
+    if (payload.ignore_this || payload.website) {
+      renderErrors(['Spam detected. Message not sent.']);
+      statusEl.textContent = '';
+      submitting = false;
+      return;
+    }
+
+    const isOrder = (payload.type === 'Order');
+    const qtyNum  = Number(payload.qty || 0);
+    if (isOrder && (!qtyNum || qtyNum < 100)) {
+      renderErrors(['Please note the MOQ of 100 units for order inquiries.']);
+      statusEl.textContent = '';
+      submitting = false;
+      return;
+    }
+
+    // enrich subject
+    const subj = `[${isOrder ? 'Order' : 'Question'}] ${payload.company || '-'} &ndash; ${payload.name || '-'}`;
+    fd.set('_subject', subj);
+    fd.set('_template', 'table');
+    fd.set('_captcha', 'false');
+    if (payload.email) fd.set('_replyto', payload.email);
+
+    const hasAttachments = getStoredFileInputs().length > 0;
+    const submitBtn = form.querySelector('button[type="submit"]');
+    if (submitBtn) { submitBtn.disabled = true; submitBtn.setAttribute('aria-busy', 'true'); }
+
+    // === Path A: WITH attachments → iFrame POST ===
+    if (hasAttachments) {
       try {
-        const endpoint = USE_SERVERLESS ? '/api/contact' : FORMSPREE_ENDPOINT;
-        const resp = await fetch(endpoint, {
-          method: 'POST',
-          headers: USE_SERVERLESS ? { 'Content-Type':'application/json' } : { 'Accept':'application/json' },
-          body: USE_SERVERLESS ? JSON.stringify(payload) : data
-        });
-        if (!resp.ok) throw new Error('Netzwerkfehler');
-        statusEl.textContent = 'Danke! Wir melden uns kurzfristig per E-Mail.';
-        statusEl.style.color = '#9fe2b0';
-        form.reset();
-        toggleOrderFields();
+        // mirror extras as hidden inputs (if not present)
+        const mirror = (name) => {
+          if (form.querySelector(`input[type="hidden"][name="${name}"]`)) return;
+          const h = document.createElement('input');
+          h.type = 'hidden'; h.name = name; h.value = fd.get(name) || '';
+          form.appendChild(h);
+        };
+        ['_subject','_template','_captcha','_replyto'].forEach(mirror);
+
+        const ifr = ensureHiddenIframe();
+        const endpoint = FORM_ENDPOINTS_RAW[payload.type] || FORM_ENDPOINTS_RAW.Question;
+
+        const chosenType = typeSel.value; // remember
+        const cleanup = () => {
+          setTimeout(() => {
+            // soft reset but keep inquiry type
+            form.reset();
+            typeSel.value = chosenType;
+            toggleOrderFields();
+
+            // remove stored file inputs & clear duplicate set
+            getStoredFileInputs().forEach(inp => inp.remove());
+            seenFiles.clear();
+
+            renderList();
+            clearErrors();
+          }, 400);
+          if (submitBtn) { submitBtn.disabled = false; submitBtn.removeAttribute('aria-busy'); }
+          submitting = false;
+        };
+
+        const onLoad = () => {
+          statusEl.textContent = 'Thanks! We&rsquo;ll get back to you within 12 business hours — quote within ≤ 24h.';
+          statusEl.style.color = '#9fe2b0';
+          ifr.removeEventListener('load', onLoad);
+          // reset form attributes
+          form.removeAttribute('target');
+          form.removeAttribute('action');
+          form.removeAttribute('enctype');
+          form.removeAttribute('method');
+          cleanup();
+        };
+        ifr.addEventListener('load', onLoad);
+
+        // configure temporarily and submit
+        form.setAttribute('target', 'fs-transport');
+        form.setAttribute('action', endpoint);
+        form.setAttribute('method', 'POST');
+        form.setAttribute('enctype', 'multipart/form-data');
+        form.submit(); // stays on page thanks to iFrame
       } catch (err) {
-        statusEl.textContent = 'Uups, etwas ist schiefgelaufen. Bitte schreib direkt an hello@deine-domain.de';
+        renderErrors(['Error sending attachments. Please try again or email hello@corewear.pro.']);
+        statusEl.textContent = '';
         statusEl.style.color = '#ffb7b7';
+        if (submitBtn) { submitBtn.disabled = false; submitBtn.removeAttribute('aria-busy'); }
+        submitting = false;
+      }
+      return; // do not fall through to AJAX path
+    }
+
+    // === Path B: WITHOUT attachments → AJAX /ajax ===
+    try {
+      const endpointAjax = FORM_ENDPOINTS[payload.type] || FORM_ENDPOINTS.Question;
+      const res = await fetch(endpointAjax, {
+        method: 'POST',
+        body: fd,
+        headers: { 'Accept': 'application/json' } // don’t set Content-Type yourself
+      });
+      if (res.ok) {
+        statusEl.textContent = 'Thanks! We&rsquo;ll get back to you within 12 business hours — quote within ≤ 24h.';
+        statusEl.style.color = '#9fe2b0';
+        const chosenType = typeSel.value;
+        setTimeout(() => {
+          form.reset();
+          typeSel.value = chosenType;
+          toggleOrderFields();
+          // safety: remove leftover inputs if any
+          getStoredFileInputs().forEach(inp => inp.remove());
+          seenFiles.clear();
+          renderList();
+          clearErrors();
+        }, 400);
+      } else {
+        let msg = 'Error sending. Please email hello@corewear.pro.';
+        try { const data = await res.json(); if (data && data.message) msg = data.message; } catch(_){}
+        renderErrors([msg]);
+        statusEl.textContent = '';
+      }
+    } catch (err) {
+      renderErrors(['Network error during send. Please try again later or email hello@corewear.pro.']);
+      statusEl.textContent = '';
+    } finally {
+      if (submitBtn) { submitBtn.disabled = false; submitBtn.removeAttribute('aria-busy'); }
+      submitting = false;
+    }
+  }, { capture: true });
+
+  /* ===============================
+    Visual filled-state highlights (JS-only)
+    =============================== */
+  (function filledVisuals() {
+    const BG_DEFAULT = '#0f1421';
+    const BD_DEFAULT = '#283246';
+    const BG_FILLED  = '#141b2a';
+    const BD_FILLED  = '#3a4864';
+    const TXT_COLOR  = (getComputedStyle(document.documentElement)
+                        .getPropertyValue('--txt') || '#eaf2ff').trim();
+
+    const skip = el =>
+      el.type === 'checkbox' || el.type === 'radio' || el.type === 'file' || el.id === 'files-main';
+
+    const isFilled = el => {
+      if (el.tagName === 'SELECT') return el.value !== '' && el.selectedIndex !== -1;
+      return (el.value != null && String(el.value).trim() !== '');
+    };
+
+    const setVisual = (el, on) => {
+      if (skip(el)) return;
+      const isSelect = el.tagName === 'SELECT';
+      el.style.transition = 'background-color .25s ease, border-color .25s ease';
+
+      // text color: full when filled, otherwise “placeholder look”
+      if (on) {
+        el.style.color = TXT_COLOR;
+        el.style.webkitTextFillColor = TXT_COLOR;
+      } else {
+        el.style.color = 'rgba(234,242,255,0.6)';
+        el.style.webkitTextFillColor = 'rgba(234,242,255,0.6)';
+      }
+
+      if (on) {
+        el.style.backgroundColor = BG_FILLED;
+        el.style.borderColor = BD_FILLED;
+        if (!isSelect) el.style.boxShadow = `0 0 0 1000px ${BG_FILLED} inset`;
+        else el.style.boxShadow = 'none';
+      } else {
+        el.style.backgroundColor = BG_DEFAULT;
+        el.style.borderColor = BD_DEFAULT;
+        el.style.boxShadow = 'none';
+      }
+    };
+
+    const ctrls = form.querySelectorAll('input, textarea, select');
+    const refreshAll = () => ctrls.forEach(el => setVisual(el, isFilled(el)));
+
+    ctrls.forEach(el => {
+      if (skip(el)) return;
+      setVisual(el, isFilled(el));
+      el.addEventListener('input',  () => setVisual(el, isFilled(el)));
+      el.addEventListener('change', () => setVisual(el, isFilled(el)));
+      el.addEventListener('blur',   () => setVisual(el, isFilled(el)));
+    });
+
+    form.addEventListener('reset', () => setTimeout(() => {
+      refreshAll();
+    }, 0));
+
+    // handle autofill/back-navigation
+    window.addEventListener('pageshow', refreshAll);
+    setTimeout(refreshAll, 120);
+    setTimeout(refreshAll, 600);
+    setTimeout(refreshAll, 1500);
+  })();
+
+  /* ===============================
+    Misc
+    =============================== */
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+  window.addEventListener('beforeunload', () => window.scrollTo(0, 0));
+
+  // ===== Off-canvas navigation toggle =====
+  (function () {
+    const btn = document.querySelector('.hamburger');
+    const nav = document.getElementById('mobile-nav');
+    const overlay = document.querySelector('.nav-overlay');
+
+    if (!btn || !nav || !overlay) return;
+
+    function openMenu() {
+      document.body.classList.add('menu-open');
+      overlay.hidden = false;
+      btn.setAttribute('aria-expanded', 'true');
+      const firstLink = nav.querySelector('a');
+      if (firstLink) firstLink.focus({preventScroll:true});
+    }
+    function closeMenu() {
+      document.body.classList.remove('menu-open');
+      overlay.hidden = true;
+      btn.setAttribute('aria-expanded', 'false');
+      btn.focus({preventScroll:true});
+    }
+    function toggleMenu() {
+      if (document.body.classList.contains('menu-open')) closeMenu();
+      else openMenu();
+    }
+
+    btn.addEventListener('click', toggleMenu);
+    overlay.addEventListener('click', closeMenu);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && document.body.classList.contains('menu-open')) {
+        closeMenu();
       }
     });
-    if ('scrollRestoration' in history) {
-      history.scrollRestoration = 'manual';
+
+    nav.addEventListener('click', (e) => {
+      const a = e.target.closest('a');
+      if (a) closeMenu();
+    });
+  })();
+
+  // Language switch: mark active & save preference (consistent with index.html)
+  (function(){
+    const box = document.querySelector('.lang-switch'); if(!box) return;
+    const links = box.querySelectorAll('.lang-link');
+
+    // Pfad normalisieren: /index.html -> /, Query/Hash entfernen, doppelte Slashes glätten
+    const norm = (p)=>{
+      if(!p.startsWith('/')) p = '/'+p;
+      p = p.split('#')[0].split('?')[0];
+      p = p.replace(/\/index\.html?$/i,'/');
+      p = p.replace(/\/{2,}/g,'/');
+      return p;
+    };
+
+    const path = norm(location.pathname);
+    const m = path.match(/^\/(de|en)(\/.*)?$/);
+    const currentLang = m ? m[1] : null;
+    const rest = m ? (m[2] || '/') : '/';
+
+    // Ziel-Links für beide Sprachen dynamisch setzen (Unterseite bleibt erhalten)
+    links.forEach(a=>{
+      const lang = a.dataset.lang;
+      a.href = `/${lang}${rest === '/' ? '/' : rest}`;
+      a.setAttribute('aria-pressed', lang === currentLang ? 'true' : 'false');
+    });
+
+    // Klick speichert Präferenz (Navigation übernimmt der href)
+    box.addEventListener('click', e=>{
+      const a = e.target.closest('.lang-link'); if(!a) return;
+      try{ localStorage.setItem('cw_lang', a.dataset.lang); }catch(_){}
+    });
+
+    // Erster Besuch ohne /de|/en/ → leite auf gespeicherte oder Browser-Sprache
+    if(!currentLang){
+      let pref = null; try{ pref = localStorage.getItem('cw_lang'); }catch(_){}
+      const fallback = (navigator.language||'en').toLowerCase().startsWith('de') ? 'de' : 'en';
+      const target = pref || fallback;
+      location.replace(`/${target}/`);
     }
+  })();
   </script>
 </body>
 </html>

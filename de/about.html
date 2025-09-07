@@ -38,6 +38,15 @@
         <a href="/de/about.html" class="active" aria-current="page">Über uns</a>
         <a href="/de/faq.html">FAQ</a>
         <a href="/de/contact.html" class="btn">Kontakt</a>
+        <!-- ▶️ Sprachschalter (DE | EN) – Bildvariante -->
+        <div class="lang-switch" role="group" aria-label="Sprachauswahl">
+          <a class="lang-link" href="/de/" data-lang="de" role="button" aria-pressed="false" title="Deutsch">
+            <img src="/assets/img/de.jpg">
+          </a>
+          <a class="lang-link" href="/en/" data-lang="en" role="button" aria-pressed="false" title="English">
+            <img src="/assets/img/en.jpg">
+          </a>
+        </div>
       </nav>
     </div>
   </header>
@@ -133,8 +142,8 @@
       <div style="display:flex;gap:14px">
         <a href="/de/faq.html">FAQ</a>
         <a href="/de/contact.html">Kontakt</a>
-        <a href="/de/impressum.html">Impressum</a>
-        <a href="/de/datenschutz.html">Datenschutz</a>
+        <a href="/de/legal.html">Impressum</a>
+        <a href="/de/privacy.html">Datenschutz</a>
       </div>
     </div>
   </footer>
@@ -147,46 +156,68 @@
     }
 
     // ===== Navigation Toggle (identisch zu index/products/process) =====
-    (function () {
-      const btn = document.querySelector('.hamburger');
-      const nav = document.getElementById('mobile-nav');
-      const overlay = document.querySelector('.nav-overlay');
+  (function(){
+    const box = document.querySelector('.lang-switch'); if(!box) return;
+    const links = box.querySelectorAll('.lang-link');
 
-      if (!btn || !nav || !overlay) return;
+    // Pfad normalisieren: /index.html -> /, Query/Hash entfernen, doppelte Slashes glätten
+    const norm = (p)=>{
+      if(!p.startsWith('/')) p = '/'+p;
+      p = p.split('#')[0].split('?')[0];
+      p = p.replace(/\/index\.html?$/i,'/');
+      p = p.replace(/\/{2,}/g,'/');
+      return p;
+    };
 
-      function openMenu() {
-        document.body.classList.add('menu-open');
-        overlay.hidden = false;
-        btn.setAttribute('aria-expanded', 'true');
-        const firstLink = nav.querySelector('a');
-        if (firstLink) firstLink.focus({preventScroll:true});
-      }
-      function closeMenu() {
-        document.body.classList.remove('menu-open');
-        overlay.hidden = true;
-        btn.setAttribute('aria-expanded', 'false');
-        btn.focus({preventScroll:true});
-      }
-      function toggleMenu() {
-        if (document.body.classList.contains('menu-open')) closeMenu();
-        else openMenu();
-      }
+    const path = norm(location.pathname);
+    const m = path.match(/^\/(de|en)(\/.*)?$/);
+    const currentLang = m ? m[1] : null;
+    const rest = m ? (m[2] || '/') : '/';
 
-      btn.addEventListener('click', toggleMenu);
-      overlay.addEventListener('click', closeMenu);
+    // Ziel-Links für beide Sprachen dynamisch setzen (Unterseite bleibt erhalten)
+    links.forEach(a=>{
+      const lang = a.dataset.lang;
+      a.href = `/${lang}${rest === '/' ? '/' : rest}`;
+      a.setAttribute('aria-pressed', lang === currentLang ? 'true' : 'false');
+    });
 
-      // ESC zum Schließen
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && document.body.classList.contains('menu-open')) {
-          closeMenu();
-        }
+    // Klick speichert Präferenz (Navigation übernimmt der href)
+    box.addEventListener('click', e=>{
+      const a = e.target.closest('.lang-link'); if(!a) return;
+      try{ localStorage.setItem('cw_lang', a.dataset.lang); }catch(_){}
+    });
+
+    // Erster Besuch ohne /de|/en/ → leite auf gespeicherte oder Browser-Sprache
+    if(!currentLang){
+      let pref = null; try{ pref = localStorage.getItem('cw_lang'); }catch(_){}
+      const fallback = (navigator.language||'en').toLowerCase().startsWith('de') ? 'de' : 'en';
+      const target = pref || fallback;
+      location.replace(`/${target}/`);
+    }
+  })();
+    (function(){
+      const box = document.querySelector('.lang-switch'); if(!box) return;
+      const links = box.querySelectorAll('.lang-link');
+
+      const path = location.pathname;
+      const current = /\/de(\/|$)/.test(path) ? 'de' : (/\/en(\/|$)/.test(path) ? 'en' : null);
+
+      // aktive Flagge darstellen
+      links.forEach(a => a.setAttribute('aria-pressed', a.dataset.lang === current ? 'true' : 'false'));
+
+      // Klick speichert Präferenz (href übernimmt Navigation)
+      box.addEventListener('click', e=>{
+        const a = e.target.closest('.lang-link'); if(!a) return;
+        try{ localStorage.setItem('cw_lang', a.dataset.lang); }catch(_){}
       });
 
-      // Schließen beim Klick auf einen Link
-      nav.addEventListener('click', (e) => {
-        const a = e.target.closest('a');
-        if (a) closeMenu();
-      });
+      // Erster Besuch ohne /de/|/en/ → auf gespeicherte oder Browser-Sprache
+      if(!current){
+        let pref = null; try{ pref = localStorage.getItem('cw_lang'); }catch(_){}
+        const fallback = (navigator.language||'en').toLowerCase().startsWith('de') ? 'de' : 'en';
+        const target = pref || fallback;
+        location.replace(`/${target}/`);
+      }
     })();
   </script>
 </body>
