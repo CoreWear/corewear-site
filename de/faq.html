@@ -36,11 +36,11 @@ layout: null
 
       <nav id="mobile-nav" class="main-nav">
         <a href="/de/">Start</a>
-        <a href="/de/products.html">Produkte</a>
-        <a href="/de/process.html">Prozess</a>
-        <a href="/de/about.html">Über uns</a>
-        <a href="/de/faq.html" class="active" aria-current="page">FAQ</a>
-        <a href="/de/contact.html" class="btn">Kontakt</a>
+        <a href="/de/products">Produkte</a>
+        <a href="/de/process">Prozess</a>
+        <a href="/de/about">Über uns</a>
+        <a href="/de/faq" class="active" aria-current="page">FAQ</a>
+        <a href="/de/contact" class="btn">Kontakt</a>
         <!-- ▶️ Sprachschalter (DE | EN) – Bildvariante -->
         <div class="lang-switch" role="group" aria-label="Sprachauswahl">
           <a class="lang-link" href="/de/" data-lang="de" role="button" aria-pressed="false" title="Deutsch">
@@ -74,7 +74,7 @@ layout: null
 
       <details class="faq-item">
         <summary>Wie starte ich eine Bestellanfrage?</summary>
-        <p>Über <a href="/de/contact.html">Kontakt</a> oder per E-Mail. Sende Skizzen/Referenzen, geplante Stückzahlen, Zielpreise und den gewünschten Lieferzeitraum. Wir melden uns mit Rückfragen oder einem ersten Angebot.</p>
+        <p>Über <a href="/de/contact">Kontakt</a> oder per E-Mail. Sende Skizzen/Referenzen, geplante Stückzahlen, Zielpreise und den gewünschten Lieferzeitraum. Wir melden uns mit Rückfragen oder einem ersten Angebot.</p>
       </details>
 
       <!-- Produktentwicklung & Samples -->
@@ -91,7 +91,7 @@ layout: null
       <!-- Produktion -->
       <details class="faq-item">
         <summary>Welche Produktgruppen könnt ihr fertigen?</summary>
-        <p>Sehr breit: Streetwear, Sportswear/Trikots, Workwear/Business, Kinderbekleidung u. v. m. Schau dir die <a href="/de/products.html">Produkte</a> an &ndash; und wenn dein Artikel fehlt, prüfen wir die Machbarkeit über unser Netzwerk.</p>
+        <p>Sehr breit: Streetwear, Sportswear/Trikots, Workwear/Business, Kinderbekleidung u. v. m. Schau dir die <a href="/de/products">Produkte</a> an &ndash; und wenn dein Artikel fehlt, prüfen wir die Machbarkeit über unser Netzwerk.</p>
       </details>
 
       <details class="faq-item">
@@ -151,7 +151,7 @@ layout: null
           <h3>Noch Fragen?</h3>
           <p class="muted">Schick uns dein Briefing &ndash; wir prüfen Machbarkeit, Timing und Budget.</p>
         </div>
-        <a href="/de/contact.html" class="btn primary">Unverbindlich anfragen</a>
+        <a href="/de/contact" class="btn primary">Unverbindlich anfragen</a>
       </article>
     </section>
   </main>
@@ -160,8 +160,8 @@ layout: null
     <div class="wrap">
       <small>© <span id="y"></span> CoreWear</small>
       <div style="display:flex;gap:14px">
-        <a href="/de/lgeal.html">Impressum</a>
-        <a href="/de/privacy.html">Datenschutz</a>
+        <a href="/de/lgeal">Impressum</a>
+        <a href="/de/privacy">Datenschutz</a>
       </div>
     </div>
   </footer>
@@ -217,11 +217,11 @@ layout: null
     const box = document.querySelector('.lang-switch'); if(!box) return;
     const links = box.querySelectorAll('.lang-link');
 
-    // Pfad normalisieren: /index.html -> /, Query/Hash entfernen, doppelte Slashes glätten
+    // Pfad normalisieren: /index -> /, Query/Hash entfernen, doppelte Slashes glätten
     const norm = (p)=>{
       if(!p.startsWith('/')) p = '/'+p;
       p = p.split('#')[0].split('?')[0];
-      p = p.replace(/\/index\.html?$/i,'/');
+      p = p.replace(/\/index\?$/i,'/');
       p = p.replace(/\/{2,}/g,'/');
       return p;
     };
