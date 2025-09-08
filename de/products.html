@@ -7,6 +7,7 @@
   <meta name="description" content="Produktübersicht von CoreWear: Oberteile, Unterteile, Business- & Arbeitskleidung, Kleider, Sport- & Freizeitkleidung, Kinderbekleidung und Haushalt. B2B-Produktion ab 500 Stück." />
   <link rel="stylesheet" href="/assets/css/index.css" />
   <link rel="icon" type="image/png" href="/assets/img/favicon.png" />
+  <meta name="referrer" content="strict-origin-when-cross-origin">
 </head>
 <body>
 <header>
@@ -88,617 +89,682 @@
 </footer>
 
 <script>
-  // Jahr im Footer
-  document.getElementById('y').textContent = new Date().getFullYear();
+// =====================================
+// Footer-Jahr
+// =====================================
+document.getElementById('y').textContent = new Date().getFullYear();
 
-  // Basis-Bildpfad (relativ zu /de/)
-  const IMG_BASE = "resources/img/Clothes";
+// =====================================
+// Bildpfad-Utils (PNG only)
+// =====================================
+const IMG_BASE = "resources/img/Clothes";
+function encodePathSegment(seg){ return encodeURIComponent(seg).replace(/%2F/gi, "/"); }
+function buildImgSrc(dir, baseName){
+  const safeDir  = dir.split("/").map(encodePathSegment).join("/");
+  const safeFile = encodePathSegment(baseName) + ".png";
+  return `${IMG_BASE}/${safeDir}/${safeFile}`;
+}
 
-  // Pfad-Segment sicher URL-encoden (für Umlaute, Leerzeichen, & usw.)
-  function encodePathSegment(seg){
-    return encodeURIComponent(seg).replace(/%2F/gi, "/");
+// =====================================
+// Mobile Scroll Helpers
+// =====================================
+const MOBILE_MAX = 959.98; // identisch zu deinem CSS-Breakpoint
+function isMobile(){ return window.matchMedia(`(max-width:${MOBILE_MAX}px)`).matches; }
+function getHeaderHeight(){
+  const val = getComputedStyle(document.documentElement).getPropertyValue('--header-h').trim();
+  const n = parseFloat(val); return Number.isFinite(n) ? n : 64;
+}
+function scrollToPanel(panelEl){
+  if(!panelEl) return;
+  const y = panelEl.getBoundingClientRect().top + window.scrollY - getHeaderHeight() - 10;
+  window.scrollTo({ top: y, behavior: 'smooth' });
+}
+
+// =====================================
+// Kategorien & Details (dein kompletter Bestand)
+// =====================================
+const CATEGORIES = [
+  {
+    title: "Oberteile",
+    dir: "Oberteile",
+    items: [
+      { de:"Blusen" },
+      { de:"Hoodies" },
+      { de:"Poloshirts" },
+      { de:"Hemden" },
+      { de:"Pullover" },
+      { de:"Sweatshirts" },
+      { de:"Tanktops" },
+      { de:"Tops" },
+      { de:"T-Shirts" },
+      { de:"Westen" }
+    ]
+  },
+  {
+    title: "Unterteile",
+    dir: "Unterteile",
+    items: [
+      { de:"Chinos" },
+      { de:"Anzughosen" },
+      { de:"Jeans" },
+      { de:"Jogginghosen" },
+      { de:"Leggings" },
+      { de:"Maxiröcke" },
+      { de:"Midiröcke" },
+      { de:"Miniröcke" },
+      { de:"Shorts" }
+    ]
+  },
+  {
+    title: "Business- & Arbeitskleidung",
+    dir: "Business- & Arbeitskleidung",
+    items: [
+      { de:"Latzhosen" },
+      { de:"Overall (Herren)" },
+      { de:"Schutzhosen" },
+      { de:"Sicherheitswesten" },
+      { de:"Anzüge (Sakko+Hose)" },
+      { de:"Overall (Damen)" },
+      { de:"Damenanzüge (Blazer+Hose)" },
+      { de:"Damenanzüge (Blazer+Rock)" },
+      { de:"Arbeitsjacken" }
+    ]
+  },
+  {
+    title: "Kleider",
+    dir: "Kleider",
+    items: [
+      { de:"Businesskleider" },
+      { de:"Cocktailkleider" },
+      { de:"Abendkleider" },
+      { de:"Maxikleider" },
+      { de:"Etuikleider" },
+      { de:"Sommerkleider" }
+    ]
+  },
+  {
+    title: "Sport- & Freizeitkleidung",
+    dir: "Sport- & Freizeitkleidung",
+    items: [
+      { de:"Baseballtrikots" },
+      { de:"Football-Trikots" },
+      { de:"Fußballtrikots" },
+      { de:"Radlerhosen" },
+      { de:"Jogginganzüge" },
+      { de:"Funktionsshirts" },
+      { de:"Sport-BHs" },
+      { de:"Trainingsanzüge" }
+    ]
+  },
+  {
+    title: "Kinderbekleidung",
+    dir: "Kinderbekleidung",
+    items: [
+      { de:"Baby-Bodys" },
+      { de:"Jungen-Schuluniformen" },
+      { de:"Mädchen-Schuluniformen" },
+      { de:"Kinderjacken" },
+      { de:"Kinder-T-Shirts" },
+      { de:"Strampler" }
+    ]
+  },
+  {
+    title: "Haushalt",
+    dir: "Haushalt",
+    items: [
+      { de:"Bademäntel", file:"Bademäntel" },
+      { de:"Handtücher", file:"Handtücher" },
+      { de:"Badevorleger", file:"Badevorleger" },
+      { de:"Bettdecken", file:"Bettdecken" },
+      { de:"Kissenbezüge", file:"Kissenbezüge" },
+      { de:"Bettlaken", file:"Bettlaken" },
+      { de:"Tischdecken", file:"Tischdecken" },
+      { de:"Servietten", file:"Servietten" }
+    ]
   }
-  function buildImgSrc(dir, baseName){
-    const safeDir = dir.split("/").map(encodePathSegment).join("/");
-    const safeFile = encodePathSegment(baseName) + ".png";
-    return `${IMG_BASE}/${safeDir}/${safeFile}`;
+];
+
+const ITEM_DETAILS = {
+  // ---------- Oberteile ----------
+  "Blusen": {
+    fabrics: ["Feingewebe: Viskose, TENCEL™ Lyocell, Crepe de Chine (90&ndash;140 GSM)"],
+    methods: ["Feine Kapp-/Französische Nähte", "Knopfleisten, Paspel-Details", "Lockere/taillierte Passform"],
+    notes: ["Weicher Fall, geringe Knitterneigung", "Option: verdeckte Knopfleiste, Rüschen, Manschettenvarianten"]
+  },
+  "Hoodies": {
+    fabrics: ["Fleece 300&ndash;420 GSM (gebürstet)", "French Terry 280&ndash;360 GSM"],
+    methods: ["Coverstitch-Nähte", "Kängurutasche, Kapuzenfutter", "Rippe an Saum & Ärmel"],
+    notes: ["Heavyweight Streetwear möglich", "Druck/Stick großflächig, Reißverschluss optional"]
+  },
+  "Poloshirts": {
+    fabrics: ["Piqué 180&ndash;240 GSM (Baumwolle/Poly)", "Interlock 170&ndash;210 GSM"],
+    methods: ["Knopfleiste mit Verstärkung", "Kragen mit Einlage", "Saum-Schlitze mit Bartack"],
+    notes: ["Corporate Wear tauglich", "Option: Kontrastkragen/-bündchen, Sticklogo"]
+  },
+  "Hemden": {
+    fabrics: ["Popeline, Oxford, Twill (110&ndash;160 GSM)"],
+    methods: ["Kragenvarianten (Kent, Button-down)", "Brusttasche optional", "Saubere Innenverarbeitung"],
+    notes: ["Slim/Regular/Relaxed Fit", "Option: bügelleicht, Easy-Iron-Finish"]
+  },
+  "Pullover": {
+    fabrics: ["Wollmischungen (Merino/Poly)", "Baumwoll-Strick, Feinstrick"],
+    methods: ["Fully-Fashioned Linking", "Rippenbündchen 1x1/2x2", "Raglan/Set-in Ärmel"],
+    notes: ["Edel, formstabil", "Option: Wascheffekte, Strukturstrick"]
+  },
+  "Sweatshirts": {
+    fabrics: ["French Terry 260&ndash;340 GSM", "Loopback Jersey"],
+    methods: ["Flatlock-Nähte", "Set-in/Raglan", "Gerippte Bündchen"],
+    notes: ["Print/Stick, Applikationen", "Klassische Streetwear-Silhouetten"]
+  },
+  "Tanktops": {
+    fabrics: ["Single Jersey 160&ndash;200 GSM", "Performance-Jersey (Poly)"],
+    methods: ["Ein/zweifach eingefasste Kanten", "Armloch-/Halsausschnitt Binding"],
+    notes: ["Sport/Layering", "Option: Racerback, Loose Fit"]
+  },
+  "Tops": {
+    fabrics: ["Modal-/Viskose-Jersey", "Rib Jersey 180&ndash;220 GSM"],
+    methods: ["Coverstitch-Säume", "Nahtverdeckter Reißverschluss (elegant)"],
+    notes: ["Basic bis Fashion", "Option: Cropped, Cut-Outs"]
+  },
+  "T-Shirts": {
+    fabrics: ["Single Jersey 160&ndash;220 GSM (Bio-Cotton möglich)"],
+    methods: ["Tubular oder Seitennähte", "Nackenband, Schulter-to-Schulter-Tape"],
+    notes: ["Oversize/Boxy möglich", "Reaktive Drucke, DTG, DTF, Siebdruck"]
+  },
+  "Westen": {
+    fabrics: ["Stepp: Nylon/Poly mit Wattierung", "Fleece-Weste 220&ndash;300 GSM"],
+    methods: ["Reißverschluss vorn, Kinnschutz", "Steppmuster: horizontal/diamant"],
+    notes: ["Leicht, Layering-fähig", "Option: Softshell-Weste, wasserabweisend"]
+  },
+
+  // ---------- Unterteile ----------
+  "Chinos": {
+    fabrics: ["Stretch-Twill 240&ndash;300 GSM", "Baumwolle/Elasthan"],
+    methods: ["Bund mit Gürtelschlaufen", "Hosen-Haken, Paspeltaschen hinten"],
+    notes: ["Business-Casual", "Option: Tapered/Regular Fit"]
+  },
+  "Anzughosen": {
+    fabrics: ["Feiner Woll-/Poly-Mix", "Gabardine, Twill (200&ndash;260 GSM)"],
+    methods: ["Bügelbruch, Futter bis Knie", "Hosenhaken+Knopf, Saum mit Stoßband"],
+    notes: ["Anzugskompatibel", "Option: Stoff-Garnituren passend zum Sakko"]
+  },
+  "Jeans": {
+    fabrics: ["Denim 11&ndash;14 oz (Baumwolle/Elasthan)"],
+    methods: ["Kettenstich-Nähte, Nieten", "YKK-Zip oder Button-Fly"],
+    notes: ["Stone/Enzyme-Wash möglich", "Passformen: Skinny bis Loose"]
+  },
+  "Jogginghosen": {
+    fabrics: ["French Terry 280&ndash;340 GSM", "Tech-Jersey (Sport)"],
+    methods: ["Elastikbund mit Kordel", "Rippenbündchen am Saum"],
+    notes: ["Sport/Streetwear", "Option: Seitentaschen mit Zipper"]
+  },
+  "Leggings": {
+    fabrics: ["Hochstretch-Interlock 220&ndash;280 GSM", "Nylon/Spandex, squat-proof"],
+    methods: ["Flachnähte (Flatlock) gegen Reibung", "Breiter Formbund"],
+    notes: ["Performance-Einsatz", "Option: Handy-Tasche seitlich"]
+  },
+  "Maxiröcke": {
+    fabrics: ["Viskose-Crêpe, Satin", "Jersey (casual)"],
+    methods: ["Verdeckter Reißverschluss/Elastikbund", "Saubere Säume"],
+    notes: ["Fließender Fall", "Option: Schlitz, Print allover"]
+  },
+  "Midiröcke": {
+    fabrics: ["Satin/Crepe 120&ndash;180 GSM", "Strukturgewebe"],
+    methods: ["Formbund, Abnäher", "Innenfutter optional"],
+    notes: ["Business/Fashion", "Option: A-Linie/Plissee"]
+  },
+  "Miniröcke": {
+    fabrics: ["Twill/Denim", "Kunstleder (Fashion)"],
+    methods: ["Abnäher, Reißverschluss hinten/seitlich", "Saum fixiert oder raw edge (Denim)"],
+    notes: ["Trend-Piece", "Option: Gürtel/Ösen-Details"]
+  },
+  "Shorts": {
+    fabrics: ["Twill/Chino", "French Terry (Casual)"],
+    methods: ["Bund: Elastik+Kordel oder Haken", "Taschen: Schräg vorn, Paspel hinten"],
+    notes: ["Sommer/Teamwear", "Option: Kontrastnähte, Prints"]
+  },
+
+  // ---------- Business & Arbeitskleidung ----------
+  "Latzhosen": {
+    fabrics: ["Heavy Twill 300&ndash;360 GSM", "Poly/Cotton 65/35"],
+    methods: ["Dreifachnähte, Knieverstärkung", "Mehrfach-Werkzeugtaschen"],
+    notes: ["Robust & langlebig", "Option: Reflektpaspeln, Stretch-Einsätze"]
+  },
+  "Overall (Herren)": {
+    fabrics: ["Twill/Canvas 260&ndash;320 GSM"],
+    methods: ["Front-Zip, Elastik im Rücken", "Cordura®-Verstärkungen optional"],
+    notes: ["Industrie-geeignet", "Option: Namenspatch, Firmenbranding"]
+  },
+  "Schutzhosen": {
+    fabrics: ["Ripstop, Twill, Mischgewebe", "Optional: schwer entflammbar (Norm)"],
+    methods: ["Dreifachnähte, Kniepolster-Fächer", "Reflex-Bänder"],
+    notes: ["Normen nach Briefing (z. B. EN ISO)", "Hohe Abriebfestigkeit"]
+  },
+  "Sicherheitswesten": {
+    fabrics: ["Hi-Vis Mesh/Trikot", "Reflextransfer-Bänder zertifiziert"],
+    methods: ["Bindung/Umkettelung Kanten", "Klett-Verschluss vorn"],
+    notes: ["Neonfarben EN-konform", "Option: Großflächiger Rücken-Print"]
+  },
+  "Anzüge (Sakko+Hose)": {
+    fabrics: ["Wolle/Poly/Elasthan", "Feine Garne, Fall 200&ndash;260 GSM"],
+    methods: ["Halb-/Vollcanvas möglich", "AMF-Stich, Innenfutter & Paspeltaschen"],
+    notes: ["Maßtabellen & Gradierung", "Serienfertigung Business-Qualität"]
+  },
+  "Overall (Damen)": {
+    fabrics: ["Crepe/Poly-Mix", "Stretch-Twill für bequeme Passform"],
+    methods: ["Taillierung, verdeckter Zip", "Gürtel/Bindeband möglich"],
+    notes: ["Business bis Fashion", "Option: weites Bein, Culotte-Form"]
+  },
+  "Damenanzüge (Blazer+Hose)": {
+    fabrics: ["Woll-/Poly-Stretch", "Kammgarn-Optik"],
+    methods: ["Taillierter Blazer, Futter", "Zigarettenhose mit Bügelfalte"],
+    notes: ["Feminine Schnittführung", "Option: Farben nach CI"]
+  },
+  "Damenanzüge (Blazer+Rock)": {
+    fabrics: ["Woll-/Poly-Mix", "Feine Strukturgewebe"],
+    methods: ["Blazer mit Revers, Rock bis Knie", "Innenfutter, Paspel"],
+    notes: ["Business-Set", "Option: Rock Bleistift/ausgestellt"]
+  },
+  "Arbeitsjacken": {
+    fabrics: ["Twill/Softshell", "Fleece-Futter optional"],
+    methods: ["Verstärkte Ellenbogen", "Mehr-Taschen, Reißverschlusstaschen"],
+    notes: ["Robuste Reißverschlüsse", "Option: Reflexelemente, Branding"]
+  },
+
+  // ---------- Kleider ----------
+  "Businesskleider": {
+    fabrics: ["Ponte Roma, Scuba-Knit", "Viskose-Mischung"],
+    methods: ["Abnäher, figurbetont", "Nahtverdeckter Zip, Futter optional"],
+    notes: ["Knielang klassisch", "Option: 3/4-Ärmel, Schlitze"]
+  },
+  "Cocktailkleider": {
+    fabrics: ["Satin, Crepe, Spitze"],
+    methods: ["Futter, Nahtband", "Zierdetails: Rüschen, Drapierung"],
+    notes: ["Event-tauglich", "Option: Glitzer/Applikationen"]
+  },
+  "Abendkleider": {
+    fabrics: ["Chiffon, Satin, Seidenoptik"],
+    methods: ["Mehrlagig, Futter", "Reichere Verarbeitung, Korsage möglich"],
+    notes: ["Bodenlang", "Option: Perlenstickerei, Schlitz"]
+  },
+  "Maxikleider": {
+    fabrics: ["Viskose, Rayon, leichte Gewebe"],
+    methods: ["Gummizug in Taille", "Knopfleiste/Bindeband"],
+    notes: ["Fließend & luftig", "Option: Allover-Print"]
+  },
+  "Etuikleider": {
+    fabrics: ["Strukturstoffe, Stretch-Crepe"],
+    methods: ["Etuiform, Abnäher", "Nahtverdeckter Zip hinten"],
+    notes: ["Business-elegant", "Option: Farb-Piping"]
+  },
+  "Sommerkleider": {
+    fabrics: ["Baumwolle/Leinen leicht", "Viskose-Jersey"],
+    methods: ["Trägervarianten, Knöpfe", "Saum-Volants optional"],
+    notes: ["Atmungsaktiv", "Option: AOP-Print, Stickerei"]
+  },
+
+  // ---------- Sport & Freizeit ----------
+  "Baseballtrikots": {
+    fabrics: ["Poly Mesh/Interlock"],
+    methods: ["Knopfleiste vorn", "Kontrastpaspel, Team-Applikationen"],
+    notes: ["Nummern/Namen individualisierbar", "Sublimation oder Flock möglich"]
+  },
+  "Football-Trikots": {
+    fabrics: ["Robustes Poly-Mesh"],
+    methods: ["Verstärkte Schulternähte", "Breite Ärmel für Pads"],
+    notes: ["Teamfarben & Logos", "Nummern vorne/hinten/Ärmel"]
+  },
+  "Fußballtrikots": {
+    fabrics: ["Leichter Poly-Interlock"],
+    methods: ["Atmungsaktive Einsätze", "Raglan/Set-in möglich"],
+    notes: ["Schnelltrocknend", "Individuelle Club-Designs"]
+  },
+  "Radlerhosen": {
+    fabrics: ["Kompressionsstoff 220&ndash;260 GSM"],
+    methods: ["Flatlock-Nähte", "Sitzpolster (Mehrdichte)"],
+    notes: ["Rutschfeste Beinabschlüsse", "Reflekt-Details optional"]
+  },
+  "Jogginganzüge": {
+    fabrics: ["French Terry 300&ndash;360 GSM"],
+    methods: ["Hoodie+Jogger Set", "Kordeln, Metallösen"],
+    notes: ["Street & Team", "Option: Allover-Print Panel"]
+  },
+  "Funktionsshirts": {
+    fabrics: ["Mikrofaser-Poly, antibakteriell"],
+    methods: ["Nahtarm (Raglan)", "Flachnähte"],
+    notes: ["Feuchtetransport", "Option: Mesh-Panels"]
+  },
+  "Sport-BHs": {
+    fabrics: ["Nylon/Spandex Kompression"],
+    methods: ["Doppellagig, Gummibund", "Herausnehmbare Pads"],
+    notes: ["Low/Mid/High Support Optionen", "Verstärkte Träger"]
+  },
+  "Trainingsanzüge": {
+    fabrics: ["Poly-Trikot", "Warmes Knit für Winter"],
+    methods: ["Jacke+Hose, Reißverschlüsse", "Kontrast-Paspeln"],
+    notes: ["Teamwear", "Nummern/Logos möglich"]
+  },
+
+  // ---------- Kinder ----------
+  "Baby-Bodys": {
+    fabrics: ["Bio-Baumwolle Interlock 180&ndash;220 GSM"],
+    methods: ["Nickelfreie Druckknöpfe", "Umschlag-Schultern"],
+    notes: ["Hautfreundlich", "Zertifizierungen möglich (z. B. OEKO-TEX)"]
+  },
+  "Jungen-Schuluniformen": {
+    fabrics: ["Poloshirts/Westen: Piqué & Twill"],
+    methods: ["Strapazierfähig", "Beschriftungen/Logos"],
+    notes: ["Standardisierte Größen", "Serienlieferungen planbar"]
+  },
+  "Mädchen-Schuluniformen": {
+    fabrics: ["Blusen/Röcke: Popeline/Twill"],
+    methods: ["Rockfalten, verstellbarer Bund", "Knopfleisten"],
+    notes: ["Pflegeleicht", "CI-Farben umsetzbar"]
+  },
+  "Kinderjacken": {
+    fabrics: ["Softshell, Stepp, Fleece"],
+    methods: ["Leicht bedienbare Zips", "Reflekt-Details"],
+    notes: ["Wetterfest je nach Bedarf", "Option: Namenslabel innen"]
+  },
+  "Kinder-T-Shirts": {
+    fabrics: ["Baumwoll-Jersey 160&ndash;200 GSM"],
+    methods: ["Weiche Nähte", "Schulter-to-Schulter-Tape"],
+    notes: ["Hautfreundlich", "Prints kindgerecht"]
+  },
+  "Strampler": {
+    fabrics: ["Interlock/Rib", "Hoher Baumwollanteil"],
+    methods: ["Front-Zip/Knopfleiste", "Bein-Druckknöpfe"],
+    notes: ["Einfaches An-/Ausziehen", "Option: Fußteil geschlossen/offen"]
+  },
+
+  // ---------- Haushalt ----------
+  "Bademäntel": {
+    fabrics: ["Frottier 320&ndash;450 GSM (100% Baumwolle oder Bambus-Viskose-Mix)", "Waffelpikee 220&ndash;300 GSM (leichter)"],
+    methods: ["Doppelte Seitennähte/Overlock", "Gürtel, Schlaufen, aufgesetzte Taschen", "Schalkragen oder Kapuze"],
+    notes: ["Vorgewaschen gegen Einlaufen", "Option: Sticklogo auf Brust/Ärmel", "Personalisierung (Monogramm) möglich"]
+  },
+  "Badevorleger": {
+    fabrics: ["Frottier 700&ndash;900 GSM (hochflorig)", "Rutschhemmende Unterlage optional (Latex/TPR)"],
+    methods: ["Einfassung mit Doppelstepp", "Jacquard- oder Bordürenmuster"],
+    notes: ["Hohe Saugfähigkeit", "Option: Anti-Rutsch-Beschichtung", "Standard- & Hotelgrößen verfügbar"]
+  },
+  "Bettdecken": {
+    fabrics: ["Downproof- Baumwollperkal 230&ndash;300 TC", "Mikrofaserhülle 70&ndash;110 GSM"],
+    methods: ["Kassetten- oder Boxsteppung", "Paspelierte Kanten, Aufhängeschlaufen"],
+    notes: ["Füllungen: Daune/Feder oder Hohlfaser", "Wärmegrade (Sommer/Übergang/Winter)", "Option: waschbar bis 60 °C (Hohlfaser)"]
+  },
+  "Kissenbezüge": {
+    fabrics: ["Baumwollsatin 300&ndash;400 TC", "Perkal 200&ndash;300 TC", "Jersey 160&ndash;190 GSM"],
+    methods: ["Hotelverschluss (Überlappung) oder Reißverschluss", "Saum 3 cm, Paspel optional"],
+    notes: ["Weich & atmungsaktiv", "Option: Stickereien/Piping", "Standard- & Sondergrößen"]
+  },
+  "Bettlaken": {
+    fabrics: ["Jersey 140&ndash;180 GSM mit Elasthan (Spannbettlaken)", "Perkal/Satin 120&ndash;160 GSM (Flat Sheet)"],
+    methods: ["Rundumgummi (Spannbettlaken)", "Doppelte Säume, Miternähte an Ecken"],
+    notes: ["Formstabil, sanfter Griff", "Option: Tiefe für hohe Matratzen", "Farbpalette nach CI"]
+  },
+  "Tischdecken": {
+    fabrics: ["Poly/Baumwoll-Mischung 180&ndash;240 GSM", "Fleckschutz-Finish (z. B. Teflon®)"],
+    methods: ["Saum 2&ndash;3 cm, gewebte Jacquards", "Gehrungsecken (mitered corners)"],
+    notes: ["Pflegeleicht, bügelleicht", "Option: Rund/Oval/Sondermaße", "Logo-Weaving/Allover möglich"]
+  },
+  "Servietten": {
+    fabrics: ["Baumwolle/Twill 180&ndash;220 GSM", "Damast/Jacquard für Gastronomie"],
+    methods: ["Schmaler Saum 1&ndash;1,5 cm", "Gehrungsecken, Doppelstepp"],
+    notes: ["Hohe Faltstabilität", "Option: Logo-Stick, Kettelrand", "Sets passend zur Tischdecke"]
   }
+};
 
-  // =========================
-  // NEU: Mobile-Only Scroll Helpers
-  // =========================
-  const MOBILE_MAX = 959.98; // identisch zu deinem CSS-Breakpoint
+// =====================================
+// Lazy Loader mit Queue (max 6 parallel)
+// =====================================
+const PLACEHOLDER_1PX =
+  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGMAAQAABQABDQottQAAAABJRU5ErkJggg==";
 
-  function isMobile() {
-    return window.matchMedia(`(max-width: ${MOBILE_MAX}px)`).matches;
+class ImageQueue {
+  constructor(max=6){
+    this.max = max;
+    this.running = 0;
+    this.q = [];
   }
-
-  function getHeaderHeight() {
-    // liest --header-h aus :root; fallback 64px
-    const val = getComputedStyle(document.documentElement).getPropertyValue('--header-h').trim();
-    const n = parseFloat(val);
-    return Number.isFinite(n) ? n : 64;
+  add(task){
+    this.q.push(task);
+    this.run();
   }
-
-  function scrollToPanel(panelEl) {
-    if (!panelEl) return;
-    const extraOffset = 10; // etwas Luft
-    const y = panelEl.getBoundingClientRect().top + window.scrollY - getHeaderHeight() - extraOffset;
-    window.scrollTo({ top: y, behavior: 'smooth' });
-  }
-
-  // Kategorien (deutsche Ordner + deutsche Dateinamen)
-  const CATEGORIES = [
-    {
-      title: "Oberteile",
-      dir: "Oberteile",
-      items: [
-        { de:"Blusen" },
-        { de:"Hoodies" },
-        { de:"Poloshirts" },
-        { de:"Hemden" },
-        { de:"Pullover" },
-        { de:"Sweatshirts" },
-        { de:"Tanktops" },
-        { de:"Tops" },
-        { de:"T-Shirts" },
-        { de:"Westen" }
-      ]
-    },
-    {
-      title: "Unterteile",
-      dir: "Unterteile",
-      items: [
-        { de:"Chinos" },
-        { de:"Anzughosen" },
-        { de:"Jeans" },
-        { de:"Jogginghosen" },
-        { de:"Leggings" },
-        { de:"Maxiröcke" },
-        { de:"Midiröcke" },
-        { de:"Miniröcke" },
-        { de:"Shorts" }
-      ]
-    },
-    {
-      title: "Business- & Arbeitskleidung",
-      dir: "Business- & Arbeitskleidung",
-      items: [
-        { de:"Latzhosen" },
-        { de:"Overall (Herren)" },
-        { de:"Schutzhosen" },
-        { de:"Sicherheitswesten" },
-        { de:"Anzüge (Sakko+Hose)" },
-        { de:"Overall (Damen)" },
-        { de:"Damenanzüge (Blazer+Hose)" },
-        { de:"Damenanzüge (Blazer+Rock)" },
-        { de:"Arbeitsjacken" }
-      ]
-    },
-    {
-      title: "Kleider",
-      dir: "Kleider",
-      items: [
-        { de:"Businesskleider" },
-        { de:"Cocktailkleider" },
-        { de:"Abendkleider" },
-        { de:"Maxikleider" },
-        { de:"Etuikleider" },
-        { de:"Sommerkleider" }
-      ]
-    },
-    {
-      title: "Sport- & Freizeitkleidung",
-      dir: "Sport- & Freizeitkleidung",
-      items: [
-        { de:"Baseballtrikots" },
-        { de:"Football-Trikots" },
-        { de:"Fußballtrikots" },
-        { de:"Radlerhosen" },
-        { de:"Jogginganzüge" },
-        { de:"Funktionsshirts" },
-        { de:"Sport-BHs" },
-        { de:"Trainingsanzüge" }
-      ]
-    },
-    {
-      title: "Kinderbekleidung",
-      dir: "Kinderbekleidung",
-      items: [
-        { de:"Baby-Bodys" },
-        { de:"Jungen-Schuluniformen" },
-        { de:"Mädchen-Schuluniformen" },
-        { de:"Kinderjacken" },
-        { de:"Kinder-T-Shirts" },
-        { de:"Strampler" }
-      ]
-    },
-    {
-      title: "Haushalt",
-      dir: "Haushalt",
-      items: [
-        { de:"Bademäntel", file:"Bademäntel" },
-        { de:"Handtücher", file:"Handtücher" },
-        { de:"Badevorleger", file:"Badevorleger" },
-        { de:"Bettdecken", file:"Bettdecken" },
-        { de:"Kissenbezüge", file:"Kissenbezüge" },
-        { de:"Bettlaken", file:"Bettlaken" },
-        { de:"Tischdecken", file:"Tischdecken" },
-        { de:"Servietten", file:"Servietten" }
-      ]
-    }
-  ];
-
-  // Produkt-Details (Schlüssel = deutscher Produktname)
-  const ITEM_DETAILS = {
-    // ---------- Oberteile ----------
-    "Blusen": {
-      fabrics: ["Feingewebe: Viskose, TENCEL™ Lyocell, Crepe de Chine (90&ndash;140 GSM)"],
-      methods: ["Feine Kapp-/Französische Nähte", "Knopfleisten, Paspel-Details", "Lockere/taillierte Passform"],
-      notes: ["Weicher Fall, geringe Knitterneigung", "Option: verdeckte Knopfleiste, Rüschen, Manschettenvarianten"]
-    },
-    "Hoodies": {
-      fabrics: ["Fleece 300&ndash;420 GSM (gebürstet)", "French Terry 280&ndash;360 GSM"],
-      methods: ["Coverstitch-Nähte", "Kängurutasche, Kapuzenfutter", "Rippe an Saum & Ärmel"],
-      notes: ["Heavyweight Streetwear möglich", "Druck/Stick großflächig, Reißverschluss optional"]
-    },
-    "Poloshirts": {
-      fabrics: ["Piqué 180&ndash;240 GSM (Baumwolle/Poly)", "Interlock 170&ndash;210 GSM"],
-      methods: ["Knopfleiste mit Verstärkung", "Kragen mit Einlage", "Saum-Schlitze mit Bartack"],
-      notes: ["Corporate Wear tauglich", "Option: Kontrastkragen/-bündchen, Sticklogo"]
-    },
-    "Hemden": {
-      fabrics: ["Popeline, Oxford, Twill (110&ndash;160 GSM)"],
-      methods: ["Kragenvarianten (Kent, Button-down)", "Brusttasche optional", "Saubere Innenverarbeitung"],
-      notes: ["Slim/Regular/Relaxed Fit", "Option: bügelleicht, Easy-Iron-Finish"]
-    },
-    "Pullover": {
-      fabrics: ["Wollmischungen (Merino/Poly)", "Baumwoll-Strick, Feinstrick"],
-      methods: ["Fully-Fashioned Linking", "Rippenbündchen 1x1/2x2", "Raglan/Set-in Ärmel"],
-      notes: ["Edel, formstabil", "Option: Wascheffekte, Strukturstrick"]
-    },
-    "Sweatshirts": {
-      fabrics: ["French Terry 260&ndash;340 GSM", "Loopback Jersey"],
-      methods: ["Flatlock-Nähte", "Set-in/Raglan", "Gerippte Bündchen"],
-      notes: ["Print/Stick, Applikationen", "Klassische Streetwear-Silhouetten"]
-    },
-    "Tanktops": {
-      fabrics: ["Single Jersey 160&ndash;200 GSM", "Performance-Jersey (Poly)"],
-      methods: ["Ein/zweifach eingefasste Kanten", "Armloch-/Halsausschnitt Binding"],
-      notes: ["Sport/Layering", "Option: Racerback, Loose Fit"]
-    },
-    "Tops": {
-      fabrics: ["Modal-/Viskose-Jersey", "Rib Jersey 180&ndash;220 GSM"],
-      methods: ["Coverstitch-Säume", "Nahtverdeckter Reißverschluss (elegant)"],
-      notes: ["Basic bis Fashion", "Option: Cropped, Cut-Outs"]
-    },
-    "T-Shirts": {
-      fabrics: ["Single Jersey 160&ndash;220 GSM (Bio-Cotton möglich)"],
-      methods: ["Tubular oder Seitennähte", "Nackenband, Schulter-to-Schulter-Tape"],
-      notes: ["Oversize/Boxy möglich", "Reaktive Drucke, DTG, DTF, Siebdruck"]
-    },
-    "Westen": {
-      fabrics: ["Stepp: Nylon/Poly mit Wattierung", "Fleece-Weste 220&ndash;300 GSM"],
-      methods: ["Reißverschluss vorn, Kinnschutz", "Steppmuster: horizontal/diamant"],
-      notes: ["Leicht, Layering-fähig", "Option: Softshell-Weste, wasserabweisend"]
-    },
-
-    // ---------- Unterteile ----------
-    "Chinos": {
-      fabrics: ["Stretch-Twill 240&ndash;300 GSM", "Baumwolle/Elasthan"],
-      methods: ["Bund mit Gürtelschlaufen", "Hosen-Haken, Paspeltaschen hinten"],
-      notes: ["Business-Casual", "Option: Tapered/Regular Fit"]
-    },
-    "Anzughosen": {
-      fabrics: ["Feiner Woll-/Poly-Mix", "Gabardine, Twill (200&ndash;260 GSM)"],
-      methods: ["Bügelbruch, Futter bis Knie", "Hosenhaken+Knopf, Saum mit Stoßband"],
-      notes: ["Anzugskompatibel", "Option: Stoff-Garnituren passend zum Sakko"]
-    },
-    "Jeans": {
-      fabrics: ["Denim 11&ndash;14 oz (Baumwolle/Elasthan)"],
-      methods: ["Kettenstich-Nähte, Nieten", "YKK-Zip oder Button-Fly"],
-      notes: ["Stone/Enzyme-Wash möglich", "Passformen: Skinny bis Loose"]
-    },
-    "Jogginghosen": {
-      fabrics: ["French Terry 280&ndash;340 GSM", "Tech-Jersey (Sport)"],
-      methods: ["Elastikbund mit Kordel", "Rippenbündchen am Saum"],
-      notes: ["Sport/Streetwear", "Option: Seitentaschen mit Zipper"]
-    },
-    "Leggings": {
-      fabrics: ["Hochstretch-Interlock 220&ndash;280 GSM", "Nylon/Spandex, squat-proof"],
-      methods: ["Flachnähte (Flatlock) gegen Reibung", "Breiter Formbund"],
-      notes: ["Performance-Einsatz", "Option: Handy-Tasche seitlich"]
-    },
-    "Maxiröcke": {
-      fabrics: ["Viskose-Crêpe, Satin", "Jersey (casual)"],
-      methods: ["Verdeckter Reißverschluss/Elastikbund", "Saubere Säume"],
-      notes: ["Fließender Fall", "Option: Schlitz, Print allover"]
-    },
-    "Midiröcke": {
-      fabrics: ["Satin/Crepe 120&ndash;180 GSM", "Strukturgewebe"],
-      methods: ["Formbund, Abnäher", "Innenfutter optional"],
-      notes: ["Business/Fashion", "Option: A-Linie/Plissee"]
-    },
-    "Miniröcke": {
-      fabrics: ["Twill/Denim", "Kunstleder (Fashion)"],
-      methods: ["Abnäher, Reißverschluss hinten/seitlich", "Saum fixiert oder raw edge (Denim)"],
-      notes: ["Trend-Piece", "Option: Gürtel/Ösen-Details"]
-    },
-    "Shorts": {
-      fabrics: ["Twill/Chino", "French Terry (Casual)"],
-      methods: ["Bund: Elastik+Kordel oder Haken", "Taschen: Schräg vorn, Paspel hinten"],
-      notes: ["Sommer/Teamwear", "Option: Kontrastnähte, Prints"]
-    },
-
-    // ---------- Business & Arbeitskleidung ----------
-    "Latzhosen": {
-      fabrics: ["Heavy Twill 300&ndash;360 GSM", "Poly/Cotton 65/35"],
-      methods: ["Dreifachnähte, Knieverstärkung", "Mehrfach-Werkzeugtaschen"],
-      notes: ["Robust & langlebig", "Option: Reflektpaspeln, Stretch-Einsätze"]
-    },
-    "Overall (Herren)": {
-      fabrics: ["Twill/Canvas 260&ndash;320 GSM"],
-      methods: ["Front-Zip, Elastik im Rücken", "Cordura®-Verstärkungen optional"],
-      notes: ["Industrie-geeignet", "Option: Namenspatch, Firmenbranding"]
-    },
-    "Schutzhosen": {
-      fabrics: ["Ripstop, Twill, Mischgewebe", "Optional: schwer entflammbar (Norm)"],
-      methods: ["Dreifachnähte, Kniepolster-Fächer", "Reflex-Bänder"],
-      notes: ["Normen nach Briefing (z. B. EN ISO)", "Hohe Abriebfestigkeit"]
-    },
-    "Sicherheitswesten": {
-      fabrics: ["Hi-Vis Mesh/Trikot", "Reflextransfer-Bänder zertifiziert"],
-      methods: ["Bindung/Umkettelung Kanten", "Klett-Verschluss vorn"],
-      notes: ["Neonfarben EN-konform", "Option: Großflächiger Rücken-Print"]
-    },
-    "Anzüge (Sakko+Hose)": {
-      fabrics: ["Wolle/Poly/Elasthan", "Feine Garne, Fall 200&ndash;260 GSM"],
-      methods: ["Halb-/Vollcanvas möglich", "AMF-Stich, Innenfutter & Paspeltaschen"],
-      notes: ["Maßtabellen & Gradierung", "Serienfertigung Business-Qualität"]
-    },
-    "Overall (Damen)": {
-      fabrics: ["Crepe/Poly-Mix", "Stretch-Twill für bequeme Passform"],
-      methods: ["Taillierung, verdeckter Zip", "Gürtel/Bindeband möglich"],
-      notes: ["Business bis Fashion", "Option: weites Bein, Culotte-Form"]
-    },
-    "Damenanzüge (Blazer+Hose)": {
-      fabrics: ["Woll-/Poly-Stretch", "Kammgarn-Optik"],
-      methods: ["Taillierter Blazer, Futter", "Zigarettenhose mit Bügelfalte"],
-      notes: ["Feminine Schnittführung", "Option: Farben nach CI"]
-    },
-    "Damenanzüge (Blazer+Rock)": {
-      fabrics: ["Woll-/Poly-Mix", "Feine Strukturgewebe"],
-      methods: ["Blazer mit Revers, Rock bis Knie", "Innenfutter, Paspel"],
-      notes: ["Business-Set", "Option: Rock Bleistift/ausgestellt"]
-    },
-    "Arbeitsjacken": {
-      fabrics: ["Twill/Softshell", "Fleece-Futter optional"],
-      methods: ["Verstärkte Ellenbogen", "Mehr-Taschen, Reißverschlusstaschen"],
-      notes: ["Robuste Reißverschlüsse", "Option: Reflexelemente, Branding"]
-    },
-
-    // ---------- Kleider ----------
-    "Businesskleider": {
-      fabrics: ["Ponte Roma, Scuba-Knit", "Viskose-Mischung"],
-      methods: ["Abnäher, figurbetont", "Nahtverdeckter Zip, Futter optional"],
-      notes: ["Knielang klassisch", "Option: 3/4-Ärmel, Schlitze"]
-    },
-    "Cocktailkleider": {
-      fabrics: ["Satin, Crepe, Spitze"],
-      methods: ["Futter, Nahtband", "Zierdetails: Rüschen, Drapierung"],
-      notes: ["Event-tauglich", "Option: Glitzer/Applikationen"]
-    },
-    "Abendkleider": {
-      fabrics: ["Chiffon, Satin, Seidenoptik"],
-      methods: ["Mehrlagig, Futter", "Reichere Verarbeitung, Korsage möglich"],
-      notes: ["Bodenlang", "Option: Perlenstickerei, Schlitz"]
-    },
-    "Maxikleider": {
-      fabrics: ["Viskose, Rayon, leichte Gewebe"],
-      methods: ["Gummizug in Taille", "Knopfleiste/Bindeband"],
-      notes: ["Fließend & luftig", "Option: Allover-Print"]
-    },
-    "Etuikleider": {
-      fabrics: ["Strukturstoffe, Stretch-Crepe"],
-      methods: ["Etuiform, Abnäher", "Nahtverdeckter Zip hinten"],
-      notes: ["Business-elegant", "Option: Farb-Piping"]
-    },
-    "Sommerkleider": {
-      fabrics: ["Baumwolle/Leinen leicht", "Viskose-Jersey"],
-      methods: ["Trägervarianten, Knöpfe", "Saum-Volants optional"],
-      notes: ["Atmungsaktiv", "Option: AOP-Print, Stickerei"]
-    },
-
-    // ---------- Sport & Freizeit ----------
-    "Baseballtrikots": {
-      fabrics: ["Poly Mesh/Interlock"],
-      methods: ["Knopfleiste vorn", "Kontrastpaspel, Team-Applikationen"],
-      notes: ["Nummern/Namen individualisierbar", "Sublimation oder Flock möglich"]
-    },
-    "Football-Trikots": {
-      fabrics: ["Robustes Poly-Mesh"],
-      methods: ["Verstärkte Schulternähte", "Breite Ärmel für Pads"],
-      notes: ["Teamfarben & Logos", "Nummern vorne/hinten/Ärmel"]
-    },
-    "Fußballtrikots": {
-      fabrics: ["Leichter Poly-Interlock"],
-      methods: ["Atmungsaktive Einsätze", "Raglan/Set-in möglich"],
-      notes: ["Schnelltrocknend", "Individuelle Club-Designs"]
-    },
-    "Radlerhosen": {
-      fabrics: ["Kompressionsstoff 220&ndash;260 GSM"],
-      methods: ["Flatlock-Nähte", "Sitzpolster (Mehrdichte)"],
-      notes: ["Rutschfeste Beinabschlüsse", "Reflekt-Details optional"]
-    },
-    "Jogginganzüge": {
-      fabrics: ["French Terry 300&ndash;360 GSM"],
-      methods: ["Hoodie+Jogger Set", "Kordeln, Metallösen"],
-      notes: ["Street & Team", "Option: Allover-Print Panel"]
-    },
-    "Funktionsshirts": {
-      fabrics: ["Mikrofaser-Poly, antibakteriell"],
-      methods: ["Nahtarm (Raglan)", "Flachnähte"],
-      notes: ["Feuchtetransport", "Option: Mesh-Panels"]
-    },
-    "Sport-BHs": {
-      fabrics: ["Nylon/Spandex Kompression"],
-      methods: ["Doppellagig, Gummibund", "Herausnehmbare Pads"],
-      notes: ["Low/Mid/High Support Optionen", "Verstärkte Träger"]
-    },
-    "Trainingsanzüge": {
-      fabrics: ["Poly-Trikot", "Warmes Knit für Winter"],
-      methods: ["Jacke+Hose, Reißverschlüsse", "Kontrast-Paspeln"],
-      notes: ["Teamwear", "Nummern/Logos möglich"]
-    },
-
-    // ---------- Kinder ----------
-    "Baby-Bodys": {
-      fabrics: ["Bio-Baumwolle Interlock 180&ndash;220 GSM"],
-      methods: ["Nickelfreie Druckknöpfe", "Umschlag-Schultern"],
-      notes: ["Hautfreundlich", "Zertifizierungen möglich (z. B. OEKO-TEX)"]
-    },
-    "Jungen-Schuluniformen": {
-      fabrics: ["Poloshirts/Westen: Piqué & Twill"],
-      methods: ["Strapazierfähig", "Beschriftungen/Logos"],
-      notes: ["Standardisierte Größen", "Serienlieferungen planbar"]
-    },
-    "Mädchen-Schuluniformen": {
-      fabrics: ["Blusen/Röcke: Popeline/Twill"],
-      methods: ["Rockfalten, verstellbarer Bund", "Knopfleisten"],
-      notes: ["Pflegeleicht", "CI-Farben umsetzbar"]
-    },
-    "Kinderjacken": {
-      fabrics: ["Softshell, Stepp, Fleece"],
-      methods: ["Leicht bedienbare Zips", "Reflekt-Details"],
-      notes: ["Wetterfest je nach Bedarf", "Option: Namenslabel innen"]
-    },
-    "Kinder-T-Shirts": {
-      fabrics: ["Baumwoll-Jersey 160&ndash;200 GSM"],
-      methods: ["Weiche Nähte", "Schulter-to-Schulter-Tape"],
-      notes: ["Hautfreundlich", "Prints kindgerecht"]
-    },
-    "Strampler": {
-      fabrics: ["Interlock/Rib", "Hoher Baumwollanteil"],
-      methods: ["Front-Zip/Knopfleiste", "Bein-Druckknöpfe"],
-      notes: ["Einfaches An-/Ausziehen", "Option: Fußteil geschlossen/offen"]
-    },
-
-    // ---------- Haushalt ----------
-    "Bademäntel": {
-      fabrics: ["Frottier 320&ndash;450 GSM (100% Baumwolle oder Bambus-Viskose-Mix)", "Waffelpikee 220&ndash;300 GSM (leichter)"],
-      methods: ["Doppelte Seitennähte/Overlock", "Gürtel, Schlaufen, aufgesetzte Taschen", "Schalkragen oder Kapuze"],
-      notes: ["Vorgewaschen gegen Einlaufen", "Option: Sticklogo auf Brust/Ärmel", "Personalisierung (Monogramm) möglich"]
-    },
-    "Badevorleger": {
-      fabrics: ["Frottier 700&ndash;900 GSM (hochflorig)", "Rutschhemmende Unterlage optional (Latex/TPR)"],
-      methods: ["Einfassung mit Doppelstepp", "Jacquard- oder Bordürenmuster"],
-      notes: ["Hohe Saugfähigkeit", "Option: Anti-Rutsch-Beschichtung", "Standard- & Hotelgrößen verfügbar"]
-    },
-    "Bettdecken": {
-      fabrics: ["Downproof- Baumwollperkal 230&ndash;300 TC", "Mikrofaserhülle 70&ndash;110 GSM"],
-      methods: ["Kassetten- oder Boxsteppung", "Paspelierte Kanten, Aufhängeschlaufen"],
-      notes: ["Füllungen: Daune/Feder oder Hohlfaser", "Wärmegrade (Sommer/Übergang/Winter)", "Option: waschbar bis 60 °C (Hohlfaser)"]
-    },
-    "Kissenbezüge": {
-      fabrics: ["Baumwollsatin 300&ndash;400 TC", "Perkal 200&ndash;300 TC", "Jersey 160&ndash;190 GSM"],
-      methods: ["Hotelverschluss (Überlappung) oder Reißverschluss", "Saum 3 cm, Paspel optional"],
-      notes: ["Weich & atmungsaktiv", "Option: Stickereien/Piping", "Standard- & Sondergrößen"]
-    },
-    "Bettlaken": {
-      fabrics: ["Jersey 140&ndash;180 GSM mit Elasthan (Spannbettlaken)", "Perkal/Satin 120&ndash;160 GSM (Flat Sheet)"],
-      methods: ["Rundumgummi (Spannbettlaken)", "Doppelte Säume, Miternähte an Ecken"],
-      notes: ["Formstabil, sanfter Griff", "Option: Tiefe für hohe Matratzen", "Farbpalette nach CI"]
-    },
-    "Tischdecken": {
-      fabrics: ["Poly/Baumwoll-Mischung 180&ndash;240 GSM", "Fleckschutz-Finish (z. B. Teflon®)"],
-      methods: ["Saum 2&ndash;3 cm, gewebte Jacquards", "Gehrungsecken (mitered corners)"],
-      notes: ["Pflegeleicht, bügelleicht", "Option: Rund/Oval/Sondermaße", "Logo-Weaving/Allover möglich"]
-    },
-    "Servietten": {
-      fabrics: ["Baumwolle/Twill 180&ndash;220 GSM", "Damast/Jacquard für Gastronomie"],
-      methods: ["Schmaler Saum 1&ndash;1,5 cm", "Gehrungsecken, Doppelstepp"],
-      notes: ["Hohe Faltstabilität", "Option: Logo-Stick, Kettelrand", "Sets passend zur Tischdecke"]
-    }
-  };
-
-  // Render-Logik
-  const rowsWrap = document.querySelector('.product-rows');
-
-  function createRow(cat, index){
-    const row = document.createElement('section');
-    row.className = 'category-row';
-    row.dataset.catIndex = index;
-
-    row.innerHTML = `
-      <div class="row-head">
-        <h3>${cat.title}</h3>
-      </div>
-      <div class="row-items"></div>
-      <div class="info-slot"></div>
-    `;
-
-    const itemsWrap = row.querySelector('.row-items');
-
-    cat.items.forEach((it) => {
-      // Dateiname-Quelle: file > de
-      const baseName = it.file || it.de;
-      const src = buildImgSrc(cat.dir, baseName);
-
-      const card = document.createElement('button');
-      card.className = 'product-card';
-      card.type = 'button';
-      card.innerHTML = `
-        <img src="${src}" alt="${it.de}">
-        <span class="pc-title">${it.de}</span>
-      `;
-
-      // REPLACED: Event mit Zugriff auf e.target (für IMG-Prüfung) + mobiles Scrollen
-      card.addEventListener('click', (e) => {
-        const panel = showInfoInline(cat, it, row);   // zeigt/ersetzt Panel
-        // Nur auf Mobile & nur wenn direkt das Bild getappt wurde → scrollen
-        if (isMobile() && e.target && e.target.tagName === 'IMG') {
-          scrollToPanel(panel);
-        }
+  run(){
+    while(this.running < this.max && this.q.length){
+      const t = this.q.shift();
+      this.running++;
+      t().catch(()=>{}).finally(()=>{
+        this.running--;
+        this.run();
       });
-
-      itemsWrap.appendChild(card);
-    });
-
-    return row;
+    }
   }
+}
+const loaderQueue = new ImageQueue(6);
 
-  function showInfoInline(cat, item, rowEl){
-    // Details ziehen: Schlüssel = deutscher Name (oder file)
-    const key = item.file || item.de;
-    const det = ITEM_DETAILS[key] || {};
+const io = ('IntersectionObserver' in window)
+  ? new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(!entry.isIntersecting) return;
+        const img = entry.target;
+        io.unobserve(img);
+        loaderQueue.add(async ()=>{
+          const url = img.dataset.src;
+          if(!url) return;
+          const preload = new Image();
+          preload.decoding = 'async';
+          preload.src = url;
+          try { await preload.decode(); } catch {}
+          img.src = url;
+          img.removeAttribute('data-src');
+          img.classList.add('loaded');
+        });
+      });
+    }, { rootMargin: '200px' })
+  : null; // Fallback: kein IO → src sofort setzen
 
-    const fabrics = det.fabrics || [];
-    const methods = det.methods || [];
-    const notes = det.notes || [];
+// =====================================
+// Rendering
+// =====================================
+const rowsWrap = document.querySelector('.product-rows');
 
-    const panel = document.createElement('article');
-    panel.className = 'card info-inline';
-    panel.innerHTML = `
-      <div class="info-inline-head">
-        <h3>${item.de}</h3>
-      </div>
-      <div class="info-grid">
-        <div>
-          <h4>Stoffe</h4>
-          <ul>${fabrics.length ? fabrics.map(f => `<li>${f}</li>`).join('') : '<li>Nach Briefing</li>'}</ul>
-        </div>
-        <div>
-          <h4>Produktion</h4>
-          <ul>${methods.length ? methods.map(m => `<li>${m}</li>`).join('') : '<li>Nach Briefing</li>'}</ul>
-        </div>
-        <div>
-          <h4>Besonderheiten</h4>
-          <ul>${notes.length ? notes.map(n => `<li>${n}</li>`).join('') : '<li>Nach Briefing</li>'}</ul>
-        </div>
-      </div>
-    `;
+function createRow(cat, index){
+  const row = document.createElement('section');
+  row.className = 'category-row';
+  row.dataset.catIndex = index;
 
-    const slot = rowEl.querySelector('.info-slot');
-    slot.innerHTML = '';
-    slot.appendChild(panel);
+  row.innerHTML = `
+    <div class="row-head">
+      <h3>${cat.title}</h3>
+    </div>
+    <div class="row-items"></div>
+    <div class="info-slot"></div>
+  `;
 
-    // NEU: A11y – Headline kurz fokussierbar machen (kein Scrollsprung)
-    const h3 = panel.querySelector('.info-inline-head h3');
-    if (h3) {
-      h3.setAttribute('tabindex', '-1');
-      h3.focus({ preventScroll: true });
-    }
+  const itemsWrap = row.querySelector('.row-items');
 
-    return panel; // REPLACED: Panel zurückgeben, damit createRow scrollen kann
-  }
+  cat.items.forEach((it) => {
+    const baseName = it.file || it.de;
+    const src = buildImgSrc(cat.dir, baseName);
 
-  CATEGORIES.forEach((c, i) => rowsWrap.appendChild(createRow(c, i)));
+    const card = document.createElement('button');
+    card.className = 'product-card';
+    card.type = 'button';
 
-  if ('scrollRestoration' in history) {
-    history.scrollRestoration = 'manual';
-  }
+    const img = document.createElement('img');
+    img.alt = it.de;
+    img.src = PLACEHOLDER_1PX;
+    img.setAttribute('data-src', src);
+    img.decoding = 'async';
+    // Optional gegen Layout-Shift (falls fixe Thumb-Größe vorhanden):
+    // img.width = 200; img.height = 200;
 
-  // ===== Navigation Toggle (wie index.html) =====
-  (function () {
-    const btn = document.querySelector('.hamburger');
-    const nav = document.getElementById('mobile-nav');
-    const overlay = document.querySelector('.nav-overlay');
+    if(io) io.observe(img);
+    else { img.src = src; }
 
-    if (!btn || !nav || !overlay) return;
+    const title = document.createElement('span');
+    title.className = 'pc-title';
+    title.textContent = it.de;
 
-    function openMenu() {
-      document.body.classList.add('menu-open');
-      overlay.hidden = false;
-      btn.setAttribute('aria-expanded', 'true');
-      const firstLink = nav.querySelector('a');
-      if (firstLink) firstLink.focus({preventScroll:true});
-    }
-    function closeMenu() {
-      document.body.classList.remove('menu-open');
-      overlay.hidden = true;
-      btn.setAttribute('aria-expanded', 'false');
-      btn.focus({preventScroll:true});
-    }
-    function toggleMenu() {
-      if (document.body.classList.contains('menu-open')) closeMenu();
-      else openMenu();
-    }
+    card.appendChild(img);
+    card.appendChild(title);
 
-    btn.addEventListener('click', toggleMenu);
-    overlay.addEventListener('click', closeMenu);
-
-    // ESC zum Schließen
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && document.body.classList.contains('menu-open')) {
-        closeMenu();
+    // Klick → Details + mobiles Scrollen
+    card.addEventListener('click', (e) => {
+      const panel = showInfoInline(cat, it, row);
+      if (isMobile() && e.target && e.target.tagName === 'IMG') {
+        scrollToPanel(panel);
       }
     });
 
-    // Schließen beim Klick auf einen Link
-    nav.addEventListener('click', (e) => {
-      const a = e.target.closest('a');
-      if (a) closeMenu();
-    });
-  })();
-  (function(){
-    const box = document.querySelector('.lang-switch'); if(!box) return;
-    const links = box.querySelectorAll('.lang-link');
+    itemsWrap.appendChild(card);
+  });
 
-    // Pfad normalisieren: /index.html -> /, Query/Hash entfernen, doppelte Slashes glätten
-    const norm = (p)=>{
-      if(!p.startsWith('/')) p = '/'+p;
-      p = p.split('#')[0].split('?')[0];
-      p = p.replace(/\/index\.html?$/i,'/');
-      p = p.replace(/\/{2,}/g,'/');
-      return p;
-    };
+  return row;
+}
 
-    const path = norm(location.pathname);
-    const m = path.match(/^\/(de|en)(\/.*)?$/);
-    const currentLang = m ? m[1] : null;
-    const rest = m ? (m[2] || '/') : '/';
+function showInfoInline(cat, item, rowEl){
+  const key = item.file || item.de;
+  const det = ITEM_DETAILS[key] || {};
 
-    // Ziel-Links für beide Sprachen dynamisch setzen (Unterseite bleibt erhalten)
-    links.forEach(a=>{
-      const lang = a.dataset.lang;
-      a.href = `/${lang}${rest === '/' ? '/' : rest}`;
-      a.setAttribute('aria-pressed', lang === currentLang ? 'true' : 'false');
-    });
+  const fabrics = det.fabrics || [];
+  const methods = det.methods || [];
+  const notes   = det.notes   || [];
 
-    // Klick speichert Präferenz (Navigation übernimmt der href)
-    box.addEventListener('click', e=>{
-      const a = e.target.closest('.lang-link'); if(!a) return;
-      try{ localStorage.setItem('cw_lang', a.dataset.lang); }catch(_){}
-    });
+  const panel = document.createElement('article');
+  panel.className = 'card info-inline';
+  panel.innerHTML = `
+    <div class="info-inline-head">
+      <h3>${item.de}</h3>
+    </div>
+    <div class="info-grid">
+      <div>
+        <h4>Stoffe</h4>
+        <ul>${fabrics.length ? fabrics.map(f => `<li>${f}</li>`).join('') : '<li>Nach Briefing</li>'}</ul>
+      </div>
+      <div>
+        <h4>Produktion</h4>
+        <ul>${methods.length ? methods.map(m => `<li>${m}</li>`).join('') : '<li>Nach Briefing</li>'}</ul>
+      </div>
+      <div>
+        <h4>Besonderheiten</h4>
+        <ul>${notes.length ? notes.map(n => `<li>${n}</li>`).join('') : '<li>Nach Briefing</li>'}</ul>
+      </div>
+    </div>
+  `;
 
-    // Erster Besuch ohne /de|/en/ → leite auf gespeicherte oder Browser-Sprache
-    if(!currentLang){
-      let pref = null; try{ pref = localStorage.getItem('cw_lang'); }catch(_){}
-      const fallback = (navigator.language||'en').toLowerCase().startsWith('de') ? 'de' : 'en';
-      const target = pref || fallback;
-      location.replace(`/${target}/`);
+  const slot = rowEl.querySelector('.info-slot');
+  slot.innerHTML = '';
+  slot.appendChild(panel);
+
+  // A11y: Fokus kurz auf die Überschrift
+  const h3 = panel.querySelector('.info-inline-head h3');
+  if (h3) {
+    h3.setAttribute('tabindex', '-1');
+    h3.focus({ preventScroll: true });
+  }
+  return panel;
+}
+
+// Starte Rendering
+CATEGORIES.forEach((c, i) => rowsWrap.appendChild(createRow(c, i)));
+
+// =====================================
+// Scroll Restoration (wie gehabt)
+// =====================================
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+
+// =====================================
+// Navigation Toggle (wie index.html)
+// =====================================
+(function () {
+  const btn = document.querySelector('.hamburger');
+  const nav = document.getElementById('mobile-nav');
+  const overlay = document.querySelector('.nav-overlay');
+
+  if (!btn || !nav || !overlay) return;
+
+  function openMenu() {
+    document.body.classList.add('menu-open');
+    overlay.hidden = false;
+    btn.setAttribute('aria-expanded', 'true');
+    const firstLink = nav.querySelector('a');
+    if (firstLink) firstLink.focus({preventScroll:true});
+  }
+  function closeMenu() {
+    document.body.classList.remove('menu-open');
+    overlay.hidden = true;
+    btn.setAttribute('aria-expanded', 'false');
+    btn.focus({preventScroll:true});
+  }
+  function toggleMenu() {
+    if (document.body.classList.contains('menu-open')) closeMenu();
+    else openMenu();
+  }
+
+  btn.addEventListener('click', toggleMenu);
+  overlay.addEventListener('click', closeMenu);
+
+  // ESC zum Schließen
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && document.body.classList.contains('menu-open')) {
+      closeMenu();
     }
-  })();
+  });
+
+  // Schließen beim Klick auf einen Link
+  nav.addEventListener('click', (e) => {
+    const a = e.target.closest('a');
+    if (a) closeMenu();
+  });
+})();
+
+// =====================================
+// Sprachschalter
+// =====================================
+(function(){
+  const box = document.querySelector('.lang-switch'); if(!box) return;
+  const links = box.querySelectorAll('.lang-link');
+
+  // Pfad normalisieren
+  const norm = (p)=>{
+    if(!p.startsWith('/')) p = '/'+p;
+    p = p.split('#')[0].split('?')[0];
+    p = p.replace(/\/index\.html?$/i,'/');
+    p = p.replace(/\/{2,}/g,'/');
+    return p;
+  };
+
+  const path = norm(location.pathname);
+  const m = path.match(/^\/(de|en)(\/.*)?$/);
+  const currentLang = m ? m[1] : null;
+  const rest = m ? (m[2] || '/') : '/';
+
+  // Ziel-Links setzen
+  links.forEach(a=>{
+    const lang = a.dataset.lang;
+    a.href = `/${lang}${rest === '/' ? '/' : rest}`;
+    a.setAttribute('aria-pressed', lang === currentLang ? 'true' : 'false');
+  });
+
+  // Präferenz speichern
+  box.addEventListener('click', e=>{
+    const a = e.target.closest('.lang-link'); if(!a) return;
+    try{ localStorage.setItem('cw_lang', a.dataset.lang); }catch(_){}
+  });
+
+  // Erste Weiterleitung (wenn keine /de oder /en im Pfad)
+  if(!currentLang){
+    let pref = null; try{ pref = localStorage.getItem('cw_lang'); }catch(_){}
+    const fallback = (navigator.language||'en').toLowerCase().startsWith('de') ? 'de' : 'en';
+    const target = pref || fallback;
+    location.replace(`/${target}/`);
+  }
+})();
 </script>
 </body>
 </html>

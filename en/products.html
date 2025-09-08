@@ -116,14 +116,21 @@
   // -> resolves to /en/resources/img/Clothes/...
   const IMG_BASE = "resources/img/Clothes";
 
-  // Safe-encode a path segment
+  // URL-encode a single path segment (for spaces, umlauts, etc.)
   function encodePathSegment(seg){
     return encodeURIComponent(seg).replace(/%2F/gi, "/");
   }
-  function buildImgSrc(dir, baseName){
+  function buildImgPath(dir, baseName, ext){
     const safeDir = dir.split("/").map(encodePathSegment).join("/");
-    const safeFile = encodePathSegment(baseName) + ".png";
+    const safeFile = encodePathSegment(baseName) + "." + ext;
     return `${IMG_BASE}/${safeDir}/${safeFile}`;
+  }
+  function buildAllImgPaths(dir, baseName){
+    return {
+      avif: buildImgPath(dir, baseName, "avif"),
+      webp: buildImgPath(dir, baseName, "webp"),
+      png:  buildImgPath(dir, baseName, "png")
+    };
   }
 
   // =========================
@@ -150,7 +157,6 @@
 
   // =========================
   // Categories (English folder names for images; English UI labels)
-  // NO fallbacks, NO "de:" fields
   // =========================
   const CATEGORIES = [
     {
@@ -436,7 +442,7 @@
     },
 
     // ---------- Sports & Leisurewear ----------
-    "Baseball Derseys": {
+    "Baseball Jerseys": {
       fabrics: ["Poly mesh/interlock"],
       methods: ["Front button placket", "Contrast piping, team appliqués"],
       notes: ["Names/numbers customizable", "Sublimation or flock"]
@@ -571,20 +577,51 @@
     const itemsWrap = row.querySelector('.row-items');
 
     cat.items.forEach((it) => {
-      const baseName = it.file || it.name; // filename = item name (no fallbacks)
-      const src = buildImgSrc(cat.dir, baseName);
+      const baseName = it.file || it.name; // filename = item name
+      const urls = buildAllImgPaths(cat.dir, baseName);
 
       const card = document.createElement('button');
       card.className = 'product-card';
       card.type = 'button';
-      card.innerHTML = `
-        <img src="${src}" alt="${it.name}">
-        <span class="pc-title">${it.name}</span>
+
+      // Build <picture> with avif/webp sources and PNG as fallback
+      // JS onerror chain ensures fallback if a chosen file is missing (404).
+      const picture = document.createElement('picture');
+      picture.innerHTML = `
+        <source type="image/avif" srcset="${urls.avif}">
+        <source type="image/webp" srcset="${urls.webp}">
+        <img src="${urls.png}" alt="${it.name}">
       `;
+
+      const imgEl = picture.querySelector('img');
+      let triedWebp = false;
+      let triedPng = false;
+
+      imgEl.addEventListener('error', () => {
+        // If AVIF 404s (or unsupported and WebP 404s), step down manually.
+        if (!triedWebp) {
+          triedWebp = true;
+          imgEl.src = urls.webp;
+          return;
+        }
+        if (!triedPng) {
+          triedPng = true;
+          imgEl.src = urls.png;
+          return;
+        }
+        // Give up after PNG to avoid loops.
+      });
+
+      card.appendChild(picture);
+
+      const titleEl = document.createElement('span');
+      titleEl.className = 'pc-title';
+      titleEl.textContent = it.name;
+      card.appendChild(titleEl);
 
       card.addEventListener('click', (e) => {
         const panel = showInfoInline(cat, it, row);
-        if (isMobile() && e.target && e.target.tagName === 'IMG') {
+        if (isMobile() && e.target && (e.target.tagName === 'IMG' || e.target.tagName === 'SOURCE')) {
           scrollToPanel(panel);
         }
       });
@@ -726,5 +763,6 @@
     }
   })();
 </script>
+
 </body>
 </html>

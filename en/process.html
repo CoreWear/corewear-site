@@ -14,7 +14,7 @@
 
   <link rel="stylesheet" href="/assets/css/index.css" />
   <link rel="icon" type="image/png" href="/assets/img/favicon.png" />
-  <meta referrerpolicy="strict-origin-when-cross-origin">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
 </head>
 <body>
   <header>
@@ -197,23 +197,116 @@
     "description": "Transparent, predictable manufacturing with QC gates from briefing to shipment.",
     "totalTime": "P0DT0H0M",
     "step": [
-      {"@type":"HowToStep","name":"Briefing & Concept","text":"Goals, quantities, budget, timeline. Share sketches/references or a tech pack.","image":"https://corewear.pro/resources/img/Prozess/Drawing.jpg"},
-      {"@type":"HowToStep","name":"Fabric Intake & Inspection","text":"Incoming goods control, GSM verification, defects/shading checks.","image":"https://corewear.pro/resources/img/Prozess/Textile%20Fabric%20Inspection.jpg"},
-      {"@type":"HowToStep","name":"CAD/CAM & Cutting","text":"Marker optimization, automatic or manual cutting, part labeling.","image":"https://corewear.pro/resources/img/Prozess/Model%20House%20CAD-CAM.jpg"},
-      {"@type":"HowToStep","name":"Sewing & Inline QC","text":"Stitch types per tech pack and inline QC gates.","image":"https://corewear.pro/resources/img/Prozess/Cutting%20Machine.jpg"},
-      {"@type":"HowToStep","name":"Embellishment & Washing","text":"Print/embroidery, wash effects, thermo-fixation.","image":"https://corewear.pro/resources/img/Prozess/Washing%20Machines.jpg"},
-      {"@type":"HowToStep","name":"Final QC & Branding","text":"AQL sampling, labels/hangtags/barcodes, folding and packing.","image":"https://corewear.pro/resources/img/Prozess/Fabric%20Inspection%20Weighing.jpg"},
-      {"@type":"HowToStep","name":"Shipping & Documents","text":"Export documents, palletization, tracking and handover.","image":"https://corewear.pro/resources/img/Prozess/Cutting%20Machine%202.jpg"}
+      {"@type":"HowToStep","name":"Briefing & Concept","text":"Goals, quantities, budget, timeline. Share sketches/references or a tech pack.","image":"https://corewear.pro/resources/img/Process/Drawing.jpg"},
+      {"@type":"HowToStep","name":"Fabric Intake & Inspection","text":"Incoming goods control, GSM verification, defects/shading checks.","image":"https://corewear.pro/resources/img/Process/Textile%20Fabric%20Inspection.jpg"},
+      {"@type":"HowToStep","name":"CAD/CAM & Cutting","text":"Marker optimization, automatic or manual cutting, part labeling.","image":"https://corewear.pro/resources/img/Process/Model%20House%20CAD-CAM.jpg"},
+      {"@type":"HowToStep","name":"Sewing & Inline QC","text":"Stitch types per tech pack and inline QC gates.","image":"https://corewear.pro/resources/img/Process/Cutting%20Machine.jpg"},
+      {"@type":"HowToStep","name":"Embellishment & Washing","text":"Print/embroidery, wash effects, thermo-fixation.","image":"https://corewear.pro/resources/img/Process/Washing%20Machines.jpg"},
+      {"@type":"HowToStep","name":"Final QC & Branding","text":"AQL sampling, labels/hangtags/barcodes, folding and packing.","image":"https://corewear.pro/resources/img/Process/Fabric%20Inspection%20Weighing.jpg"},
+      {"@type":"HowToStep","name":"Shipping & Documents","text":"Export documents, palletization, tracking and handover.","image":"https://corewear.pro/resources/img/Process/Cutting%20Machine%202.jpg"}
     ],
     "publisher": {"@type":"Organization","name":"CoreWear","url":"https://corewear.pro"}
   }
   </script>
 
   <script>
-    // Year in footer
-    const yEl = document.getElementById('y'); if (yEl) yEl.textContent = new Date().getFullYear();
+    // ================================
+    // Footer year
+    // ================================
+    (function(){
+      const y = document.getElementById('y');
+      if (y) y.textContent = new Date().getFullYear();
+    })();
 
-    // ===== Off-canvas navigation toggle =====
+    // ================================
+    // Ultra-fast image loader (AVIF → WEBP → original ext) with queue + IO
+    // Applies to: <img class="thumb" src="...jpg">
+    // ================================
+    (function(){
+      const PLACEHOLDER_1PX = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGMAAQAABQABDQottQAAAABJRU5ErkJggg==";
+
+      // Small concurrent queue to avoid flooding
+      class Queue {
+        constructor(max=6){ this.max=max; this.run=0; this.q=[]; }
+        add(fn){ this.q.push(fn); this.pump(); }
+        pump(){
+          while(this.run < this.max && this.q.length){
+            const t = this.q.shift();
+            this.run++;
+            Promise.resolve().then(t).catch(()=>{}).finally(()=>{ this.run--; this.pump(); });
+          }
+        }
+      }
+      const q = new Queue(6);
+
+      // Build candidates from an original src (keeps URL-encoding)
+      function candidates(origSrc){
+        const u = new URL(origSrc, location.href);
+        const p = u.pathname; // encoded
+        const i = p.lastIndexOf("/");
+        const dir = p.slice(0, i+1);
+        const file = p.slice(i+1);
+        const dot = file.lastIndexOf(".");
+        const base = dot >= 0 ? file.slice(0, dot) : file;
+        const ext  = dot >= 0 ? file.slice(dot+1).toLowerCase() : "jpg"; // default jpg
+        return {
+          avif: dir + base + ".avif",
+          webp: dir + base + ".webp",
+          orig: dir + base + "." + ext
+        };
+      }
+
+      // Try load one URL -> set on success
+      function loadTo(img, url){
+        return new Promise((resolve, reject)=>{
+          const probe = new Image();
+          probe.decoding = "async";
+          probe.onload = ()=>{ img.src = url; img.classList.add('loaded'); resolve(true); };
+          probe.onerror = ()=>reject(new Error("img error"));
+          probe.src = url;
+          // decode() gives earlier failure on some engines; ignore if not supported
+          if (probe.decode) {
+            probe.decode().then(()=>{ /* onload will still fire; noop */ }).catch(()=>{ /* ignore; onerror will handle */});
+          }
+        });
+      }
+
+      async function upgrade(img){
+        const orig = img.dataset.src || img.getAttribute('src');
+        if (!orig) return;
+        const c = candidates(orig);
+        try      { await loadTo(img, c.avif); img.removeAttribute('data-src'); return; } catch(_){}
+        try      { await loadTo(img, c.webp); img.removeAttribute('data-src'); return; } catch(_){}
+        try      { await loadTo(img, c.orig); img.removeAttribute('data-src'); return; } catch(_){}
+      }
+
+      // Observe and queue loads
+      const io = ('IntersectionObserver' in window) ? new IntersectionObserver((entries)=>{
+        entries.forEach(entry=>{
+          if (!entry.isIntersecting) return;
+          const img = entry.target;
+          io.unobserve(img);
+          q.add(()=>upgrade(img));
+        });
+      }, { rootMargin: "200px 0px" }) : null;
+
+      // Prepare all .thumb images
+      document.querySelectorAll('img.thumb').forEach(img=>{
+        // Keep layout, replace src with tiny placeholder, store original
+        if (!img.dataset.src) {
+          const orig = img.getAttribute('src');
+          if (orig) img.setAttribute('data-src', orig);
+          img.src = PLACEHOLDER_1PX;
+        }
+        img.decoding = 'async';
+        img.fetchPriority = 'low';
+        if (io) io.observe(img); else q.add(()=>upgrade(img)); // no IO → load now via queue
+      });
+    })();
+
+    // ================================
+    // Off-canvas navigation toggle
+    // ================================
     (function () {
       const btn = document.querySelector('.hamburger');
       const nav = document.getElementById('mobile-nav');
@@ -254,7 +347,9 @@
       });
     })();
 
-    // ===== Language switch: mark active & store preference =====
+    // ================================
+    // Language switch: mark active & store preference
+    // ================================
     (function(){
       const box = document.querySelector('.lang-switch'); if(!box) return;
       const links = box.querySelectorAll('.lang-link');
@@ -268,7 +363,7 @@
         try{ localStorage.setItem('cw_lang', a.dataset.lang); }catch(_){}
       });
 
-      // If someone lands without /de|/en/, redirect to preference (fallback en) for this route
+      // If someone lands without /de|/en/, redirect to this route using preference (fallback en)
       if(!current){
         let pref = null; try{ pref = localStorage.getItem('cw_lang'); }catch(_){}
         const fallback = (navigator.language||'en').toLowerCase().startsWith('de') ? 'de' : 'en';

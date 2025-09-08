@@ -4,5 +4,5 @@ npx http-server . -a 0.0.0.0 -p 8080
 
 
 git add .
-git commit -m "Many Changes"
+git commit -m "Small Fixes"
 git push origin main

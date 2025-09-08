@@ -15,6 +15,7 @@
   <link rel="alternate" hreflang="de" href="https://corewear.pro/de/about.html" />
   <link rel="alternate" hreflang="en" href="https://corewear.pro/en/about.html" />
   <link rel="alternate" hreflang="x-default" href="https://corewear.pro/en/about.html" />
+  <meta name="referrer" content="strict-origin-when-cross-origin">
 </head>
 
 <body>
@@ -218,6 +219,70 @@
         const target = pref || fallback;
         location.replace(`/${target}/`);
       }
+    })();
+    (() => {
+      const btn = document.querySelector('.hamburger');
+      const nav = document.getElementById('mobile-nav');
+      const overlay = document.querySelector('.nav-overlay');
+      if (!nav) return;
+
+      const mq = window.matchMedia('(min-width: 960px)');
+      const isDesktop = () => mq.matches;
+
+      const setInteractivity = () => {
+        if (isDesktop()) {
+          // Desktop: immer klickbar, kein Overlay-State
+          document.body.classList.remove('menu-open');
+          btn?.setAttribute('aria-expanded', 'false');
+          overlay?.setAttribute('hidden', '');
+          nav.removeAttribute('inert');         // <<< wichtiger Teil
+        } else {
+          // Mobile: wenn zu, dann inert; wenn offen, nicht inert
+          if (document.body.classList.contains('menu-open')) {
+            nav.removeAttribute('inert');
+          } else {
+            nav.setAttribute('inert', '');
+          }
+        }
+      };
+
+      const openMenu = () => {
+        if (isDesktop()) return;                // auf Desktop kein Off-Canvas
+        document.body.classList.add('menu-open');
+        btn?.setAttribute('aria-expanded', 'true');
+        overlay?.removeAttribute('hidden');
+        nav.removeAttribute('inert');
+      };
+
+      const closeMenu = () => {
+        document.body.classList.remove('menu-open');
+        btn?.setAttribute('aria-expanded', 'false');
+        overlay?.setAttribute('hidden', '');
+        setInteractivity();
+      };
+
+      btn?.addEventListener('click', () => {
+        if (document.body.classList.contains('menu-open')) closeMenu();
+        else openMenu();
+      });
+
+      overlay?.addEventListener('click', closeMenu);
+
+      nav.addEventListener('click', (e) => {
+        const a = e.target.closest('a');
+        if (a && !isDesktop()) closeMenu();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeMenu();
+      });
+
+      // Breakpoint-Wechsel sauber behandeln
+      mq.addEventListener ? mq.addEventListener('change', setInteractivity)
+                          : mq.addListener(setInteractivity);
+
+      // Initial korrekt setzen
+      setInteractivity();
     })();
   </script>
 </body>

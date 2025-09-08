@@ -14,6 +14,7 @@
 
   <link rel="stylesheet" href="/assets/css/index.css" />
   <link rel="icon" type="image/png" href="/assets/img/favicon.png" />
+  <meta name="referrer" content="strict-origin-when-cross-origin">
 </head>
 <body>
   <header>
@@ -186,91 +187,245 @@
     </div>
   </footer>
 
-  <script>
-    // Jahr im Footer
-    document.getElementById('y').textContent = new Date().getFullYear();
+<script>
+// ==================================================
+// Footer-Jahr
+// ==================================================
+document.getElementById('y').textContent = new Date().getFullYear();
 
-    // ===== Navigation Toggle (wie index/products) =====
-    (function () {
-      const btn = document.querySelector('.hamburger');
-      const nav = document.getElementById('mobile-nav');
-      const overlay = document.querySelector('.nav-overlay');
+// ==================================================
+// Bild-Lazy-Loader (AVIF → WebP → Original (jpg/png))
+//  - funktioniert mit vorhandenen <img class="thumb" src="...">
+//  - JS ersetzt jedes <img.thumb> zur Laufzeit durch <picture>
+//  - lädt Quellen erst bei Sichtkontakt (IO + Queue)
+// ==================================================
 
-      if (!btn || !nav || !overlay) return;
+// 1x1 Platzhalter (gegen Layout-Shift)
+const PLACEHOLDER_1PX =
+  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGMAAQAABQABDQottQAAAABJRU5ErkJggg==";
 
-      function openMenu() {
-        document.body.classList.add('menu-open');
-        overlay.hidden = false;
-        btn.setAttribute('aria-expanded', 'true');
-        const firstLink = nav.querySelector('a');
-        if (firstLink) firstLink.focus({preventScroll:true});
-      }
-      function closeMenu() {
-        document.body.classList.remove('menu-open');
-        overlay.hidden = true;
-        btn.setAttribute('aria-expanded', 'false');
-        btn.focus({preventScroll:true});
-      }
-      function toggleMenu() {
-        if (document.body.classList.contains('menu-open')) closeMenu();
-        else openMenu();
-      }
+// Pfad-Helfer
+function encodePathSegment(seg){
+  return encodeURIComponent(seg).replace(/%2F/gi, "/");
+}
+function splitPathname(pathname){
+  // z.B. "/de/resources/img/Prozess/Zeichnung.jpg"
+  const lastSlash = pathname.lastIndexOf("/");
+  const dir = pathname.slice(0, lastSlash);             // "/de/resources/img/Prozess"
+  const file = pathname.slice(lastSlash + 1);           // "Zeichnung.jpg"
+  const dot = file.lastIndexOf(".");
+  const base = dot >= 0 ? file.slice(0, dot) : file;    // "Zeichnung"
+  const ext  = dot >= 0 ? file.slice(dot + 1) : "";     // "jpg"
+  return { dir, file, base, ext: ext.toLowerCase() };
+}
+function buildPathsFromImgSrc(src){
+  const u = new URL(src, location.href);
+  const { dir, base, ext } = splitPathname(u.pathname);
 
-      btn.addEventListener('click', toggleMenu);
-      overlay.addEventListener('click', closeMenu);
+  // Dateiname sicher kodieren (nur den Namen, Verzeichnis bleibt wie ist)
+  const safeBase = encodePathSegment(decodeURIComponent(base));
 
-      // ESC zum Schließen
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && document.body.classList.contains('menu-open')) {
-          closeMenu();
-        }
+  const avif = `${dir}/${safeBase}.avif`;
+  const webp = `${dir}/${safeBase}.webp`;
+  const orig = `${dir}/${safeBase}.${ext || "jpg"}`; // Original-Endung als letzte Stufe
+  return { avif, webp, orig, isPng: ext === "png" };
+}
+
+// Request-Queue (max. 6 gleichzeitige Bildaktivierungen)
+class ImageQueue {
+  constructor(max=6){
+    this.max = max;
+    this.running = 0;
+    this.q = [];
+  }
+  add(task){
+    this.q.push(task);
+    this._run();
+  }
+  _run(){
+    while(this.running < this.max && this.q.length){
+      const t = this.q.shift();
+      this.running++;
+      Promise.resolve().then(t).catch(()=>{}).finally(()=>{
+        this.running--;
+        this._run();
       });
-
-      // Schließen beim Klick auf einen Link
-      nav.addEventListener('click', (e) => {
-        const a = e.target.closest('a');
-        if (a) closeMenu();
-      });
-    })();
-  (function(){
-    const box = document.querySelector('.lang-switch'); if(!box) return;
-    const links = box.querySelectorAll('.lang-link');
-
-    // Pfad normalisieren: /index.html -> /, Query/Hash entfernen, doppelte Slashes glätten
-    const norm = (p)=>{
-      if(!p.startsWith('/')) p = '/'+p;
-      p = p.split('#')[0].split('?')[0];
-      p = p.replace(/\/index\.html?$/i,'/');
-      p = p.replace(/\/{2,}/g,'/');
-      return p;
-    };
-
-    const path = norm(location.pathname);
-    const m = path.match(/^\/(de|en)(\/.*)?$/);
-    const currentLang = m ? m[1] : null;
-    const rest = m ? (m[2] || '/') : '/';
-
-    // Ziel-Links für beide Sprachen dynamisch setzen (Unterseite bleibt erhalten)
-    links.forEach(a=>{
-      const lang = a.dataset.lang;
-      a.href = `/${lang}${rest === '/' ? '/' : rest}`;
-      a.setAttribute('aria-pressed', lang === currentLang ? 'true' : 'false');
-    });
-
-    // Klick speichert Präferenz (Navigation übernimmt der href)
-    box.addEventListener('click', e=>{
-      const a = e.target.closest('.lang-link'); if(!a) return;
-      try{ localStorage.setItem('cw_lang', a.dataset.lang); }catch(_){}
-    });
-
-    // Erster Besuch ohne /de|/en/ → leite auf gespeicherte oder Browser-Sprache
-    if(!currentLang){
-      let pref = null; try{ pref = localStorage.getItem('cw_lang'); }catch(_){}
-      const fallback = (navigator.language||'en').toLowerCase().startsWith('de') ? 'de' : 'en';
-      const target = pref || fallback;
-      location.replace(`/${target}/`);
     }
-  })();
-  </script>
+  }
+}
+const loaderQueue = new ImageQueue(6);
+
+// IntersectionObserver: aktiviert <picture> erst kurz vor Sichtbarkeit
+const io = ('IntersectionObserver' in window)
+  ? new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(!entry.isIntersecting) return;
+
+        const img = entry.target;              // <img.thumb> im <picture>
+        io.unobserve(img);
+
+        loaderQueue.add(async ()=>{
+          const picture = img.parentElement;
+          const sAvif = picture.querySelector('source[type="image/avif"]');
+          const sWebp = picture.querySelector('source[type="image/webp"]');
+
+          // Lazy aktivieren (data-srcset/src -> echte Attribute)
+          if(sAvif && sAvif.dataset.srcset) sAvif.srcset = sAvif.dataset.srcset;
+          if(sWebp && sWebp.dataset.srcset) sWebp.srcset = sWebp.dataset.srcset;
+          if(img.dataset.src) img.src = img.dataset.src;
+
+          img.decoding = 'async';
+          img.fetchPriority = 'low';
+
+          // Aufräumen
+          if(sAvif) sAvif.removeAttribute('data-srcset');
+          if(sWebp) sWebp.removeAttribute('data-srcset');
+          img.removeAttribute('data-src');
+        });
+      });
+    }, { rootMargin: '200px' })
+  : null; // Fallback ohne IO: Quellen sofort setzen
+
+// Bestehende <img.thumb> in <picture> umwandeln (ohne HTML anfassen zu müssen)
+(function hydrateProcessImages(){
+  const thumbs = document.querySelectorAll('img.thumb[src]');
+  thumbs.forEach(origImg=>{
+    const { avif, webp, orig } = buildPathsFromImgSrc(origImg.getAttribute('src'));
+
+    // <picture> + <source> + neues <img> (behält class="thumb")
+    const picture = document.createElement('picture');
+
+    const sAvif = document.createElement('source');
+    sAvif.type = 'image/avif';
+    sAvif.setAttribute('data-srcset', avif);
+
+    const sWebp = document.createElement('source');
+    sWebp.type = 'image/webp';
+    sWebp.setAttribute('data-srcset', webp);
+
+    const img = document.createElement('img');
+    img.className = origImg.className || '';
+    img.alt = origImg.alt || '';
+    img.src = PLACEHOLDER_1PX;      // bis IO triggert
+    img.setAttribute('data-src', orig); // native Fallback (Browser wählt aus <source>, sonst dieses)
+    img.decoding = 'async';
+    img.loading = 'lazy';
+    img.fetchPriority = 'low';
+
+    // Wenn die final gewählte Quelle fehlschlägt → manuelle Kaskade
+    let triedWebp = false;
+    let triedOrig = false;
+    img.addEventListener('error', ()=>{
+      if(!triedWebp){ triedWebp = true; img.src = webp; return; }
+      if(!triedOrig){ triedOrig = true; img.src = orig; return; }
+    });
+
+    picture.appendChild(sAvif);
+    picture.appendChild(sWebp);
+    picture.appendChild(img);
+
+    // Original-IMG im DOM durch <picture> ersetzen
+    origImg.replaceWith(picture);
+
+    // Lazy starten
+    if(io) io.observe(img);
+    else {
+      // Ohne IO sofort laden (kein Lazy)
+      sAvif.srcset = avif;
+      sWebp.srcset = webp;
+      img.src = orig;
+    }
+  });
+})();
+
+// ==================================================
+// Navigation Toggle (wie index/products)
+// ==================================================
+(function () {
+  const btn = document.querySelector('.hamburger');
+  const nav = document.getElementById('mobile-nav');
+  const overlay = document.querySelector('.nav-overlay');
+
+  if (!btn || !nav || !overlay) return;
+
+  function openMenu() {
+    document.body.classList.add('menu-open');
+    overlay.hidden = false;
+    btn.setAttribute('aria-expanded', 'true');
+    const firstLink = nav.querySelector('a');
+    if (firstLink) firstLink.focus({preventScroll:true});
+  }
+  function closeMenu() {
+    document.body.classList.remove('menu-open');
+    overlay.hidden = true;
+    btn.setAttribute('aria-expanded', 'false');
+    btn.focus({preventScroll:true});
+  }
+  function toggleMenu() {
+    if (document.body.classList.contains('menu-open')) closeMenu();
+    else openMenu();
+  }
+
+  btn.addEventListener('click', toggleMenu);
+  overlay.addEventListener('click', closeMenu);
+
+  // ESC zum Schließen
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && document.body.classList.contains('menu-open')) {
+      closeMenu();
+    }
+  });
+
+  // Schließen beim Klick auf einen Link
+  nav.addEventListener('click', (e) => {
+    const a = e.target.closest('a');
+    if (a) closeMenu();
+  });
+})();
+
+// ==================================================
+// Sprachschalter (wie gehabt)
+// ==================================================
+(function(){
+  const box = document.querySelector('.lang-switch'); if(!box) return;
+  const links = box.querySelectorAll('.lang-link');
+
+  // Pfad normalisieren
+  const norm = (p)=>{
+    if(!p.startsWith('/')) p = '/'+p;
+    p = p.split('#')[0].split('?')[0];
+    p = p.replace(/\/index\.html?$/i,'/');
+    p = p.replace(/\/{2,}/g,'/');
+    return p;
+  };
+
+  const path = norm(location.pathname);
+  const m = path.match(/^\/(de|en)(\/.*)?$/);
+  const currentLang = m ? m[1] : null;
+  const rest = m ? (m[2] || '/') : '/';
+
+  // Ziel-Links setzen
+  links.forEach(a=>{
+    const lang = a.dataset.lang;
+    a.href = `/${lang}${rest === '/' ? '/' : rest}`;
+    a.setAttribute('aria-pressed', lang === currentLang ? 'true' : 'false');
+  });
+
+  // Präferenz speichern
+  box.addEventListener('click', e=>{
+    const a = e.target.closest('.lang-link'); if(!a) return;
+    try{ localStorage.setItem('cw_lang', a.dataset.lang); }catch(_){}
+  });
+
+  // Erste Weiterleitung (wenn keine /de oder /en im Pfad)
+  if(!currentLang){
+    let pref = null; try{ pref = localStorage.getItem('cw_lang'); }catch(_){}
+    const fallback = (navigator.language||'en').toLowerCase().startsWith('de') ? 'de' : 'en';
+    const target = pref || fallback;
+    location.replace(`/${target}/`);
+  }
+})();
+</script>
+
 </body>
 </html>
