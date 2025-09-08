@@ -219,12 +219,16 @@ layout: null
 
     // Pfad normalisieren: /index -> /, Query/Hash entfernen, doppelte Slashes glätten
     const norm = (p)=>{
-      if(!p.startsWith('/')) p = '/'+p;
+      if(!p.startsWith('/')) p = '/' + p;
       p = p.split('#')[0].split('?')[0];
-      p = p.replace(/\/index\?$/i,'/');
+      // /index oder /index.html -> /
+      p = p.replace(/\/index(?:\.html)?$/i, '/');
+      // .../seite.html -> .../seite/
+      p = p.replace(/\.html$/i, '/');
       p = p.replace(/\/{2,}/g,'/');
       return p;
     };
+
 
     const path = norm(location.pathname);
     const m = path.match(/^\/(de|en)(\/.*)?$/);
