@@ -1,6 +1,3 @@
----
-layout: null
----
 <!doctype html>
 <html lang="de">
 <head>
@@ -221,10 +218,10 @@ layout: null
     const norm = (p)=>{
       if(!p.startsWith('/')) p = '/' + p;
       p = p.split('#')[0].split('?')[0];
-      // /index oder /index.html -> /
-      p = p.replace(/\/index(?:\.html)?$/i, '/');
-      // .../seite.html -> .../seite/
-      p = p.replace(/\.html$/i, '/');
+      // /index oder /index/ -> /
+      p = p.replace(/\/index(?:\/)?$/i, '/');
+      // .../seite/ -> .../seite/
+      p = p.replace(/\/$/i, '/');
       p = p.replace(/\/{2,}/g,'/');
       return p;
     };

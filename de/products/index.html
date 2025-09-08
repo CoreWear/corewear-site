@@ -27,11 +27,11 @@
     <!-- Mehrseiten-Navigation -->
     <nav id="mobile-nav" class="main-nav">
       <a href="/de/">Start</a>
-      <a href="/de/products.html" class="active" aria-current="page">Produkte</a>
-      <a href="/de/process.html">Prozess</a>
-      <a href="/de/about.html">Über uns</a>
-      <a href="/de/faq.html">FAQ</a>
-      <a href="/de/contact.html" class="btn">Kontakt</a>
+      <a href="/de/products/" class="active" aria-current="page">Produkte</a>
+      <a href="/de/process/">Prozess</a>
+      <a href="/de/about/">Über uns</a>
+      <a href="/de/faq/">FAQ</a>
+      <a href="/de/contact/" class="btn">Kontakt</a>
       <!-- ▶️ Sprachschalter (DE | EN) – Bildvariante -->
       <div class="lang-switch" role="group" aria-label="Sprachauswahl">
         <a class="lang-link" href="/de/" data-lang="de" role="button" aria-pressed="false" title="Deutsch">
@@ -82,8 +82,8 @@
   <div class="wrap">
     <small>© <span id="y"></span> CoreWear</small>
     <div style="display:flex;gap:14px">
-      <a href="legal.html">Impressum</a>
-      <a href="privacy.html">Datenschutz</a>
+      <a href="legal/">Impressum</a>
+      <a href="privacy/">Datenschutz</a>
     </div>
   </div>
 </footer>
@@ -679,7 +679,7 @@ if ('scrollRestoration' in history) {
 }
 
 // =====================================
-// Navigation Toggle (wie index.html)
+// Navigation Toggle (wie index/)
 // =====================================
 (function () {
   const btn = document.querySelector('.hamburger');
@@ -730,11 +730,14 @@ if ('scrollRestoration' in history) {
   const box = document.querySelector('.lang-switch'); if(!box) return;
   const links = box.querySelectorAll('.lang-link');
 
-  // Pfad normalisieren
+  // Pfad normalisieren: /index/ -> /, Query/Hash entfernen, doppelte Slashes glätten
   const norm = (p)=>{
-    if(!p.startsWith('/')) p = '/'+p;
+    if(!p.startsWith('/')) p = '/' + p;
     p = p.split('#')[0].split('?')[0];
-    p = p.replace(/\/index\.html?$/i,'/');
+    // /index oder /index/ -> /
+    p = p.replace(/\/index(?:\/)?$/i, '/');
+    // .../seite/ -> .../seite/
+    p = p.replace(/\/$/i, '/');
     p = p.replace(/\/{2,}/g,'/');
     return p;
   };

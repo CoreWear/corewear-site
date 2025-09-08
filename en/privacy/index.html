@@ -6,13 +6,13 @@
     <title>Privacy &ndash; CoreWear</title>
     <meta name="description" content="Privacy notice for CoreWear (B2B). No tracking cookies. We process data solely to handle enquiries and quotes. Storage via email (Gmail)." />
 
-    <!-- hreflang -->
-    <link rel="alternate" href="https://corewear.pro/de/privacy.html" hreflang="de" />
-    <link rel="alternate" href="https://corewear.pro/en/privacy.html" hreflang="en" />
-    <link rel="alternate" href="https://corewear.pro/en/privacy.html" hreflang="x-default" />
+    <link rel="alternate" href="https://corewear.pro/de/privacy/" hreflang="de" />
+    <link rel="alternate" href="https://corewear.pro/en/privacy/" hreflang="en" />
+    <link rel="alternate" href="https://corewear.pro/en/privacy/" hreflang="x-default" />
+    <link rel="canonical" href="https://corewear.pro/en/privacy/" />
 
     <!-- canonical -->
-    <link rel="canonical" href="https://corewear.pro/en/privacy.html" />
+    <link rel="canonical" href="https://corewear.pro/en/privacy/" />
 
     <link rel="stylesheet" href="/assets/css/index.css" />
     <link rel="icon" type="image/png" href="/assets/img/favicon.png" />
@@ -35,17 +35,17 @@
         <!-- Navigation -->
         <nav id="mobile-nav" class="main-nav">
           <a href="/en/">Home</a>
-          <a href="/en/products.html">Products</a>
-          <a href="/en/process.html">Process</a>
-          <a href="/en/about.html">About</a>
-          <a href="/en/faq.html">FAQ</a>
-          <a href="/en/contact.html" class="btn">Contact</a>
+          <a href="/en/products/">Products</a>
+          <a href="/en/process/">Process</a>
+          <a href="/en/about/">About</a>
+          <a href="/en/faq/">FAQ</a>
+          <a href="/en/contact/" class="btn">Contact</a>
           <!-- ▶️ Language switch (DE | EN) – image variant -->
           <div class="lang-switch" role="group" aria-label="Language selection">
-            <a class="lang-link" href="/de/privacy.html" data-lang="de" role="button" aria-pressed="false" title="Deutsch">
+            <a class="lang-link" href="/de/privacy/" data-lang="de" role="button" aria-pressed="false" title="Deutsch">
               <img src="/assets/img/de.jpg" width="36" height="24" alt="Deutsch">
             </a>
-            <a class="lang-link" href="/en/privacy.html" data-lang="en" role="button" aria-pressed="true" aria-current="true" title="English">
+            <a class="lang-link" href="/en/privacy/" data-lang="en" role="button" aria-pressed="true" aria-current="true" title="English">
               <img src="/assets/img/en.jpg" width="36" height="24" alt="English">
             </a>
           </div>
@@ -225,14 +225,30 @@
       <div class="wrap">
         <small>© <span id="y"></span> CoreWear</small>
         <div style="display:flex;gap:14px">
-          <a href="/en/imprint.html">Imprint</a>
-          <a href="/en/privacy.html">Privacy</a>
+          <a href="/en/imprint/">Imprint</a>
+          <a href="/en/privacy/">Privacy</a>
         </div>
       </div>
     </footer>
 
     <script>
-      // Year & "Last updated" date
+    // ================================
+    // Path normalizer / pretty URLs
+    // ================================
+    function norm(p) {
+      if (!p) return '/';
+      if (!p.startsWith('/')) p = '/' + p;
+      p = p.split('#')[0].split('?')[0];
+      p = p.replace(/\/index(?:\/)?$/i, '/'); // /index or /index/ -> /
+      p = p.replace(/\/$/i, '/');             // .../page/ -> .../page/
+      p = p.replace(/\/{2,}/g, '/');              // collapse //
+      return p;
+    }
+
+    // ================================
+    // Year & "Last updated" date
+    // ================================
+    (function(){
       const yEl = document.getElementById('y');
       if (yEl) yEl.textContent = new Date().getFullYear();
 
@@ -241,64 +257,99 @@
       const sd = document.getElementById('privacy-date');
       if (sd) sd.textContent = fmt;
 
-      // ===== Hamburger menu (same as other pages) =====
-      (function () {
-        const btn = document.querySelector('.hamburger');
-        const nav = document.getElementById('mobile-nav');
-        const overlay = document.querySelector('.nav-overlay');
-        if (!btn || !nav || !overlay) return;
+      if ('scrollRestoration' in history) { history.scrollRestoration = 'manual'; }
+    })();
 
-        function openMenu() {
-          document.body.classList.add('menu-open');
-          overlay.hidden = false;
-          btn.setAttribute('aria-expanded', 'true');
-          const firstLink = nav.querySelector('a');
-          if (firstLink) firstLink.focus({preventScroll:true});
-        }
-        function closeMenu() {
-          document.body.classList.remove('menu-open');
-          overlay.hidden = true;
-          btn.setAttribute('aria-expanded', 'false');
-          btn.focus({preventScroll:true});
-        }
-        function toggleMenu() {
-          if (document.body.classList.contains('menu-open')) closeMenu();
-          else openMenu();
-        }
-        btn.addEventListener('click', toggleMenu);
-        overlay.addEventListener('click', closeMenu);
-        document.addEventListener('keydown', (e) => {
-          if (e.key === 'Escape' && document.body.classList.contains('menu-open')) closeMenu();
-        });
-        nav.addEventListener('click', (e) => {
-          const a = e.target.closest('a');
-          if (a) closeMenu();
-        });
-      })();
+    // ================================
+    // Global link normalizer (Airbag): .../*/ -> .../*/
+    // ================================
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('a[href]').forEach(function (a) {
+        try {
+          const raw = a.getAttribute('href');
+          // nur interne Links anfassen
+          if (!raw || /^(https?:)?\/\//i.test(raw)) return;
+          const cleaned = norm(raw);
+          if (cleaned !== raw) a.setAttribute('href', cleaned);
+        } catch (_) {}
+      });
+    });
 
-      // ===== Language switch: mark active & store preference =====
-      (function(){
-        const box = document.querySelector('.lang-switch'); if(!box) return;
-        const links = box.querySelectorAll('.lang-link');
-        const path = location.pathname;
-        const current = /\/de(\/|$)/.test(path) ? 'de' : (/\/en(\/|$)/.test(path) ? 'en' : null);
+    // ================================
+    // Hamburger / off-canvas menu
+    // ================================
+    (function () {
+      const btn = document.querySelector('.hamburger');
+      const nav = document.getElementById('mobile-nav');
+      const overlay = document.querySelector('.nav-overlay');
+      if (!btn || !nav || !overlay) return;
 
-        links.forEach(a => a.setAttribute('aria-pressed', a.dataset.lang === current ? 'true' : 'false'));
+      function openMenu() {
+        document.body.classList.add('menu-open');
+        overlay.hidden = false;
+        btn.setAttribute('aria-expanded', 'true');
+        const firstLink = nav.querySelector('a');
+        if (firstLink) firstLink.focus({preventScroll:true});
+      }
+      function closeMenu() {
+        document.body.classList.remove('menu-open');
+        overlay.hidden = true;
+        btn.setAttribute('aria-expanded', 'false');
+        btn.focus({preventScroll:true});
+      }
+      function toggleMenu() {
+        if (document.body.classList.contains('menu-open')) closeMenu();
+        else openMenu();
+      }
+      btn.addEventListener('click', toggleMenu);
+      overlay.addEventListener('click', closeMenu);
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && document.body.classList.contains('menu-open')) closeMenu();
+      });
+      nav.addEventListener('click', (e) => {
+        const a = e.target.closest('a'); if (a) closeMenu();
+      });
+    })();
 
-        box.addEventListener('click', e=>{
-          const a = e.target.closest('.lang-link'); if(!a) return;
-          try{ localStorage.setItem('cw_lang', a.dataset.lang); }catch(_){}
-        });
+    // ================================
+    // Language switch: keep same subpage, store pref, pretty URLs
+    // ================================
+    (function(){
+      const box = document.querySelector('.lang-switch'); if(!box) return;
+      const links = box.querySelectorAll('.lang-link');
 
-        // If someone lands on /privacy.html without language prefix, route them
-        if(!current && /(^|\/)privacy\.html$/.test(path)){
-          let pref = null; try{ pref = localStorage.getItem('cw_lang'); }catch(_){}
-          const fallback = (navigator.language||'en').toLowerCase().startsWith('de') ? 'de' : 'en';
-          const target = pref || fallback;
-          location.replace(`/${target}/${target === 'de' ? 'privacy.html' : 'privacy.html'}`);
-        }
-      })();
+      const currentPath = norm(location.pathname);
+      const m = currentPath.match(/^\/(de|en)(\/.*)?$/i);
+      const currentLang = m ? m[1].toLowerCase() : null;
+      const rest = m ? (m[2] || '/') : currentPath; // falls jemand ohne /de|/en landet
+
+      // Visual state
+      links.forEach(a => {
+        const lang = (a.dataset.lang || '').toLowerCase();
+        a.setAttribute('aria-pressed', lang === currentLang ? 'true' : 'false');
+      });
+
+      // Ziel-Links setzen (gleiche Unterseite in anderer Sprache)
+      links.forEach(a => {
+        const lang = (a.dataset.lang || '').toLowerCase();
+        if (!lang) return;
+        a.href = norm(`/${lang}${rest}`);
+      });
+
+      // Präferenz speichern
+      box.addEventListener('click', e=>{
+        const a = e.target.closest('.lang-link'); if(!a) return;
+        try{ localStorage.setItem('cw_lang', (a.dataset.lang || '').toLowerCase()); }catch(_){}
+      });
+
+      // Ohne Sprachpräfix → auf bevorzugte Sprache + gleiche Route
+      if(!currentLang){
+        let pref = null; try{ pref = (localStorage.getItem('cw_lang') || '').toLowerCase(); }catch(_){}
+        const fallback = (navigator.language||'en').toLowerCase().startsWith('de') ? 'de' : 'en';
+        const target = pref || fallback;
+        location.replace(norm(`/${target}${rest}`));
+      }
+    })();
     </script>
-
   </body>
 </html>

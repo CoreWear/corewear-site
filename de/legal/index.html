@@ -7,12 +7,12 @@
     <meta name="description" content="Impressum von CoreWear. Anbieterkennzeichnung nach § 5 DDG. Kontakt per E-Mail oder Kontaktformular – Antwort werktags i. d. R. innerhalb von 12 Stunden." />
 
     <!-- hreflang: DE/EN + x-default -->
-    <link rel="alternate" href="https://corewear.pro/de/legal.html" hreflang="de" />
-    <link rel="alternate" href="https://corewear.pro/en/imprint.html" hreflang="en" />
-    <link rel="alternate" href="https://corewear.pro/en/imprint.html" hreflang="x-default" />
+    <link rel="alternate" href="https://corewear.pro/de/legal/" hreflang="de" />
+    <link rel="alternate" href="https://corewear.pro/en/imprint/" hreflang="en" />
+    <link rel="alternate" href="https://corewear.pro/en/imprint/" hreflang="x-default" />
 
     <!-- canonical -->
-    <link rel="canonical" href="https://corewear.pro/de/legal.html" />
+    <link rel="canonical" href="https://corewear.pro/de/legal/" />
 
     <link rel="stylesheet" href="/assets/css/index.css" />
     <link rel="icon" type="image/png" href="/assets/img/favicon.png" />
@@ -35,11 +35,11 @@
         <!-- Navigation -->
         <nav id="mobile-nav" class="main-nav">
           <a href="/de/">Start</a>
-          <a href="/de/products.html">Produkte</a>
-          <a href="/de/process.html">Prozess</a>
-          <a href="/de/about.html">Über uns</a>
-          <a href="/de/faq.html">FAQ</a>
-          <a href="/de/contact.html" class="btn">Kontakt</a>
+          <a href="/de/products/">Produkte</a>
+          <a href="/de/process/">Prozess</a>
+          <a href="/de/about/">Über uns</a>
+          <a href="/de/faq/">FAQ</a>
+          <a href="/de/contact/" class="btn">Kontakt</a>
           <!-- ▶️ Sprachschalter (DE | EN) – Bildvariante -->
           <div class="lang-switch" role="group" aria-label="Sprachauswahl">
             <a class="lang-link" href="/de/" data-lang="de" role="button" aria-pressed="false" title="Deutsch">
@@ -79,7 +79,7 @@
           </div>
 
           <p class="muted" style="margin-top:6px">
-            Bevorzugter Kontakt per E-Mail oder <a class="underline" href="/de/contact.html">Kontaktformular</a>.
+            Bevorzugter Kontakt per E-Mail oder <a class="underline" href="/de/contact/">Kontaktformular</a>.
             Antwort werktags i. d. R. innerhalb von 12&nbsp;Stunden.
           </p>
         </article>
@@ -144,8 +144,8 @@
       <div class="wrap">
         <small>© <span id="y"></span> CoreWear</small>
         <div style="display:flex;gap:14px">
-          <a href="/de/legal.html">Impressum</a>
-          <a href="/de/privacy.html">Datenschutz</a>
+          <a href="/de/legal/">Impressum</a>
+          <a href="/de/privacy/">Datenschutz</a>
         </div>
       </div>
     </footer>
@@ -198,11 +198,14 @@
     const box = document.querySelector('.lang-switch'); if(!box) return;
     const links = box.querySelectorAll('.lang-link');
 
-    // Pfad normalisieren: /index.html -> /, Query/Hash entfernen, doppelte Slashes glätten
+    // Pfad normalisieren: /index/ -> /, Query/Hash entfernen, doppelte Slashes glätten
     const norm = (p)=>{
-      if(!p.startsWith('/')) p = '/'+p;
+      if(!p.startsWith('/')) p = '/' + p;
       p = p.split('#')[0].split('?')[0];
-      p = p.replace(/\/index\.html?$/i,'/');
+      // /index oder /index/ -> /
+      p = p.replace(/\/index(?:\/)?$/i, '/');
+      // .../seite/ -> .../seite/
+      p = p.replace(/\/$/i, '/');
       p = p.replace(/\/{2,}/g,'/');
       return p;
     };

@@ -12,10 +12,10 @@
   <meta name="referrer" content="strict-origin-when-cross-origin">
 
   <!-- SEO: Canonical & Hreflang -->
-  <link rel="canonical" href="https://corewear.pro/en/about.html" />
-  <link rel="alternate" hreflang="de" href="https://corewear.pro/de/about.html" />
-  <link rel="alternate" hreflang="en" href="https://corewear.pro/en/about.html" />
-  <link rel="alternate" hreflang="x-default" href="https://corewear.pro/en/about.html" />
+  <link rel="canonical" href="https://corewear.pro/en/about/" />
+  <link rel="alternate" hreflang="de" href="https://corewear.pro/de/about/" />
+  <link rel="alternate" hreflang="en" href="https://corewear.pro/en/about/" />
+  <link rel="alternate" hreflang="x-default" href="https://corewear.pro/en/about/" />
 </head>
 
 <body>
@@ -34,18 +34,18 @@
 
       <nav id="mobile-nav" class="main-nav">
         <a href="/en/">Home</a>
-        <a href="/en/products.html">Products</a>
-        <a href="/en/process.html">Process</a>
-        <a href="/en/about.html" class="active" aria-current="page">About</a>
-        <a href="/en/faq.html">FAQ</a>
-        <a href="/en/contact.html" class="btn">Contact</a>
+        <a href="/en/products/">Products</a>
+        <a href="/en/process/">Process</a>
+        <a href="/en/about/" class="active" aria-current="page">About</a>
+        <a href="/en/faq/">FAQ</a>
+        <a href="/en/contact/" class="btn">Contact</a>
 
         <!-- ▶️ Language switch (DE | EN) -->
         <div class="lang-switch" role="group" aria-label="Language selection">
-          <a class="lang-link" href="/de/about.html" data-lang="de" role="button" aria-pressed="false" title="Deutsch">
+          <a class="lang-link" href="/de/about/" data-lang="de" role="button" aria-pressed="false" title="Deutsch">
             <img src="/assets/img/de.jpg" width="36" height="24" alt="Deutsch" decoding="async" loading="eager">
           </a>
-          <a class="lang-link" href="/en/about.html" data-lang="en" role="button" aria-pressed="true" aria-current="true" title="English">
+          <a class="lang-link" href="/en/about/" data-lang="en" role="button" aria-pressed="true" aria-current="true" title="English">
             <img src="/assets/img/en.jpg" width="36" height="24" alt="English" decoding="async" loading="eager">
           </a>
         </div>
@@ -133,7 +133,7 @@
           <h3>Ready to start a project?</h3>
           <p class="muted">We&rsquo;ll follow up quickly with questions or an initial quote.</p>
         </div>
-        <a href="/en/contact.html" class="btn primary">Request a quote</a>
+        <a href="/en/contact/" class="btn primary">Request a quote</a>
       </article>
     </section>
   </main>
@@ -142,10 +142,10 @@
     <div class="wrap">
       <small>© <span id="y"></span> CoreWear</small>
       <div style="display:flex;gap:14px">
-        <a href="/en/faq.html">FAQ</a>
-        <a href="/en/contact.html">Contact</a>
-        <a href="/en/legal.html">Legal Notice</a>
-        <a href="/en/privacy.html">Privacy</a>
+        <a href="/en/faq/">FAQ</a>
+        <a href="/en/contact/">Contact</a>
+        <a href="/en/legal/">Legal Notice</a>
+        <a href="/en/privacy/">Privacy</a>
       </div>
     </div>
   </footer>
@@ -204,7 +204,7 @@
         let pref = null; try{ pref = localStorage.getItem('cw_lang'); }catch(_){}
         const fallback = (navigator.language||'en').toLowerCase().startsWith('de') ? 'de' : 'en';
         const target = pref || fallback;
-        location.replace(`/${target}/about.html`);
+        location.replace(`/${target}/about/`);
       }
     })();
   </script>

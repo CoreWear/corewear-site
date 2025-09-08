@@ -7,10 +7,10 @@
   <meta name="description" content="CoreWear product overview: tops, bottoms, business & workwear, dresses, sports & leisurewear, kidswear, and home. B2B production from 500 units." />
 
   <!-- SEO -->
-  <link rel="canonical" href="https://corewear.pro/en/products.html" />
-  <link rel="alternate" hreflang="de" href="https://corewear.pro/de/products.html" />
-  <link rel="alternate" hreflang="en" href="https://corewear.pro/en/products.html" />
-  <link rel="alternate" hreflang="x-default" href="https://corewear.pro/en/products.html" />
+  <link rel="canonical" href="https://corewear.pro/en/products/" />
+  <link rel="alternate" hreflang="de" href="https://corewear.pro/de/products/" />
+  <link rel="alternate" hreflang="en" href="https://corewear.pro/en/products/" />
+  <link rel="alternate" hreflang="x-default" href="https://corewear.pro/en/products/" />
 
   <link rel="stylesheet" href="/assets/css/index.css" />
   <link rel="icon" type="image/png" href="/assets/img/favicon.png" />
@@ -34,11 +34,11 @@
     <!-- Global navigation -->
     <nav id="mobile-nav" class="main-nav">
       <a href="/en/">Home</a>
-      <a href="/en/products.html" class="active" aria-current="page">Products</a>
-      <a href="/en/process.html">Process</a>
-      <a href="/en/about.html">About</a>
-      <a href="/en/faq.html">FAQ</a>
-      <a href="/en/contact.html" class="btn">Contact</a>
+      <a href="/en/products/" class="active" aria-current="page">Products</a>
+      <a href="/en/process/">Process</a>
+      <a href="/en/about/">About</a>
+      <a href="/en/faq/">FAQ</a>
+      <a href="/en/contact/" class="btn">Contact</a>
 
       <!-- Language switch -->
       <div class="lang-switch" role="group" aria-label="Language selection">
@@ -90,8 +90,8 @@
   <div class="wrap">
     <small>© <span id="y"></span> CoreWear</small>
     <div style="display:flex;gap:14px">
-      <a href="/en/legal.html">Legal Notice</a>
-      <a href="/en/privacy.html">Privacy</a>
+      <a href="/en/legal/">Legal Notice</a>
+      <a href="/en/privacy/">Privacy</a>
     </div>
   </div>
 </footer>
@@ -103,7 +103,7 @@
   "@type":"CollectionPage",
   "name":"CoreWear Products",
   "inLanguage":"en",
-  "url":"https://corewear.pro/en/products.html",
+  "url":"https://corewear.pro/en/products/",
   "description":"CoreWear product overview for B2B garment manufacturing."
 }
 </script>
@@ -727,11 +727,14 @@
     const box = document.querySelector('.lang-switch'); if(!box) return;
     const links = box.querySelectorAll('.lang-link');
 
-    // Normalize path: /index.html -> /, strip query/hash, collapse slashes
+    // Pfad normalisieren: /index/ -> /, Query/Hash entfernen, doppelte Slashes glätten
     const norm = (p)=>{
-      if(!p.startsWith('/')) p = '/'+p;
+      if(!p.startsWith('/')) p = '/' + p;
       p = p.split('#')[0].split('?')[0];
-      p = p.replace(/\/index\.html?$/i,'/');
+      // /index oder /index/ -> /
+      p = p.replace(/\/index(?:\/)?$/i, '/');
+      // .../seite/ -> .../seite/
+      p = p.replace(/\/$/i, '/');
       p = p.replace(/\/{2,}/g,'/');
       return p;
     };
@@ -739,7 +742,7 @@
     const path = norm(location.pathname);
     const m = path.match(/^\/(de|en)(\/.*)?$/);
     const currentLang = m ? m[1] : null;
-    const rest = m ? (m[2] || '/') : '/products.html';
+    const rest = m ? (m[2] || '/') : '/products/';
 
     // Set target links for both languages (preserve subpage)
     links.forEach(a=>{
@@ -759,7 +762,7 @@
       let pref = null; try{ pref = localStorage.getItem('cw_lang'); }catch(_){}
       const fallback = (navigator.language||'en').toLowerCase().startsWith('de') ? 'de' : 'en';
       const target = pref || fallback;
-      location.replace(`/${target}/products.html`);
+      location.replace(`/${target}/products/`);
     }
   })();
 </script>

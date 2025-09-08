@@ -7,10 +7,10 @@
   <meta name="description" content="Frequently asked questions about CoreWear: ordering, MOQ, production, quality control, logistics, branding, and more." />
 
   <!-- SEO -->
-  <link rel="canonical" href="https://corewear.pro/en/faq.html" />
-  <link rel="alternate" hreflang="de" href="https://corewear.pro/de/faq.html" />
-  <link rel="alternate" hreflang="en" href="https://corewear.pro/en/faq.html" />
-  <link rel="alternate" hreflang="x-default" href="https://corewear.pro/en/faq.html" />
+  <link rel="canonical" href="https://corewear.pro/en/faq/" />
+  <link rel="alternate" hreflang="de" href="https://corewear.pro/de/faq/" />
+  <link rel="alternate" hreflang="en" href="https://corewear.pro/en/faq/" />
+  <link rel="alternate" hreflang="x-default" href="https://corewear.pro/en/faq/" />
 
   <link rel="stylesheet" href="/assets/css/index.css" />
   <link rel="icon" type="image/png" href="/assets/img/favicon.png" />
@@ -33,18 +33,18 @@
 
       <nav id="mobile-nav" class="main-nav">
         <a href="/en/">Home</a>
-        <a href="/en/products.html">Products</a>
-        <a href="/en/process.html">Process</a>
-        <a href="/en/about.html">About</a>
-        <a href="/en/faq.html" class="active" aria-current="page">FAQ</a>
-        <a href="/en/contact.html" class="btn">Contact</a>
+        <a href="/en/products/">Products</a>
+        <a href="/en/process/">Process</a>
+        <a href="/en/about/">About</a>
+        <a href="/en/faq/" class="active" aria-current="page">FAQ</a>
+        <a href="/en/contact/" class="btn">Contact</a>
 
         <!-- ▶️ Language switch (DE | EN) -->
         <div class="lang-switch" role="group" aria-label="Language selection">
-          <a class="lang-link" href="/de/faq.html" data-lang="de" role="button" aria-pressed="false" title="Deutsch">
+          <a class="lang-link" href="/de/faq/" data-lang="de" role="button" aria-pressed="false" title="Deutsch">
             <img src="/assets/img/de.jpg" width="36" height="24" alt="Deutsch" decoding="async" loading="eager">
           </a>
-          <a class="lang-link" href="/en/faq.html" data-lang="en" role="button" aria-pressed="true" aria-current="true" title="English">
+          <a class="lang-link" href="/en/faq/" data-lang="en" role="button" aria-pressed="true" aria-current="true" title="English">
             <img src="/assets/img/en.jpg" width="36" height="24" alt="English" decoding="async" loading="eager">
           </a>
         </div>
@@ -72,7 +72,7 @@
 
       <details class="faq-item">
         <summary>How do I start an order request?</summary>
-        <p>Via <a href="/en/contact.html">Contact</a> or email. Send sketches/references, planned quantities, target prices, and desired delivery window. We&rsquo;ll follow up with questions or an initial quote.</p>
+        <p>Via <a href="/en/contact/">Contact</a> or email. Send sketches/references, planned quantities, target prices, and desired delivery window. We&rsquo;ll follow up with questions or an initial quote.</p>
       </details>
 
       <!-- Product development & samples -->
@@ -89,7 +89,7 @@
       <!-- Production -->
       <details class="faq-item">
         <summary>Which product categories can you manufacture?</summary>
-        <p>Broad range: streetwear, sportswear/jerseys, workwear/business, kidswear, and more. Check our <a href="/en/products.html">Products</a> — if your item is missing, we&rsquo;ll assess feasibility through our network.</p>
+        <p>Broad range: streetwear, sportswear/jerseys, workwear/business, kidswear, and more. Check our <a href="/en/products/">Products</a> — if your item is missing, we&rsquo;ll assess feasibility through our network.</p>
       </details>
 
       <details class="faq-item">
@@ -149,7 +149,7 @@
           <h3>Still have questions?</h3>
           <p class="muted">Send us your brief — we&rsquo;ll check feasibility, timing, and budget.</p>
         </div>
-        <a href="/en/contact.html" class="btn primary">Inquire now</a>
+        <a href="/en/contact/" class="btn primary">Inquire now</a>
       </article>
     </section>
   </main>
@@ -158,8 +158,8 @@
     <div class="wrap">
       <small>© <span id="y"></span> CoreWear</small>
       <div style="display:flex;gap:14px">
-        <a href="/en/legal.html">Legal Notice</a>
-        <a href="/en/privacy.html">Privacy</a>
+        <a href="/en/legal/">Legal Notice</a>
+        <a href="/en/privacy/">Privacy</a>
       </div>
     </div>
   </footer>
@@ -188,74 +188,124 @@
   }
   </script>
 
-  <script>
-    // Year in footer
-    const yEl = document.getElementById('y'); if (yEl) yEl.textContent = new Date().getFullYear();
-    if ('scrollRestoration' in history) { history.scrollRestoration = 'manual'; }
+<script>
+// ===== Utilities =====
+function norm(p) {
+  // Normalisiert Pfade:
+  // - führenden Slash sicherstellen
+  // - Query/Hash entfernen
+  // - /index oder /index/ -> /
+  // - .../seite/ -> .../seite/
+  // - doppelte Slashes glätten
+  if (!p) return '/';
+  if (!p.startsWith('/')) p = '/' + p;
+  p = p.split('#')[0].split('?')[0];
+  p = p.replace(/\/index(?:\/)?$/i, '/');
+  p = p.replace(/\/$/i, '/');
+  p = p.replace(/\/{2,}/g, '/');
+  return p;
+}
 
-    // ===== Off-canvas navigation toggle =====
-    (function () {
-      const btn = document.querySelector('.hamburger');
-      const nav = document.getElementById('mobile-nav');
-      const overlay = document.querySelector('.nav-overlay');
+// ===== Year in footer =====
+(function () {
+  const yEl = document.getElementById('y');
+  if (yEl) yEl.textContent = new Date().getFullYear();
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+})();
 
-      if (!btn || !nav || !overlay) return;
+// ===== Off-canvas navigation toggle =====
+(function () {
+  const btn = document.querySelector('.hamburger');
+  const nav = document.getElementById('mobile-nav');
+  const overlay = document.querySelector('.nav-overlay');
 
-      function openMenu() {
-        document.body.classList.add('menu-open');
-        overlay.hidden = false;
-        btn.setAttribute('aria-expanded', 'true');
-        const firstLink = nav.querySelector('a');
-        if (firstLink) firstLink.focus({preventScroll:true});
-      }
-      function closeMenu() {
-        document.body.classList.remove('menu-open');
-        overlay.hidden = true;
-        btn.setAttribute('aria-expanded', 'false');
-        btn.focus({preventScroll:true});
-      }
-      function toggleMenu() {
-        if (document.body.classList.contains('menu-open')) closeMenu();
-        else openMenu();
-      }
+  if (!btn || !nav || !overlay) return;
 
-      btn.addEventListener('click', toggleMenu);
-      overlay.addEventListener('click', closeMenu);
+  function openMenu() {
+    document.body.classList.add('menu-open');
+    overlay.hidden = false;
+    btn.setAttribute('aria-expanded', 'true');
+    const firstLink = nav.querySelector('a');
+    if (firstLink) firstLink.focus({ preventScroll: true });
+  }
+  function closeMenu() {
+    document.body.classList.remove('menu-open');
+    overlay.hidden = true;
+    btn.setAttribute('aria-expanded', 'false');
+    btn.focus({ preventScroll: true });
+  }
+  function toggleMenu() {
+    if (document.body.classList.contains('menu-open')) closeMenu();
+    else openMenu();
+  }
 
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && document.body.classList.contains('menu-open')) {
-          closeMenu();
-        }
-      });
+  btn.addEventListener('click', toggleMenu);
+  overlay.addEventListener('click', closeMenu);
 
-      nav.addEventListener('click', (e) => {
-        const a = e.target.closest('a');
-        if (a) closeMenu();
-      });
-    })();
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && document.body.classList.contains('menu-open')) {
+      closeMenu();
+    }
+  });
 
-    // ===== Language switch: mark active & store preference =====
-    (function(){
-      const box = document.querySelector('.lang-switch'); if(!box) return;
-      const links = box.querySelectorAll('.lang-link');
-      const path = location.pathname;
-      const current = /\/de(\/|$)/.test(path) ? 'de' : (/\/en(\/|$)/.test(path) ? 'en' : null);
+  nav.addEventListener('click', (e) => {
+    const a = e.target.closest('a');
+    if (a) closeMenu();
+  });
+})();
 
-      links.forEach(a => a.setAttribute('aria-pressed', a.dataset.lang === current ? 'true' : 'false'));
+// ===== Global link normalizer (Airbag): turn .../*/ -> .../*/ =====
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('a[href]').forEach(function (a) {
+    try {
+      const raw = a.getAttribute('href');
+      // Nur interne, keine absoluten externen Links anfassen
+      if (!raw || /^(https?:)?\/\//i.test(raw)) return;
+      const cleaned = norm(raw);
+      if (cleaned !== raw) a.setAttribute('href', cleaned);
+    } catch (_) { /* ignore */ }
+  });
+});
 
-      box.addEventListener('click', e=>{
-        const a = e.target.closest('.lang-link'); if(!a) return;
-        try{ localStorage.setItem('cw_lang', a.dataset.lang); }catch(_){}
-      });
+// ===== Language switch: normalize path, keep same subpage, store pref =====
+(function(){
+  const box = document.querySelector('.lang-switch'); if(!box) return;
+  const links = box.querySelectorAll('.lang-link');
 
-      // If someone lands without /de|/en/, redirect to preference (fallback en) for this route
-      if(!current){
-        let pref = null; try{ pref = localStorage.getItem('cw_lang'); }catch(_){}
-        const fallback = (navigator.language||'en').toLowerCase().startsWith('de') ? 'de' : 'en';
-        const target = pref || fallback;
-        location.replace(`/${target}/faq.html`);
-      }
-    })();
-  </script>
+  // Aktuelle Route normalisieren und Sprache/Restpfad bestimmen
+  const currentPath = norm(location.pathname);
+  const m = currentPath.match(/^\/(de|en)(\/.*)?$/i);
+  const currentLang = m ? m[1].toLowerCase() : null;
+  const rest = m ? (m[2] || '/') : currentPath; // falls jemand ohne /de|/en landet
+
+  // Visueller Zustand (DE/EN Button)
+  links.forEach(a => {
+    const lang = (a.dataset.lang || '').toLowerCase();
+    a.setAttribute('aria-pressed', lang === currentLang ? 'true' : 'false');
+  });
+
+  // Ziel-Links dynamisch setzen: gleiche Unterseite in der jeweils anderen Sprache
+  links.forEach(a => {
+    const lang = (a.dataset.lang || '').toLowerCase();
+    if (!lang) return;
+    a.href = norm(`/${lang}${rest}`);
+  });
+
+  // Klick speichert Sprachpräferenz
+  box.addEventListener('click', e=>{
+    const a = e.target.closest('.lang-link'); if(!a) return;
+    try{ localStorage.setItem('cw_lang', (a.dataset.lang || '').toLowerCase()); }catch(_){}
+  });
+
+  // Falls jemand ohne Sprachpräfix landet, wähle bevorzugte Sprache + gleiche Unterseite
+  if(!currentLang){
+    let pref = null; try{ pref = (localStorage.getItem('cw_lang') || '').toLowerCase(); }catch(_){}
+    const fallback = (navigator.language||'en').toLowerCase().startsWith('de') ? 'de' : 'en';
+    const target = pref || fallback;
+    location.replace(norm(`/${target}${rest}`));
+  }
+})();
+</script>
+
 </body>
 </html>
