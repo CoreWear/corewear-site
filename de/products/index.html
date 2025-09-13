@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CoreWear – Produkte</title>
-  <meta name="description" content="Produktübersicht von CoreWear: Oberteile, Unterteile, Business- & Arbeitskleidung, Kleider, Sport- & Freizeitkleidung, Kinderbekleidung und Haushalt. B2B-Produktion ab 100 Stück." />
+  <title>CoreWear &ndash; Produkte</title>
+  <meta name="description" content="Produktübersicht von CoreWear: Oberteile, Unterteile, Business- &amp; Arbeitskleidung, Kleider, Sport- &amp; Freizeitkleidung, Kinderbekleidung und Haushalt. B2B-Produktion ab 100 Stück." />
 
   <!-- SEO (optional, aber gut) -->
   <link rel="canonical" href="https://corewear.pro/de/products/" />
@@ -12,9 +12,15 @@
   <link rel="alternate" hreflang="en" href="https://corewear.pro/en/products/" />
   <link rel="alternate" hreflang="x-default" href="https://corewear.pro/en/products/" />
 
+  <!-- Performance Hints -->
+  <link rel="preconnect" href="https://corewear.pro" />
+
   <link rel="stylesheet" href="/assets/css/index.css" />
   <link rel="icon" type="image/png" href="/assets/img/favicon.png" />
   <meta name="referrer" content="strict-origin-when-cross-origin">
+
+  <!-- Kleine Zusatz-Styles (Beispielgalerie + Lightbox-Fixes) -->
+  
 </head>
 <body>
 <header>
@@ -40,13 +46,13 @@
       <a href="/de/faq/">FAQ</a>
       <a href="/de/contact/" class="btn">Kontakt</a>
 
-      <!-- ▶️ Sprachschalter (DE | EN) – Bildvariante -->
+      <!-- ▶️ Sprachschalter (DE | EN) &ndash; Bildvariante -->
       <div class="lang-switch" role="group" aria-label="Sprachauswahl">
         <a class="lang-link" href="/de/" data-lang="de" role="button" aria-pressed="false" title="Deutsch">
-          <img src="/assets/img/de.jpg">
+          <img src="/assets/img/de.jpg" alt="Deutsch">
         </a>
         <a class="lang-link" href="/en/" data-lang="en" role="button" aria-pressed="false" title="English">
-          <img src="/assets/img/en.jpg">
+          <img src="/assets/img/en.jpg" alt="English">
         </a>
       </div>
     </nav>
@@ -70,17 +76,17 @@
 
   <div class="section-title">
     <h2>Noch mehr Möglichkeiten</h2>
-    <span class="muted">Wir sind flexibel – auch über die aufgeführten Produkte hinaus.</span>
+    <span class="muted">Wir sind flexibel &ndash; auch über die aufgeführten Produkte hinaus.</span>
   </div>
 
   <section class="grid cols-1">
     <article class="card">
       <p class="muted">
-        Dein gewünschtes Produkt ist nicht in unserer Liste? Kein Problem – dank unseres Maschinenparks und Partnernetzwerks prüfen wir gern, ob eine Umsetzung möglich ist.
+        Dein gewünschtes Produkt ist nicht in unserer Liste? Kein Problem &ndash; dank unseres Maschinenparks und Partnernetzwerks prüfen wir gern, ob eine Umsetzung möglich ist.
       </p>
       <p class="muted">
         Außerdem können wir komplette Kollektionen für dich <strong>nachbilden</strong> oder gemeinsam <strong>neue Kollektionen entwickeln und produzieren</strong>.
-        Ob Einzelartikel oder Full-Service – bei uns bist du richtig.
+        Ob Einzelartikel oder Full-Service &ndash; bei uns bist du richtig.
       </p>
     </article>
   </section>
@@ -96,29 +102,62 @@
   </div>
 </footer>
 
+<!-- Lightbox -->
+<div class="lightbox" hidden aria-hidden="true" role="dialog" aria-label="Bildvorschau">
+  <button class="lb-close" type="button" aria-label="Schließen">×</button>
+  <button class="lb-btn lb-prev" type="button" aria-label="Vorheriges Bild">‹</button>
+  <img class="lb-img" alt="Vorschau">
+  <button class="lb-btn lb-next" type="button" aria-label="Nächstes Bild">›</button>
+</div>
+
 <script>
-// =====================================
-// Footer-Jahr
-// =====================================
+/* =====================================
+   Footer-Jahr
+===================================== */
 (function(){
   const y = document.getElementById('y');
   if (y) y.textContent = new Date().getFullYear();
 })();
 
-// =====================================
-/* Bildpfad-Utils (PNG only) — ABSOLUTE Pfade! */
-// =====================================
+/* =====================================
+   Bildpfad-Utils (AVIF/WebP/PNG für Karten) + JPG für Beispielbilder
+   Basis relativ zu /de/products/  =>  ../resources/img/Clothes
+   (Wie EN-Seite: parser-gesteuertes Laden via <picture>)
+===================================== */
 const IMG_BASE = "../resources/img/Clothes";
-function encodePathSegment(seg){ return encodeURIComponent(seg).replace(/%2F/gi, "/"); }
-function buildImgSrc(dir, baseName){
+
+function encodePathSegment(seg){
+  return encodeURIComponent(seg).replace(/%2F/gi, "/");
+}
+function buildImgPath(dir, baseName, ext){
   const safeDir  = dir.split("/").map(encodePathSegment).join("/");
-  const safeFile = encodePathSegment(baseName) + ".png";
+  const safeFile = encodePathSegment(baseName) + "." + ext;
   return `${IMG_BASE}/${safeDir}/${safeFile}`;
 }
+function buildAllImgPaths(dir, baseName){
+  return {
+    avif: buildImgPath(dir, baseName, "avif"),
+    webp: buildImgPath(dir, baseName, "webp"),
+    png:  buildImgPath(dir, baseName, "png")
+  };
+}
+// Beispielbild (JPG) Pfad: .../{dir}/{baseName}/{baseName}{index}.jpg
+function buildExampleSrc(dir, baseName, index){
+  const safeDir   = dir.split("/").map(encodePathSegment).join("/");
+  const folder    = encodePathSegment(baseName);
+  const fileJpg   = encodePathSegment(baseName) + String(index) + ".jpg";
+  return `${IMG_BASE}/${safeDir}/${folder}/${fileJpg}`;
+}
+// Optionales Manifest (falls vorhanden): .../{dir}/{baseName}/examples.json
+function buildExamplesManifestUrl(dir, baseName){
+  const safeDir   = dir.split("/").map(encodePathSegment).join("/");
+  const folder    = encodePathSegment(baseName);
+  return `${IMG_BASE}/${safeDir}/${folder}/examples.json`;
+}
 
-// =====================================
-// Mobile Scroll Helpers
-// =====================================
+/* =====================================
+   Mobile Scroll Helpers
+===================================== */
 const MOBILE_MAX = 959.98; // identisch zu deinem CSS-Breakpoint
 function isMobile(){ return window.matchMedia(`(max-width:${MOBILE_MAX}px)`).matches; }
 function getHeaderHeight(){
@@ -131,9 +170,9 @@ function scrollToPanel(panelEl){
   window.scrollTo({ top: y, behavior: 'smooth' });
 }
 
-// =====================================
-// Kategorien & Details
-// =====================================
+/* =====================================
+   Kategorien & Details
+===================================== */
 const CATEGORIES = [
   {
     title: "Oberteile",
@@ -208,6 +247,22 @@ const CATEGORIES = [
     ]
   },
   {
+    title: "Jacken & Mäntel",
+    dir: "Jacken & Mäntel",
+    items: [
+      { de: "Bomberjacken" },
+      { de: "Daunenjacken" },
+      { de: "Freizeitjacken" },
+      { de: "Jeansjacken" },
+      { de: "Lederjacken" },
+      { de: "Parkas" },
+      { de: "Regenjacken" },
+      { de: "Trenchcoats" },
+      { de: "Windbreakers" },
+      { de: "Winterjacken" }
+    ]
+  },
+  {
     title: "Kinderbekleidung",
     dir: "Kinderbekleidung",
     items: [
@@ -230,7 +285,8 @@ const CATEGORIES = [
       { de:"Kissenbezüge", file:"Kissenbezüge" },
       { de:"Bettlaken", file:"Bettlaken" },
       { de:"Tischdecken", file:"Tischdecken" },
-      { de:"Servietten", file:"Servietten" }
+      { de:"Servietten", file:"Servietten" },
+      { de:"Sonstiges", file:"Sonstiges" }
     ]
   }
 ];
@@ -238,22 +294,22 @@ const CATEGORIES = [
 const ITEM_DETAILS = {
   // ---------- Oberteile ----------
   "Blusen": {
-    fabrics: ["Feingewebe: Viskose, TENCEL™ Lyocell, Crepe de Chine (90–140 GSM)"],
+    fabrics: ["Feingewebe: Viskose, TENCEL™ Lyocell, Crepe de Chine (90&ndash;140 GSM)"],
     methods: ["Feine Kapp-/Französische Nähte", "Knopfleisten, Paspel-Details", "Lockere/taillierte Passform"],
     notes: ["Weicher Fall, geringe Knitterneigung", "Option: verdeckte Knopfleiste, Rüschen, Manschettenvarianten"]
   },
   "Hoodies": {
-    fabrics: ["Fleece 300–420 GSM (gebürstet)", "French Terry 280–360 GSM"],
+    fabrics: ["Fleece 300&ndash;420 GSM (gebürstet)", "French Terry 280&ndash;360 GSM"],
     methods: ["Coverstitch-Nähte", "Kängurutasche, Kapuzenfutter", "Rippe an Saum & Ärmel"],
     notes: ["Heavyweight Streetwear möglich", "Druck/Stick großflächig, Reißverschluss optional"]
   },
   "Poloshirts": {
-    fabrics: ["Piqué 180–240 GSM (Baumwolle/Poly)", "Interlock 170–210 GSM"],
+    fabrics: ["Piqué 180&ndash;240 GSM (Baumwolle/Poly)", "Interlock 170&ndash;210 GSM"],
     methods: ["Knopfleiste mit Verstärkung", "Kragen mit Einlage", "Saum-Schlitze mit Bartack"],
     notes: ["Corporate Wear tauglich", "Option: Kontrastkragen/-bündchen, Sticklogo"]
   },
   "Hemden": {
-    fabrics: ["Popeline, Oxford, Twill (110–160 GSM)"],
+    fabrics: ["Popeline, Oxford, Twill (110&ndash;160 GSM)"],
     methods: ["Kragenvarianten (Kent, Button-down)", "Brusttasche optional", "Saubere Innenverarbeitung"],
     notes: ["Slim/Regular/Relaxed Fit", "Option: bügelleicht, Easy-Iron-Finish"]
   },
@@ -263,54 +319,54 @@ const ITEM_DETAILS = {
     notes: ["Edel, formstabil", "Option: Wascheffekte, Strukturstrick"]
   },
   "Sweatshirts": {
-    fabrics: ["French Terry 260–340 GSM", "Loopback Jersey"],
+    fabrics: ["French Terry 260&ndash;340 GSM", "Loopback Jersey"],
     methods: ["Flatlock-Nähte", "Set-in/Raglan", "Gerippte Bündchen"],
     notes: ["Print/Stick, Applikationen", "Klassische Streetwear-Silhouetten"]
   },
   "Tanktops": {
-    fabrics: ["Single Jersey 160–200 GSM", "Performance-Jersey (Poly)"],
+    fabrics: ["Single Jersey 160&ndash;200 GSM", "Performance-Jersey (Poly)"],
     methods: ["Ein/zweifach eingefasste Kanten", "Armloch-/Halsausschnitt Binding"],
     notes: ["Sport/Layering", "Option: Racerback, Loose Fit"]
   },
   "Tops": {
-    fabrics: ["Modal-/Viskose-Jersey", "Rib Jersey 180–220 GSM"],
+    fabrics: ["Modal-/Viskose-Jersey", "Rib Jersey 180&ndash;220 GSM"],
     methods: ["Coverstitch-Säume", "Nahtverdeckter Reißverschluss (elegant)"],
     notes: ["Basic bis Fashion", "Option: Cropped, Cut-Outs"]
   },
   "T-Shirts": {
-    fabrics: ["Single Jersey 160–220 GSM (Bio-Cotton möglich)"],
+    fabrics: ["Single Jersey 160&ndash;220 GSM (Bio-Cotton möglich)"],
     methods: ["Tubular oder Seitennähte", "Nackenband, Schulter-to-Schulter-Tape"],
     notes: ["Oversize/Boxy möglich", "Reaktive Drucke, DTG, DTF, Siebdruck"]
   },
   "Westen": {
-    fabrics: ["Stepp: Nylon/Poly mit Wattierung", "Fleece-Weste 220–300 GSM"],
+    fabrics: ["Stepp: Nylon/Poly mit Wattierung", "Fleece-Weste 220&ndash;300 GSM"],
     methods: ["Reißverschluss vorn, Kinnschutz", "Steppmuster: horizontal/diamant"],
     notes: ["Leicht, Layering-fähig", "Option: Softshell-Weste, wasserabweisend"]
   },
 
   // ---------- Unterteile ----------
   "Chinos": {
-    fabrics: ["Stretch-Twill 240–300 GSM", "Baumwolle/Elasthan"],
+    fabrics: ["Stretch-Twill 240&ndash;300 GSM", "Baumwolle/Elasthan"],
     methods: ["Bund mit Gürtelschlaufen", "Hosen-Haken, Paspeltaschen hinten"],
     notes: ["Business-Casual", "Option: Tapered/Regular Fit"]
   },
   "Anzughosen": {
-    fabrics: ["Feiner Woll-/Poly-Mix", "Gabardine, Twill (200–260 GSM)"],
+    fabrics: ["Feiner Woll-/Poly-Mix", "Gabardine, Twill (200&ndash;260 GSM)"],
     methods: ["Bügelbruch, Futter bis Knie", "Hosenhaken+Knopf, Saum mit Stoßband"],
     notes: ["Anzugskompatibel", "Option: Stoff-Garnituren passend zum Sakko"]
   },
   "Jeans": {
-    fabrics: ["Denim 11–14 oz (Baumwolle/Elasthan)"],
+    fabrics: ["Denim 11&ndash;14 oz (Baumwolle/Elasthan)"],
     methods: ["Kettenstich-Nähte, Nieten", "YKK-Zip oder Button-Fly"],
     notes: ["Stone/Enzyme-Wash möglich", "Passformen: Skinny bis Loose"]
   },
   "Jogginghosen": {
-    fabrics: ["French Terry 280–340 GSM", "Tech-Jersey (Sport)"],
+    fabrics: ["French Terry 280&ndash;340 GSM", "Tech-Jersey (Sport)"],
     methods: ["Elastikbund mit Kordel", "Rippenbündchen am Saum"],
     notes: ["Sport/Streetwear", "Option: Seitentaschen mit Zipper"]
   },
   "Leggings": {
-    fabrics: ["Hochstretch-Interlock 220–280 GSM", "Nylon/Spandex, squat-proof"],
+    fabrics: ["Hochstretch-Interlock 220&ndash;280 GSM", "Nylon/Spandex, squat-proof"],
     methods: ["Flachnähte (Flatlock) gegen Reibung", "Breiter Formbund"],
     notes: ["Performance-Einsatz", "Option: Handy-Tasche seitlich"]
   },
@@ -320,13 +376,13 @@ const ITEM_DETAILS = {
     notes: ["Fließender Fall", "Option: Schlitz, Print allover"]
   },
   "Midiröcke": {
-    fabrics: ["Satin/Crepe 120–180 GSM", "Strukturgewebe"],
+    fabrics: ["Satin/Crepe 120&ndash;180 GSM", "Strukturgewebe"],
     methods: ["Formbund, Abnäher", "Innenfutter optional"],
     notes: ["Business/Fashion", "Option: A-Linie/Plissee"]
   },
   "Miniröcke": {
     fabrics: ["Twill/Denim", "Kunstleder (Fashion)"],
-    methods: ["Abnäher, Reißverschluss hinten/seitlich", "Saum fixiert oder raw edge (Denim)"],
+    methods: ["Abnäher, Reißverschluss hinten/seitlich", "Saum fixiert oder raw edge (Denim)"] ,
     notes: ["Trend-Piece", "Option: Gürtel/Ösen-Details"]
   },
   "Shorts": {
@@ -337,12 +393,12 @@ const ITEM_DETAILS = {
 
   // ---------- Business & Arbeitskleidung ----------
   "Latzhosen": {
-    fabrics: ["Heavy Twill 300–360 GSM", "Poly/Cotton 65/35"],
+    fabrics: ["Heavy Twill 300&ndash;360 GSM", "Poly/Cotton 65/35"],
     methods: ["Dreifachnähte, Knieverstärkung", "Mehrfach-Werkzeugtaschen"],
     notes: ["Robust & langlebig", "Option: Reflektpaspeln, Stretch-Einsätze"]
   },
   "Overall (Herren)": {
-    fabrics: ["Twill/Canvas 260–320 GSM"],
+    fabrics: ["Twill/Canvas 260&ndash;320 GSM"],
     methods: ["Front-Zip, Elastik im Rücken", "Cordura®-Verstärkungen optional"],
     notes: ["Industrie-geeignet", "Option: Namenspatch, Firmenbranding"]
   },
@@ -357,7 +413,7 @@ const ITEM_DETAILS = {
     notes: ["Neonfarben EN-konform", "Option: Großflächiger Rücken-Print"]
   },
   "Anzüge (Sakko+Hose)": {
-    fabrics: ["Wolle/Poly/Elasthan", "Feine Garne, Fall 200–260 GSM"],
+    fabrics: ["Wolle/Poly/Elasthan", "Feine Garne, Fall 200&ndash;260 GSM"],
     methods: ["Halb-/Vollcanvas möglich", "AMF-Stich, Innenfutter & Paspeltaschen"],
     notes: ["Maßtabellen & Gradierung", "Serienfertigung Business-Qualität"]
   },
@@ -431,12 +487,12 @@ const ITEM_DETAILS = {
     notes: ["Schnelltrocknend", "Individuelle Club-Designs"]
   },
   "Radlerhosen": {
-    fabrics: ["Kompressionsstoff 220–260 GSM"],
+    fabrics: ["Kompressionsstoff 220&ndash;260 GSM"],
     methods: ["Flatlock-Nähte", "Sitzpolster (Mehrdichte)"],
     notes: ["Rutschfeste Beinabschlüsse", "Reflekt-Details optional"]
   },
   "Jogginganzüge": {
-    fabrics: ["French Terry 300–360 GSM"],
+    fabrics: ["French Terry 300&ndash;360 GSM"],
     methods: ["Hoodie+Jogger Set", "Kordeln, Metallösen"],
     notes: ["Street & Team", "Option: Allover-Print Panel"]
   },
@@ -456,9 +512,190 @@ const ITEM_DETAILS = {
     notes: ["Teamwear", "Nummern/Logos möglich"]
   },
 
+  /* ---------- Jacken & Mäntel ---------- */
+  "Bomberjacken": {
+    fabrics: [
+      "Nylon/Oxford 70&ndash;120 D, optional mit PU/DWR-Beschichtung",
+      "Polyester-Twill 150&ndash;220 GSM, Futter: Taft 60&ndash;80 GSM",
+      "Wattierung 80&ndash;150 GSM (Poly) &ndash; leicht bis mittelwarm"
+    ],
+    methods: [
+      "Rippenbündchen an Kragen/Ärmel/Saum (1x1/2x2)",
+      "Front-Zip (YKK) mit Windleiste, Kinnschutz",
+      "Ärmeltasche mit Reißverschluss + Stiftkanälen (MA-1-Style)"
+    ],
+    notes: [
+      "Steppkammern horizontal/diamant möglich",
+      "Innen-/Außentaschen mit Druckknopf oder Zip",
+      "Option: reversible, Flight-Tag, großflächiger Stick/Print"
+    ]
+  },
+
+  "Daunenjacken": {
+    fabrics: [
+      "Downproof-Nylon 20&ndash;40 D (calendered), DWR",
+      "Futter: ultraleichter Taft 20&ndash;30 D",
+      "Füllung: 90/10 Daune/Feder oder Synthetik 120&ndash;250 GSM"
+    ],
+    methods: [
+      "Kammern: gesteppte Baffles oder Box-Wände",
+      "Elastische Innenbündchen, verstellbare Kapuze",
+      "Option: versiegelte Nähte im Schulterbereich"
+    ],
+    notes: [
+      "RDS-zertifizierte Daunen auf Wunsch, Fill-Power z. B. 650+",
+      "DWR-Finish nachrüstbar, wasserabweisend",
+      "Packbar in Innentasche; Gewicht & Wärmegrad nach Briefing"
+    ]
+  },
+
+  "Freizeitjacken": {
+    fabrics: [
+      "Baumwoll-/Poly-Twill 200&ndash;260 GSM",
+      "Softshell 280&ndash;320 GSM (atmungsaktiv, leicht wasserabweisend)",
+      "Ungefüttert oder Teilfutter (Mesh/Taft 60&ndash;80 GSM)"
+    ],
+    methods: [
+      "Front-Zip oder Druckknopfleiste",
+      "Eingrifftaschen mit Paspel/Klappe",
+      "Stehkragen/Umlegekragen, formstabile Belege"
+    ],
+    notes: [
+      "Übergangsjacke; bequeme Regular/Oversize-Fits",
+      "Option: Kordel in Saum/Kapuze, elastische Manschetten",
+      "CI-Branding via Stick, DTF, Lederpatch"
+    ]
+  },
+
+  "Jeansjacken": {
+    fabrics: [
+      "Denim 11&ndash;14 oz (100 % CO oder CO/Elasthan)",
+      "Twill-Futter optional (Körper) oder Sherpa-Futter 250&ndash;350 GSM",
+      "Kontrastgarne Core-Spun 20/3"
+    ],
+    methods: [
+      "Kapp-/Doppelnähte, Riegel-/Bartacks an Belastungspunkten",
+      "Metall-Druckknöpfe/Shank-Buttons, Brusttaschen mit Klappe",
+      "Waschungen: Stone/Enzyme, Bleach, Vintage"
+    ],
+    notes: [
+      "Passformen: Classic/Boxy/Relaxed",
+      "Option: abknöpfbares Sherpa-Kragenfutter",
+      "Dezente Whiskers/Hand-Sand je nach Look"
+    ]
+  },
+
+  "Lederjacken": {
+    fabrics: [
+      "Echtes Leder: Lamm-Nappa 0,7&ndash;1,0 mm / Rindsleder 1,1&ndash;1,3 mm",
+      "Veganes Leder (PU/microfiber) 0,6&ndash;0,9 mm",
+      "Futter: Satin/Taft 60&ndash;80 GSM, Ärmel ggf. gleitfähig"
+    ],
+    methods: [
+      "Panel-Schnitt mit Ziersteppungen, Kanten gefärbt/versiegelt",
+      "Metall-Zipper (YKK Excella) + Druckknöpfe",
+      "Revers/Biker-Kragen oder Stehkragen, Schulterstepp möglich"
+    ],
+    notes: [
+      "Gerbung & REACH-Konformität nachweisbar",
+      "Vorserie für Passform empfohlen (Leder fällt individuell)",
+      "Option: abnehmbares Futter, Prägung/Embossing"
+    ]
+  },
+
+  "Parkas": {
+    fabrics: [
+      "Canvas/Oxford 160&ndash;220 GSM mit DWR",
+      "Membran-Laminate 2- oder 3-Lagen (5k&ndash;10k mm WS)",
+      "Isolierung 120&ndash;200 GSM (Körper höher als Ärmel)"
+    ],
+    methods: [
+      "Lange Form mit Fischteilschlitz, Tunnelzug in Taille",
+      "Abnehmbare Kapuze mit Schirm, Storm-Cuffs",
+      "Viele Taschen (Cargo/Handwärmer), Windleiste über Frontzip"
+    ],
+    notes: [
+      "Winter- oder Übergangsvariante möglich",
+      "Option: Fellimitat-Besatz an Kapuze",
+      "Reflex-Piping/Transfers für Work/City"
+    ]
+  },
+
+  "Regenjacken": {
+    fabrics: [
+      "2,5-Lagen Laminat 90&ndash;130 GSM (WP 10k, MVP 10k)",
+      "3-Lagen Shell 120&ndash;160 GSM für robusten Einsatz",
+      "Nylon/Poly mit PFC-freier DWR"
+    ],
+    methods: [
+      "Vollständig getapte Nähte (Heißband)",
+      "Wasserabweisende Zipper, Kinnschutz, Laminat-Visier",
+      "Unterarm-Ventilations-Zips (Pit-Zips)"
+    ],
+    notes: [
+      "Packbar in eigene Tasche/Beutel",
+      "Verstellbare Kapuze, Einhand-Kordelstopper",
+      "Option: reflektierende Details, Droptail-Saum"
+    ]
+  },
+
+  "Trenchcoats": {
+    fabrics: [
+      "Gabardine 200&ndash;260 GSM (CO/Poly/Elasthan)",
+      "Satin-/Twill-Futter 70&ndash;90 GSM (teil- oder vollgefüttert)",
+      "Gürtelband mit Einlage"
+    ],
+    methods: [
+      "Doppelreihig, Sturmklappe & Rückenkoller",
+      "Epauletten, Ärmelriegel, Gehschlitz hinten",
+      "Kragen mit Unterkragen-Filz, Stepp 0,6&ndash;0,8 cm"
+    ],
+    notes: [
+      "Klassische Knopfpositionen & Längen (Knie/Oberschenkel)",
+      "Horn-Optik-Knöpfe oder echte Corozo",
+      "Option: wasserabweisendes Finish"
+    ]
+  },
+
+  "Windbreakers": {
+    fabrics: [
+      "Leichtes Nylon/Taffeta 70&ndash;110 GSM, DWR",
+      "Mesh-Futter 60&ndash;80 GSM (Atmungsaktivität)",
+      "Ripstop-Variante für mehr Reißfestigkeit"
+    ],
+    methods: [
+      "Gummizug an Saum/Ärmel, Kordel an Kapuze",
+      "Front-Zip (1/2 oder full), Kinnschutz",
+      "Packbar in Kängurutasche/Seitentasche"
+    ],
+    notes: [
+      "Sehr leicht, ideal für Promotion/Teamwear",
+      "Option: reflektierende Paspeln/Logos",
+      "Allover-Sublimation oder Panel-Print möglich"
+    ]
+  },
+
+  "Winterjacken": {
+    fabrics: [
+      "Robuster Oxford/Canvas 180&ndash;240 GSM mit DWR",
+      "Futter: Taft/Quilt, Microfleece im Kragen",
+      "Isolierung 180&ndash;300 GSM (zoniert: Körper/Ärmel/Kapuze)"
+    ],
+    methods: [
+      "Mehrlagiger Aufbau mit Windleiste (innen/außen)",
+      "Storm-Cuffs, Schneefang optional (urban/outdoor)",
+      "Große Taschen: Handwärmer oben, Cargo unten"
+    ],
+    notes: [
+      "Sehr warm; für &minus;5 °C bis &minus;20 °C je nach Füllmenge",
+      "Option: 3-in-1 mit herausnehmbarem Innenfleece",
+      "Sicherheits-Features: Reflex, Notfallpfeife am Zipper"
+    ]
+  },
+
   // ---------- Kinder ----------
   "Baby-Bodys": {
-    fabrics: ["Bio-Baumwolle Interlock 180–220 GSM"],
+    fabrics: ["Bio-Baumwolle Interlock 180&ndash;220 GSM"],
     methods: ["Nickelfreie Druckknöpfe", "Umschlag-Schultern"],
     notes: ["Hautfreundlich", "Zertifizierungen möglich (z. B. OEKO-TEX)"]
   },
@@ -478,7 +715,7 @@ const ITEM_DETAILS = {
     notes: ["Wetterfest je nach Bedarf", "Option: Namenslabel innen"]
   },
   "Kinder-T-Shirts": {
-    fabrics: ["Baumwoll-Jersey 160–200 GSM"],
+    fabrics: ["Baumwoll-Jersey 160&ndash;200 GSM"],
     methods: ["Weiche Nähte", "Schulter-to-Schulter-Tape"],
     notes: ["Hautfreundlich", "Prints kindgerecht"]
   },
@@ -490,58 +727,57 @@ const ITEM_DETAILS = {
 
   // ---------- Haushalt ----------
   "Bademäntel": {
-    fabrics: ["Frottier 320–450 GSM (100% Baumwolle oder Bambus-Viskose-Mix)", "Waffelpikee 220–300 GSM (leichter)"],
+    fabrics: ["Frottier 320&ndash;450 GSM (100% Baumwolle oder Bambus-Viskose-Mix)", "Waffelpikee 220&ndash;300 GSM (leichter)"],
     methods: ["Doppelte Seitennähte/Overlock", "Gürtel, Schlaufen, aufgesetzte Taschen", "Schalkragen oder Kapuze"],
     notes: ["Vorgewaschen gegen Einlaufen", "Option: Sticklogo auf Brust/Ärmel", "Personalisierung (Monogramm) möglich"]
   },
   "Badevorleger": {
-    fabrics: ["Frottier 700–900 GSM (hochflorig)", "Rutschhemmende Unterlage optional (Latex/TPR)"],
+    fabrics: ["Frottier 700&ndash;900 GSM (hochflorig)", "Rutschhemmende Unterlage optional (Latex/TPR)"],
     methods: ["Einfassung mit Doppelstepp", "Jacquard- oder Bordürenmuster"],
     notes: ["Hohe Saugfähigkeit", "Option: Anti-Rutsch-Beschichtung", "Standard- & Hotelgrößen verfügbar"]
   },
   "Bettdecken": {
-    fabrics: ["Downproof-Baumwollperkal 230–300 TC", "Mikrofaserhülle 70–110 GSM"],
+    fabrics: ["Downproof-Baumwollperkal 230&ndash;300 TC", "Mikrofaserhülle 70&ndash;110 GSM"],
     methods: ["Kassetten- oder Boxsteppung", "Paspelierte Kanten, Aufhängeschlaufen"],
     notes: ["Füllungen: Daune/Feder oder Hohlfaser", "Wärmegrade (Sommer/Übergang/Winter)", "Option: waschbar bis 60 °C (Hohlfaser)"]
   },
   "Kissenbezüge": {
-    fabrics: ["Baumwollsatin 300–400 TC", "Perkal 200–300 TC", "Jersey 160–190 GSM"],
+    fabrics: ["Baumwollsatin 300&ndash;400 TC", "Perkal 200&ndash;300 TC", "Jersey 160&ndash;190 GSM"],
     methods: ["Hotelverschluss (Überlappung) oder Reißverschluss", "Saum 3 cm, Paspel optional"],
     notes: ["Weich & atmungsaktiv", "Option: Stickereien/Piping", "Standard- & Sondergrößen"]
   },
   "Bettlaken": {
-    fabrics: ["Jersey 140–180 GSM mit Elasthan (Spannbettlaken)", "Perkal/Satin 120–160 GSM (Flat Sheet)"],
+    fabrics: ["Jersey 140&ndash;180 GSM mit Elasthan (Spannbettlaken)", "Perkal/Satin 120&ndash;160 GSM (Flat Sheet)"],
     methods: ["Rundumgummi (Spannbettlaken)", "Doppelte Säume, Miternähte an Ecken"],
     notes: ["Formstabil, sanfter Griff", "Option: Tiefe für hohe Matratzen", "Farbpalette nach CI"]
   },
   "Tischdecken": {
-    fabrics: ["Poly/Baumwoll-Mischung 180–240 GSM", "Fleckschutz-Finish (z. B. Teflon®)"],
-    methods: ["Saum 2–3 cm, gewebte Jacquards", "Gehrungsecken (mitered corners)"],
+    fabrics: ["Poly/Baumwoll-Mischung 180&ndash;240 GSM", "Fleckschutz-Finish (z. B. Teflon®)"],
+    methods: ["Saum 2&ndash;3 cm, gewebte Jacquards", "Gehrungsecken (mitered corners)"],
     notes: ["Pflegeleicht, bügelleicht", "Option: Rund/Oval/Sondermaße", "Logo-Weaving/Allover möglich"]
   },
   "Servietten": {
-    fabrics: ["Baumwolle/Twill 180–220 GSM", "Damast/Jacquard für Gastronomie"],
-    methods: ["Schmaler Saum 1–1,5 cm", "Gehrungsecken, Doppelstepp"],
+    fabrics: ["Baumwolle/Twill 180&ndash;220 GSM", "Damast/Jacquard für Gastronomie"],
+    methods: ["Schmaler Saum 1&ndash;1,5 cm", "Gehrungsecken, Doppelstepp"],
     notes: ["Hohe Faltstabilität", "Option: Logo-Stick, Kettelrand", "Sets passend zur Tischdecke"]
   }
 };
 
-// =====================================
-// Lazy Loader mit Queue (max 6 parallel)
-// =====================================
+/* =====================================
+   Lazy Loader mit Queue (max 8 parallel)
+   + IntersectionObserver
+   👉 Für BEISPIELBILDER weiterverwendet (NICHT für die Kartenbilder)
+===================================== */
 const PLACEHOLDER_1PX =
   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGMAAQAABQABDQottQAAAABJRU5ErkJggg==";
 
 class ImageQueue {
-  constructor(max=6){
+  constructor(max=8){
     this.max = max;
     this.running = 0;
     this.q = [];
   }
-  add(task){
-    this.q.push(task);
-    this.run();
-  }
+  add(task){ this.q.push(task); this.run(); }
   run(){
     while(this.running < this.max && this.q.length){
       const t = this.q.shift();
@@ -553,7 +789,7 @@ class ImageQueue {
     }
   }
 }
-const loaderQueue = new ImageQueue(6);
+const loaderQueue = new ImageQueue(8);
 
 const io = ('IntersectionObserver' in window)
   ? new IntersectionObserver((entries)=>{
@@ -576,9 +812,11 @@ const io = ('IntersectionObserver' in window)
     }, { rootMargin: '200px' })
   : null;
 
-// =====================================
-// Rendering
-// =====================================
+/* =====================================
+   Rendering der Karten
+   👉 Jetzt wie EN: <picture> mit AVIF/WebP/PNG (ohne Lazy-Queue)
+   (Beispielbilder-Logik bleibt unberührt und nutzt weiter IO/Queue)
+===================================== */
 const rowsWrap = document.querySelector('.product-rows');
 
 function createRow(cat, index){
@@ -588,7 +826,7 @@ function createRow(cat, index){
 
   row.innerHTML = `
     <div class="row-head">
-      <h3>${cat.title}</h3>
+      <h3>${cat.title.replace('&', '&amp;')}</h3>
     </div>
     <div class="row-items"></div>
     <div class="info-slot"></div>
@@ -598,32 +836,50 @@ function createRow(cat, index){
 
   cat.items.forEach((it) => {
     const baseName = it.file || it.de;
-    const src = buildImgSrc(cat.dir, baseName);
+    const urls = buildAllImgPaths(cat.dir, baseName);
 
     const card = document.createElement('button');
     card.className = 'product-card';
     card.type = 'button';
 
-    const img = document.createElement('img');
-    img.alt = it.de;
-    img.src = PLACEHOLDER_1PX;
-    img.setAttribute('data-src', src);
-    img.decoding = 'async';
+    // <picture> mit AVIF/WebP und PNG-Fallback
+    const picture = document.createElement('picture');
+    picture.innerHTML = `
+      <source type="image/avif" srcset="${urls.avif}">
+      <source type="image/webp" srcset="${urls.webp}">
+      <img src="${urls.png}" alt="${it.de}">
+    `;
 
-    if(io) io.observe(img);
-    else { img.src = src; }
+    // Zusätzliche JS-Fallback-Kaskade, falls bestimmte Dateien fehlen (404)
+    const imgEl = picture.querySelector('img');
+    let triedWebp = false;
+    let triedPng = true; // wir starten schon mit PNG als src
+    // Wenn AVIF/WebP in <source> 404en, probieren wir per onerror webp → png (png ist schon gesetzt)
+    imgEl.addEventListener('error', () => {
+      if (!triedWebp) {
+        triedWebp = true;
+        imgEl.src = urls.webp;
+        return;
+      }
+      if (!triedPng) {
+        triedPng = true;
+        imgEl.src = urls.png;
+        return;
+      }
+    });
+
+    card.appendChild(picture);
 
     const title = document.createElement('span');
     title.className = 'pc-title';
     title.textContent = it.de;
 
-    card.appendChild(img);
     card.appendChild(title);
 
-    // Klick → Details + mobiles Scrollen
+    // Klick → Details rendern + mobiles Scrollen
     card.addEventListener('click', (e) => {
       const panel = showInfoInline(cat, it, row);
-      if (isMobile() && e.target && e.target.tagName === 'IMG') {
+      if (isMobile()) {
         scrollToPanel(panel);
       }
     });
@@ -632,6 +888,121 @@ function createRow(cat, index){
   });
 
   return row;
+}
+
+/* =====================================
+   Beispielbilder-Logik: On-Demand (UNVERÄNDERT)
+   - Erst laden, NACHDEM das Info-Panel geöffnet wurde
+   - Versucht zuerst ein Manifest (examples.json)
+   - Fallback: HEAD-Probe (ohne Cache-Buster), bricht nach erster Lücke ab
+   - Ergebnisse session-weit cachen
+===================================== */
+const MAX_EXAMPLES = 24;
+const STOP_AFTER_MISSES = 1; // bei erster Lücke abbrechen (verhindert 404-Sturm)
+const exampleCache = new Map(); // key: `${dir}///${baseName}` => string[] URLs oder []
+
+async function headExists(url){
+  try{
+    const res = await fetch(url, { method: 'HEAD' });
+    return res && res.ok;
+  }catch{ return false; }
+}
+
+async function tryLoadExamplesFromManifest(dir, baseName){
+  const url = buildExamplesManifestUrl(dir, baseName);
+  try{
+    const res = await fetch(url, { method: 'GET' });
+    if(!res.ok) return null;
+    const data = await res.json();
+    // Erlaubte Formen: [1,2,3] oder ["1.jpg","2.jpg"] oder ["basename1.jpg", ...]
+    if(!Array.isArray(data) || data.length === 0) return [];
+    const list = [];
+    for(const entry of data){
+      if(typeof entry === 'number'){
+        list.push(buildExampleSrc(dir, baseName, entry));
+      } else if(typeof entry === 'string'){
+        // Wenn bereits vollständiger Dateiname inkl. .jpg geliefert wird
+        const safeDir   = dir.split("/").map(encodePathSegment).join("/");
+        const folder    = encodePathSegment(baseName);
+        const file      = encodePathSegment(entry);
+        list.push(`${IMG_BASE}/${safeDir}/${folder}/${file}`);
+      }
+    }
+    return list;
+  }catch{ return null; }
+}
+
+async function discoverExampleUrls(dir, baseName){
+  const cacheKey = `${dir}///${baseName}`;
+  if(exampleCache.has(cacheKey)) return exampleCache.get(cacheKey);
+
+  // 1) Manifest versuchen
+  let urls = await tryLoadExamplesFromManifest(dir, baseName);
+  if(urls && urls.length){
+    exampleCache.set(cacheKey, urls);
+    return urls;
+  }
+  if(urls && urls.length === 0){
+    exampleCache.set(cacheKey, []);
+    return [];
+  }
+
+  // 2) Fallback: numerisch 1..MAX_EXAMPLES prüfen (HEAD), bei erster Lücke abbrechen
+  urls = [];
+  let misses = 0;
+  for(let i=1; i<=MAX_EXAMPLES; i++){
+    const url = buildExampleSrc(dir, baseName, i);
+    /* eslint-disable no-await-in-loop */
+    const ok = await headExists(url);
+    if(ok){ urls.push(url); misses = 0; }
+    else {
+      misses++;
+      if(misses >= STOP_AFTER_MISSES) break;
+    }
+  }
+  exampleCache.set(cacheKey, urls);
+  return urls;
+}
+
+async function mountExamplesOnDemand(dir, baseName, listEl, galleryWrap){
+  // URLs ermitteln (Manifest oder HEAD); lädt noch KEINE Bilder
+  const urls = await discoverExampleUrls(dir, baseName);
+
+  if(!urls || urls.length === 0){
+    galleryWrap.style.display = 'none';
+    return;
+  }
+
+  // Rendern: Bilder als Placeholder + data-src, lazy via IO
+  urls.forEach((url, idx) => {
+    const li  = document.createElement('div');
+    li.className = 'eg-item';
+
+    const img = document.createElement('img');
+    img.alt = `${baseName} Beispiel`;
+    img.src = PLACEHOLDER_1PX;
+    img.setAttribute('data-src', url);
+    img.decoding = 'async';
+    img.loading = 'lazy';
+    img.setAttribute('fetchpriority', 'low');
+    img.tabIndex = 0;
+    img.setAttribute('role', 'button');
+    img.setAttribute('aria-label', 'Bild groß anzeigen');
+
+    const open = (ev) => {
+      ev.preventDefault();
+      openLightbox(urls, idx, img);
+    };
+    img.addEventListener('click', open);
+    img.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') open(e);
+    });
+
+    li.appendChild(img);
+    listEl.appendChild(li);
+
+    if (io) io.observe(img); else { img.src = url; img.classList.add('loaded'); }
+  });
 }
 
 function showInfoInline(cat, item, rowEl){
@@ -662,11 +1033,21 @@ function showInfoInline(cat, item, rowEl){
         <ul>${notes.length ? notes.map(n => `<li>${n}</li>`).join('') : '<li>Nach Briefing</li>'}</ul>
       </div>
     </div>
+
+    <div class="example-gallery" aria-live="polite">
+      <h4>Beispiele unserer Partner</h4>
+      <div class="eg-list"></div>
+    </div>
   `;
 
   const slot = rowEl.querySelector('.info-slot');
   slot.innerHTML = '';
   slot.appendChild(panel);
+
+  // Galerie NACH dem Einfügen lazy initialisieren (on-demand)
+  const galleryWrap = panel.querySelector('.example-gallery');
+  const listEl = panel.querySelector('.eg-list');
+  mountExamplesOnDemand(cat.dir, key, listEl, galleryWrap);
 
   // A11y: Fokus kurz auf die Überschrift
   const h3 = panel.querySelector('.info-inline-head h3');
@@ -680,16 +1061,16 @@ function showInfoInline(cat, item, rowEl){
 // Starte Rendering
 CATEGORIES.forEach((c, i) => rowsWrap.appendChild(createRow(c, i)));
 
-// =====================================
-// Scroll Restoration
-// =====================================
+/* =====================================
+   Scroll Restoration
+===================================== */
 if ('scrollRestoration' in history) {
   history.scrollRestoration = 'manual';
 }
 
-// =====================================
-// Navigation Toggle (Off-Canvas)
-// =====================================
+/* =====================================
+   Navigation Toggle (Off-Canvas)
+===================================== */
 (function () {
   const btn = document.querySelector('.hamburger');
   const nav = document.getElementById('mobile-nav');
@@ -732,9 +1113,9 @@ if ('scrollRestoration' in history) {
   });
 })();
 
-// =====================================
-// Sprachschalter (behält Unterseite bei)
-// =====================================
+/* =====================================
+   Sprachschalter (behält Unterseite bei)
+===================================== */
 (function(){
   const box = document.querySelector('.lang-switch'); if(!box) return;
   const links = box.querySelectorAll('.lang-link');
@@ -775,6 +1156,136 @@ if ('scrollRestoration' in history) {
     location.replace(`/${target}/`);
   }
 })();
+
+/* =====================================
+   Lightbox (mit Mobile Button-Fix & Body-Lock)
+===================================== */
+const lbEl = document.querySelector('.lightbox');
+const lbImg = lbEl?.querySelector('.lb-img');
+const lbPrev = lbEl?.querySelector('.lb-prev');
+const lbNext = lbEl?.querySelector('.lb-next');
+const lbClose = lbEl?.querySelector('.lb-close');
+
+let LB_LIST = [];
+let LB_INDEX = 0;
+let LB_OPEN = false;
+let restoreFocusEl = null;
+
+function updateLightbox() {
+  if (!LB_LIST.length) return;
+  const url = LB_LIST[LB_INDEX];
+  lbImg.src = url; // JPG in Originalgröße
+}
+
+// Body-Lock Utils
+function lockBodyScroll() {
+  const y = window.scrollY || document.documentElement.scrollTop || 0;
+  document.body.dataset.lockScrollY = String(y);
+  document.documentElement.classList.add('no-smooth'); // Smooth temporär aus
+  document.body.classList.add('no-smooth', 'no-scroll');
+  document.body.style.top = `-${y}px`;
+}
+
+function unlockBodyScroll() {
+  const y = parseInt(document.body.dataset.lockScrollY || '0', 10);
+
+  // Styles entfernen
+  document.body.classList.remove('no-scroll');
+  document.body.style.top = '';
+  delete document.body.dataset.lockScrollY;
+
+  // In zwei RAF-Ticks zurückscrollen und Smooth erst danach wieder an
+  requestAnimationFrame(() => {
+    window.scrollTo(0, y);
+    requestAnimationFrame(() => {
+      document.documentElement.classList.remove('no-smooth');
+      document.body.classList.remove('no-smooth');
+    });
+  });
+}
+
+function openLightbox(list, index, sourceEl) {
+  LB_LIST = list;
+  LB_INDEX = index;
+  restoreFocusEl = sourceEl || document.activeElement;
+
+  updateLightbox();
+  lbEl.hidden = false;
+  lbEl.setAttribute('aria-hidden', 'false');
+
+  lockBodyScroll(); // robustes Scroll-Locking
+  LB_OPEN = true;
+
+  // Fokus auf Close für A11y
+  lbClose.focus({preventScroll:true});
+}
+
+function closeLightbox() {
+  lbEl.hidden = true;
+  lbEl.setAttribute('aria-hidden', 'true');
+  LB_OPEN = false;
+
+  unlockBodyScroll(); // Scroll wiederherstellen
+
+  // Fokus zurück
+  if (restoreFocusEl && typeof restoreFocusEl.focus === 'function') {
+    restoreFocusEl.focus({preventScroll:true});
+  }
+}
+
+function prevLightbox() {
+  if (!LB_LIST.length) return;
+  LB_INDEX = (LB_INDEX - 1 + LB_LIST.length) % LB_LIST.length;
+  updateLightbox();
+}
+function nextLightbox() {
+  if (!LB_LIST.length) return;
+  LB_INDEX = (LB_INDEX + 1) % LB_LIST.length;
+  updateLightbox();
+}
+
+if (lbPrev && lbNext && lbClose) {
+  // Tap-Wrapper: Aktion ausführen und auf Touch sofort blur()
+  // (verhindert sticky :focus Styles)
+  const onTap = (fn) => (e) => {
+    fn();
+    if (matchMedia('(hover: none)').matches) {
+      e.currentTarget.blur();
+    }
+  };
+
+  lbPrev.addEventListener('click', onTap(prevLightbox));
+  lbNext.addEventListener('click', onTap(nextLightbox));
+  lbClose.addEventListener('click', onTap(closeLightbox));
+
+  // Klick auf Hintergrund schließt (aber nicht, wenn auf Bild/Buttons geklickt)
+  lbEl.addEventListener('click', (e) => {
+    if (e.target === lbEl) closeLightbox();
+  });
+
+  // Tastatursteuerung
+  document.addEventListener('keydown', (e) => {
+    if (!LB_OPEN) return;
+    if (e.key === 'Escape') { e.preventDefault(); closeLightbox(); }
+    else if (e.key === 'ArrowLeft') { e.preventDefault(); prevLightbox(); }
+    else if (e.key === 'ArrowRight') { e.preventDefault(); nextLightbox(); }
+  });
+
+  // Einfache Swipe-Navigation (Touch/Pointer)
+  let startX = null;
+  lbEl.addEventListener('pointerdown', (e) => { startX = e.clientX; });
+  lbEl.addEventListener('pointerup', (e) => {
+    if (startX == null) return;
+    const dx = e.clientX - startX;
+    startX = null;
+    const SWIPE_MIN = 40;
+    if (dx > SWIPE_MIN) prevLightbox();
+    else if (dx < -SWIPE_MIN) nextLightbox();
+  });
+
+  // iOS-Safari: Scrollen hinter der Lightbox zusätzlich unterbinden
+  lbEl.addEventListener('touchmove', (e) => { e.preventDefault(); }, { passive: false });
+}
 </script>
 </body>
 </html>

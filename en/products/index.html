@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>CoreWear &ndash; Products</title>
-  <meta name="description" content="CoreWear product overview: tops, bottoms, business & workwear, dresses, sports & leisurewear, kidswear, and home. B2B production from 500 units." />
+  <meta name="description" content="CoreWear product overview: tops, bottoms, business & workwear, dresses, sports & leisurewear, jackets & coats, kidswear, and home. B2B production from 100 units." />
 
   <!-- SEO -->
   <link rel="canonical" href="https://corewear.pro/en/products/" />
@@ -70,17 +70,17 @@
 
   <div class="section-title">
     <h2>Even More Possibilities</h2>
-    <span class="muted">We&rsquo;re flexible — beyond the items listed here.</span>
+    <span class="muted">We&rsquo;re flexible &mdash; beyond the items listed here.</span>
   </div>
 
   <section class="grid cols-1">
     <article class="card">
       <p class="muted">
-        Don&rsquo;t see your exact product? No problem — with our machinery and partner network, we&rsquo;re happy to assess feasibility.
+        Don&rsquo;t see your exact product? No problem &mdash; with our machinery and partner network, we&rsquo;re happy to assess feasibility.
       </p>
       <p class="muted">
         We can also <strong>recreate existing collections</strong> or <strong>co-develop new collections</strong> and produce them end-to-end.
-        Whether single items or full service — you&rsquo;re in the right place.
+        Whether single items or full service &mdash; you&rsquo;re in the right place.
       </p>
     </article>
   </section>
@@ -95,6 +95,14 @@
     </div>
   </div>
 </footer>
+
+<!-- Lightbox -->
+<div class="lightbox" hidden aria-hidden="true" role="dialog" aria-label="Image preview">
+  <button class="lb-close" type="button" aria-label="Close">×</button>
+  <button class="lb-btn lb-prev" type="button" aria-label="Previous image">‹</button>
+  <img class="lb-img" alt="Preview">
+  <button class="lb-btn lb-next" type="button" aria-label="Next image">›</button>
+</div>
 
 <!-- Optional structured data -->
 <script type="application/ld+json">
@@ -112,16 +120,14 @@
   // Year in footer
   document.getElementById('y').textContent = new Date().getFullYear();
 
-  // Base image path (relative to /en/)
-  // -> resolves to /en/resources/img/Clothes/...
+  // Base image path (relative to /en/products/)
   const IMG_BASE = "../resources/img/Clothes";
 
-  // URL-encode a single path segment (for spaces, umlauts, etc.)
   function encodePathSegment(seg){
     return encodeURIComponent(seg).replace(/%2F/gi, "/");
   }
   function buildImgPath(dir, baseName, ext){
-    const safeDir = dir.split("/").map(encodePathSegment).join("/");
+    const safeDir  = dir.split("/").map(encodePathSegment).join("/");
     const safeFile = encodePathSegment(baseName) + "." + ext;
     return `${IMG_BASE}/${safeDir}/${safeFile}`;
   }
@@ -132,32 +138,34 @@
       png:  buildImgPath(dir, baseName, "png")
     };
   }
-
-  // =========================
-  // Mobile-only scroll helpers
-  // =========================
-  const MOBILE_MAX = 959.98; // keep in sync with CSS breakpoint
-
-  function isMobile() {
-    return window.matchMedia(`(max-width: ${MOBILE_MAX}px)`).matches;
+  // Example image (JPG): .../{dir}/{baseName}/{baseName}{index}.jpg
+  function buildExampleSrc(dir, baseName, index){
+    const safeDir   = dir.split("/").map(encodePathSegment).join("/");
+    const folder    = encodePathSegment(baseName);
+    const fileJpg   = encodePathSegment(baseName) + String(index) + ".jpg";
+    return `${IMG_BASE}/${safeDir}/${folder}/${fileJpg}`;
+  }
+  // Optional manifest: .../{dir}/{baseName}/examples.json
+  function buildExamplesManifestUrl(dir, baseName){
+    const safeDir   = dir.split("/").map(encodePathSegment).join("/");
+    const folder    = encodePathSegment(baseName);
+    return `${IMG_BASE}/${safeDir}/${folder}/examples.json`;
   }
 
-  function getHeaderHeight() {
+  // Mobile helpers
+  const MOBILE_MAX = 959.98;
+  function isMobile(){ return window.matchMedia(`(max-width:${MOBILE_MAX}px)`).matches; }
+  function getHeaderHeight(){
     const val = getComputedStyle(document.documentElement).getPropertyValue('--header-h').trim();
-    const n = parseFloat(val);
-    return Number.isFinite(n) ? n : 64;
+    const n = parseFloat(val); return Number.isFinite(n) ? n : 64;
   }
-
-  function scrollToPanel(panelEl) {
-    if (!panelEl) return;
-    const extraOffset = 10;
-    const y = panelEl.getBoundingClientRect().top + window.scrollY - getHeaderHeight() - extraOffset;
+  function scrollToPanel(panelEl){
+    if(!panelEl) return;
+    const y = panelEl.getBoundingClientRect().top + window.scrollY - getHeaderHeight() - 10;
     window.scrollTo({ top: y, behavior: 'smooth' });
   }
 
-  // =========================
-  // Categories (English folder names for images; English UI labels)
-  // =========================
+  // Categories (English)
   const CATEGORIES = [
     {
       title: "Tops",
@@ -232,6 +240,22 @@
       ]
     },
     {
+      title: "Jackets & Coats",
+      dir: "Jackets & Coats",
+      items: [
+        { name: "Bomber Jackets" },
+        { name: "Down Jackets" },
+        { name: "Casual Jackets" },
+        { name: "Denim Jackets" },
+        { name: "Leather Jackets" },
+        { name: "Parkas" },
+        { name: "Rain Jackets" },
+        { name: "Trench Coats" },
+        { name: "Windbreakers" },
+        { name: "Winter Coats" }
+      ]
+    },
+    {
       title: "Kidswear",
       dir: "Kidswear",
       items: [
@@ -259,9 +283,7 @@
     }
   ];
 
-  // =========================
-  // Product details (English UI text) – keys must match item.name exactly
-  // =========================
+  // Product details (English)
   const ITEM_DETAILS = {
     // ---------- Tops ----------
     "Blouses": {
@@ -272,7 +294,7 @@
     "Hoodies": {
       fabrics: ["Fleece 300&ndash;420 GSM (brushed)", "French terry 280&ndash;360 GSM"],
       methods: ["Coverstitch seams", "Kangaroo pocket, lined hood", "Rib at hem & cuffs"],
-      notes: ["Heavyweight streetwear possible", "Large-format print/embroidery, optional zipper"]
+      notes: ["Heavyweight streetwear possible", "Large-scale print/embroidery, optional zipper"]
     },
     "Polo Shirts": {
       fabrics: ["Piqué 180&ndash;240 GSM (cotton/poly)", "Interlock 170&ndash;210 GSM"],
@@ -282,11 +304,11 @@
     "Shirts": {
       fabrics: ["Poplin, Oxford, twill (110&ndash;160 GSM)"],
       methods: ["Collars (Kent, button-down)", "Chest pocket optional", "Clean interior finishing"],
-      notes: ["Slim/regular/relaxed fits", "Options: easy-iron finish"]
+      notes: ["Slim/regular/relaxed fits", "Option: easy-iron finish"]
     },
     "Sweaters": {
       fabrics: ["Wool blends (Merino/poly)", "Cotton knit, fine gauge"],
-      methods: ["Fully-fashioned linking", "1x1 / 2x2 rib trims", "Raglan or set-in sleeves"],
+      methods: ["Fully-fashioned linking", "1x1/2x2 rib trims", "Raglan or set-in sleeves"],
       notes: ["Premium, shape-retaining", "Options: wash effects, textured knits"]
     },
     "Sweatshirts": {
@@ -319,11 +341,11 @@
     "Chinos": {
       fabrics: ["Stretch twill 240&ndash;300 GSM", "Cotton/elastane"],
       methods: ["Waistband with belt loops", "Hook & bar, back welt pockets"],
-      notes: ["Business casual", "Fits: tapered/regular"]
+      notes: ["Business casual", "Options: tapered/regular fit"]
     },
     "Suit Trousers": {
       fabrics: ["Fine wool/poly blends", "Gabardine/twill 200&ndash;260 GSM"],
-      methods: ["Crease line, lining to knee", "Hook & bar + button, heel tape at hem"],
+      methods: ["Pressed crease, lining to knee", "Hook & bar + button, heel tape at hem"],
       notes: ["Suit-compatible", "Matching jacket fabrics available"]
     },
     "Jeans": {
@@ -338,7 +360,7 @@
     },
     "Leggings": {
       fabrics: ["High-stretch interlock 220&ndash;280 GSM", "Nylon/spandex (squat-proof)"],
-      methods: ["Flatlock seams to reduce chafe", "Wide shaping waistband"],
+      methods: ["Flatlock seams to reduce chafing", "Wide shaping waistband"],
       notes: ["Performance use", "Option: side phone pocket"]
     },
     "Maxi Skirts": {
@@ -366,7 +388,7 @@
     "Bib Overalls": {
       fabrics: ["Heavy twill 300&ndash;360 GSM", "Poly/cotton 65/35"],
       methods: ["Triple seams, knee reinforcement", "Multi tool pockets"],
-      notes: ["Durable", "Options: reflective piping, stretch panels"]
+      notes: ["Durable & long-wearing", "Options: reflective piping, stretch panels"]
     },
     "Coverall (Men)": {
       fabrics: ["Twill/canvas 260&ndash;320 GSM"],
@@ -374,7 +396,7 @@
       notes: ["Industry-ready", "Options: name patch, company branding"]
     },
     "Protective Trousers": {
-      fabrics: ["Ripstop, twill, blends", "Optional: FR to spec"],
+      fabrics: ["Ripstop, twill, blends", "Optional: FR per standard"],
       methods: ["Triple seams, knee pad pockets", "Reflective bands"],
       notes: ["Standards per brief (e.g., EN ISO)", "High abrasion resistance"]
     },
@@ -469,7 +491,7 @@
     },
     "Performance Shirts": {
       fabrics: ["Microfiber poly with antibacterial finish"],
-      methods: ["Raglan (low seams)", "Flatlock stitching"],
+      methods: ["Raglan (few seams)", "Flatlock stitching"],
       notes: ["Moisture management", "Option: mesh panels"]
     },
     "Sports Bras": {
@@ -481,6 +503,187 @@
       fabrics: ["Poly tricot", "Warmer knit for winter"],
       methods: ["Jacket + pants, zippers", "Contrast piping"],
       notes: ["Teamwear", "Numbers/logos possible"]
+    },
+
+    /* ---------- Jackets & Coats ---------- */
+    "Bomber Jackets": {
+      fabrics: [
+        "Nylon/oxford 70&ndash;120 D, optional PU/DWR coating",
+        "Polyester twill 150&ndash;220 GSM, lining: taffeta 60&ndash;80 GSM",
+        "Insulation 80&ndash;150 GSM (poly) &ndash; light to mid warmth"
+      ],
+      methods: [
+        "Rib trims at collar/cuffs/hem (1x1/2x2)",
+        "Front zipper (YKK) with storm flap, chin guard",
+        "Sleeve pocket with zip + pen channels (MA-1 style)"
+      ],
+      notes: [
+        "Quilting patterns horizontal/diamond possible",
+        "Inside/outside pockets with snap or zip",
+        "Options: reversible, flight tag, large embroidery/print"
+      ]
+    },
+
+    "Down Jackets": {
+      fabrics: [
+        "Down-proof nylon 20&ndash;40 D (calendered), DWR",
+        "Lining: ultralight taffeta 20&ndash;30 D",
+        "Fill: 90/10 down/feather or synthetic 120&ndash;250 GSM"
+      ],
+      methods: [
+        "Baffles: stitched-through or box walls",
+        "Elastic inner cuffs, adjustable hood",
+        "Option: sealed seams at shoulders"
+      ],
+      notes: [
+        "RDS-certified down on request, fill power e.g., 650+",
+        "DWR finish upgradeable, water-repellent",
+        "Packs into inner pocket; weight & warmth per brief"
+      ]
+    },
+
+    "Casual Jackets": {
+      fabrics: [
+        "Cotton/poly twill 200&ndash;260 GSM",
+        "Softshell 280&ndash;320 GSM (breathable, light water repellency)",
+        "Unlined or partial lining (mesh/taffeta 60&ndash;80 GSM)"
+      ],
+      methods: [
+        "Front zipper or snap placket",
+        "Welt pockets or flaps",
+        "Stand or turn-down collar, stable facings"
+      ],
+      notes: [
+        "Transitional piece; regular or oversized fits",
+        "Options: hem/hood drawcord, elastic cuffs",
+        "CI branding via embroidery, DTF, leather patch"
+      ]
+    },
+
+    "Denim Jackets": {
+      fabrics: [
+        "Denim 11&ndash;14 oz (100% cotton or cotton/elastane)",
+        "Optional body lining (twill) or sherpa 250&ndash;350 GSM",
+        "Contrast core-spun threads 20/3"
+      ],
+      methods: [
+        "Felled/double seams, bartacks at stress points",
+        "Metal snaps/shank buttons, flap chest pockets",
+        "Washes: stone/enzyme, bleach, vintage"
+      ],
+      notes: [
+        "Fits: classic/boxy/relaxed",
+        "Option: detachable sherpa collar",
+        "Subtle whiskers/hand-sand per look"
+      ]
+    },
+
+    "Leather Jackets": {
+      fabrics: [
+        "Genuine: lamb nappa 0.7&ndash;1.0 mm / cowhide 1.1&ndash;1.3 mm",
+        "Vegan leather (PU/microfiber) 0.6&ndash;0.9 mm",
+        "Lining: satin/taffeta 60&ndash;80 GSM, slick sleeves"
+      ],
+      methods: [
+        "Paneled cut with decorative topstitching, edge dye/seal",
+        "Metal zippers (YKK Excella) + snaps",
+        "Biker/revere or stand collar, shoulder quilting optional"
+      ],
+      notes: [
+        "Tanning & REACH compliance traceable",
+        "Fit pilot strongly recommended (leather drapes uniquely)",
+        "Options: removable liner, embossing"
+      ]
+    },
+
+    "Parkas": {
+      fabrics: [
+        "Canvas/oxford 160&ndash;220 GSM with DWR",
+        "2- or 3-layer laminates (5k&ndash;10k mm water column)",
+        "Insulation 120&ndash;200 GSM (higher at body than sleeves)"
+      ],
+      methods: [
+        "Long cut with fishtail, waist drawcord",
+        "Detachable hood with brim, storm cuffs",
+        "Many pockets (cargo/handwarmer), storm flap over front zip"
+      ],
+      notes: [
+        "Winter or transitional versions possible",
+        "Option: faux-fur trim at hood",
+        "Reflective piping/transfers for work/city"
+      ]
+    },
+
+    "Rain Jackets": {
+      fabrics: [
+        "2.5-layer laminate 90&ndash;130 GSM (WP 10k, MVP 10k)",
+        "3-layer shell 120&ndash;160 GSM for robustness",
+        "Nylon/poly with PFC-free DWR"
+      ],
+      methods: [
+        "Fully taped seams (heat tape)",
+        "Water-repellent zippers, chin guard, laminated brim",
+        "Underarm ventilation zips (pit zips)"
+      ],
+      notes: [
+        "Packs into its own pocket/bag",
+        "Adjustable hood, single-pull cord locks",
+        "Options: reflective details, drop-tail hem"
+      ]
+    },
+
+    "Trench Coats": {
+      fabrics: [
+        "Gabardine 200&ndash;260 GSM (cotton/poly/elastane)",
+        "Satin/taffeta lining 70&ndash;90 GSM (partial or full)",
+        "Belt with interlining"
+      ],
+      methods: [
+        "Double-breasted, gun flap & storm shield",
+        "Epaulettes, cuff straps, back vent",
+        "Collar with undercollar felt, 0.6&ndash;0.8 cm topstitch"
+      ],
+      notes: [
+        "Classic button positions & lengths (knee/thigh)",
+        "Horn-look or real corozo buttons",
+        "Option: water-repellent finish"
+      ]
+    },
+
+    "Windbreakers": {
+      fabrics: [
+        "Light nylon/taffeta 70&ndash;110 GSM, DWR",
+        "Mesh lining 60&ndash;80 GSM for breathability",
+        "Ripstop option for higher tear strength"
+      ],
+      methods: [
+        "Elastic hem/cuffs, hood drawcord",
+        "Front zipper (half or full), chin guard",
+        "Packs into kangaroo or side pocket"
+      ],
+      notes: [
+        "Ultra light; great for promo/teamwear",
+        "Options: reflective piping/logos",
+        "Allover sublimation or panel print possible"
+      ]
+    },
+
+    "Winter Coats": {
+      fabrics: [
+        "Durable oxford/canvas 180&ndash;240 GSM with DWR",
+        "Lining: taffeta/quilt, microfleece at collar",
+        "Insulation 180&ndash;300 GSM (zoned: body/sleeves/hood)"
+      ],
+      methods: [
+        "Multi-layer build with inner/outer storm flaps",
+        "Storm cuffs, optional snow skirt (urban/outdoor)",
+        "Large pockets: handwarmer upper, cargo lower"
+      ],
+      notes: [
+        "Very warm; for &minus;5 °C to &minus;20 °C depending on fill",
+        "Option: 3-in-1 with removable inner fleece",
+        "Safety features: reflective trims, whistle on zipper pull"
+      ]
     },
 
     // ---------- Kids ----------
@@ -577,15 +780,13 @@
     const itemsWrap = row.querySelector('.row-items');
 
     cat.items.forEach((it) => {
-      const baseName = it.file || it.name; // filename = item name
+      const baseName = it.file || it.name;
       const urls = buildAllImgPaths(cat.dir, baseName);
 
       const card = document.createElement('button');
       card.className = 'product-card';
       card.type = 'button';
 
-      // Build <picture> with avif/webp sources and PNG as fallback
-      // JS onerror chain ensures fallback if a chosen file is missing (404).
       const picture = document.createElement('picture');
       picture.innerHTML = `
         <source type="image/avif" srcset="${urls.avif}">
@@ -598,18 +799,8 @@
       let triedPng = false;
 
       imgEl.addEventListener('error', () => {
-        // If AVIF 404s (or unsupported and WebP 404s), step down manually.
-        if (!triedWebp) {
-          triedWebp = true;
-          imgEl.src = urls.webp;
-          return;
-        }
-        if (!triedPng) {
-          triedPng = true;
-          imgEl.src = urls.png;
-          return;
-        }
-        // Give up after PNG to avoid loops.
+        if (!triedWebp) { triedWebp = true; imgEl.src = urls.webp; return; }
+        if (!triedPng) { triedPng = true; imgEl.src = urls.png; return; }
       });
 
       card.appendChild(picture);
@@ -621,9 +812,7 @@
 
       card.addEventListener('click', (e) => {
         const panel = showInfoInline(cat, it, row);
-        if (isMobile() && e.target && (e.target.tagName === 'IMG' || e.target.tagName === 'SOURCE')) {
-          scrollToPanel(panel);
-        }
+        if (isMobile()) scrollToPanel(panel);
       });
 
       itemsWrap.appendChild(card);
@@ -632,13 +821,134 @@
     return row;
   }
 
+  /* =========================
+     Example Images: On-Demand
+  ========================= */
+  const MAX_EXAMPLES = 24;
+  const STOP_AFTER_MISSES = 1;
+  const exampleCache = new Map();
+
+  const PLACEHOLDER_1PX =
+    "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGMAAQAABQABDQottQAAAABJRU5ErkJggg==";
+
+  class ImageQueue {
+    constructor(max=8){ this.max=max; this.running=0; this.q=[]; }
+    add(task){ this.q.push(task); this.run(); }
+    run(){
+      while(this.running < this.max && this.q.length){
+        const t = this.q.shift(); this.running++;
+        Promise.resolve().then(t).catch(()=>{}).finally(()=>{ this.running--; this.run(); });
+      }
+    }
+  }
+  const loaderQueue = new ImageQueue(8);
+
+  const io = ('IntersectionObserver' in window)
+    ? new IntersectionObserver((entries)=>{
+        entries.forEach(entry=>{
+          if(!entry.isIntersecting) return;
+          const img = entry.target;
+          io.unobserve(img);
+          loaderQueue.add(async ()=>{
+            const url = img.dataset.src;
+            if(!url) return;
+            const preload = new Image();
+            preload.decoding = 'async';
+            preload.src = url;
+            try { await preload.decode(); } catch {}
+            img.src = url;
+            img.removeAttribute('data-src');
+            img.classList.add('loaded');
+          });
+        });
+      }, { rootMargin: '200px' })
+    : null;
+
+  async function headExists(url){
+    try{ const res = await fetch(url, { method:'HEAD' }); return res && res.ok; }
+    catch{ return false; }
+  }
+
+  async function tryLoadExamplesFromManifest(dir, baseName){
+    const url = buildExamplesManifestUrl(dir, baseName);
+    try{
+      const res = await fetch(url, { method:'GET' });
+      if(!res.ok) return null;
+      const data = await res.json();
+      if(!Array.isArray(data) || data.length===0) return [];
+      const list = [];
+      for(const entry of data){
+        if(typeof entry === 'number'){
+          list.push(buildExampleSrc(dir, baseName, entry));
+        } else if(typeof entry === 'string'){
+          const safeDir   = dir.split("/").map(encodePathSegment).join("/");
+          const folder    = encodePathSegment(baseName);
+          const file      = encodePathSegment(entry);
+          list.push(`${IMG_BASE}/${safeDir}/${folder}/${file}`);
+        }
+      }
+      return list;
+    }catch{ return null; }
+  }
+
+  async function discoverExampleUrls(dir, baseName){
+    const cacheKey = `${dir}///${baseName}`;
+    if(exampleCache.has(cacheKey)) return exampleCache.get(cacheKey);
+
+    let urls = await tryLoadExamplesFromManifest(dir, baseName);
+    if(urls && urls.length){ exampleCache.set(cacheKey, urls); return urls; }
+    if(urls && urls.length===0){ exampleCache.set(cacheKey, []); return []; }
+
+    urls = [];
+    let misses = 0;
+    for(let i=1; i<=MAX_EXAMPLES; i++){
+      const url = buildExampleSrc(dir, baseName, i);
+      /* eslint-disable no-await-in-loop */
+      const ok = await headExists(url);
+      if(ok){ urls.push(url); misses = 0; }
+      else { misses++; if(misses >= STOP_AFTER_MISSES) break; }
+    }
+    exampleCache.set(cacheKey, urls);
+    return urls;
+  }
+
+  async function mountExamplesOnDemand(dir, baseName, listEl, galleryWrap){
+    const urls = await discoverExampleUrls(dir, baseName);
+    if(!urls || urls.length===0){ galleryWrap.style.display='none'; return; }
+
+    urls.forEach((url, idx) => {
+      const li  = document.createElement('div');
+      li.className = 'eg-item';
+
+      const img = document.createElement('img');
+      img.alt = `${baseName} example`;
+      img.src = PLACEHOLDER_1PX;
+      img.setAttribute('data-src', url);
+      img.decoding = 'async';
+      img.loading = 'lazy';
+      img.setAttribute('fetchpriority', 'low');
+      img.tabIndex = 0;
+      img.setAttribute('role', 'button');
+      img.setAttribute('aria-label', 'Open image in lightbox');
+
+      const open = (ev) => { ev.preventDefault(); openLightbox(urls, idx, img); };
+      img.addEventListener('click', open);
+      img.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') open(e); });
+
+      li.appendChild(img);
+      listEl.appendChild(li);
+
+      if (io) io.observe(img); else { img.src = url; img.classList.add('loaded'); }
+    });
+  }
+
   function showInfoInline(cat, item, rowEl){
     const title = item.name;
     const det = ITEM_DETAILS[title] || {};
 
     const fabrics = det.fabrics || [];
     const methods = det.methods || [];
-    const notes = det.notes || [];
+    const notes   = det.notes   || [];
 
     const panel = document.createElement('article');
     panel.className = 'card info-inline';
@@ -660,18 +970,23 @@
           <ul>${notes.length ? notes.map(n => `<li>${n}</li>`).join('') : '<li>Per brief</li>'}</ul>
         </div>
       </div>
+
+      <div class="example-gallery" aria-live="polite">
+        <h4>Samples from our partners</h4>
+        <div class="eg-list"></div>
+      </div>
     `;
 
     const slot = rowEl.querySelector('.info-slot');
     slot.innerHTML = '';
     slot.appendChild(panel);
 
-    const h3 = panel.querySelector('.info-inline-head h3');
-    if (h3) {
-      h3.setAttribute('tabindex', '-1');
-      h3.focus({ preventScroll: true });
-    }
+    const galleryWrap = panel.querySelector('.example-gallery');
+    const listEl = panel.querySelector('.eg-list');
+    mountExamplesOnDemand(cat.dir, title, listEl, galleryWrap);
 
+    const h3 = panel.querySelector('.info-inline-head h3');
+    if (h3) { h3.setAttribute('tabindex', '-1'); h3.focus({ preventScroll: true }); }
     return panel;
   }
 
@@ -681,12 +996,11 @@
     history.scrollRestoration = 'manual';
   }
 
-  // ===== Off-canvas navigation toggle =====
+  // Off-canvas nav
   (function () {
     const btn = document.querySelector('.hamburger');
     const nav = document.getElementById('mobile-nav');
     const overlay = document.querySelector('.nav-overlay');
-
     if (!btn || !nav || !overlay) return;
 
     function openMenu() {
@@ -703,40 +1017,99 @@
       btn.focus({preventScroll:true});
     }
     function toggleMenu() {
-      if (document.body.classList.contains('menu-open')) closeMenu();
-      else openMenu();
+      if (document.body.classList.contains('menu-open')) closeMenu(); else openMenu();
     }
-
     btn.addEventListener('click', toggleMenu);
     overlay.addEventListener('click', closeMenu);
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && document.body.classList.contains('menu-open')) {
-        closeMenu();
-      }
-    });
-
-    nav.addEventListener('click', (e) => {
-      const a = e.target.closest('a');
-      if (a) closeMenu();
-    });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && document.body.classList.contains('menu-open')) closeMenu(); });
+    nav.addEventListener('click', (e) => { const a = e.target.closest('a'); if (a) closeMenu(); });
   })();
 
-  // ===== Language switch: dynamic target & preference =====
+  // Lightbox + body lock
+  const lbEl = document.querySelector('.lightbox');
+  const lbImg = lbEl?.querySelector('.lb-img');
+  const lbPrev = lbEl?.querySelector('.lb-prev');
+  const lbNext = lbEl?.querySelector('.lb-next');
+  const lbClose = lbEl?.querySelector('.lb-close');
+
+  let LB_LIST = [];
+  let LB_INDEX = 0;
+  let LB_OPEN = false;
+  let restoreFocusEl = null;
+
+  function updateLightbox() {
+    if (!LB_LIST.length) return;
+    lbImg.src = LB_LIST[LB_INDEX];
+  }
+  function lockBodyScroll() {
+    const y = window.scrollY || document.documentElement.scrollTop || 0;
+    document.body.dataset.lockScrollY = String(y);
+    document.documentElement.classList.add('no-smooth');
+    document.body.classList.add('no-smooth', 'no-scroll');
+    document.body.style.top = `-${y}px`;
+  }
+  function unlockBodyScroll() {
+    const y = parseInt(document.body.dataset.lockScrollY || '0', 10);
+    document.body.classList.remove('no-scroll');
+    document.body.style.top = '';
+    delete document.body.dataset.lockScrollY;
+    requestAnimationFrame(() => {
+      window.scrollTo(0, y);
+      requestAnimationFrame(() => {
+        document.documentElement.classList.remove('no-smooth');
+        document.body.classList.remove('no-smooth');
+      });
+    });
+  }
+  function openLightbox(list, index, sourceEl) {
+    LB_LIST = list; LB_INDEX = index; restoreFocusEl = sourceEl || document.activeElement;
+    updateLightbox();
+    lbEl.hidden = false; lbEl.setAttribute('aria-hidden', 'false');
+    lockBodyScroll(); LB_OPEN = true;
+    lbClose.focus({preventScroll:true});
+  }
+  function closeLightbox() {
+    lbEl.hidden = true; lbEl.setAttribute('aria-hidden', 'true'); LB_OPEN = false;
+    unlockBodyScroll();
+    if (restoreFocusEl && typeof restoreFocusEl.focus === 'function') restoreFocusEl.focus({preventScroll:true});
+  }
+  function prevLightbox() { if (!LB_LIST.length) return; LB_INDEX = (LB_INDEX - 1 + LB_LIST.length) % LB_LIST.length; updateLightbox(); }
+  function nextLightbox() { if (!LB_LIST.length) return; LB_INDEX = (LB_INDEX + 1) % LB_LIST.length; updateLightbox(); }
+
+  if (lbPrev && lbNext && lbClose) {
+    const onTap = (fn) => (e) => { fn(); if (matchMedia('(hover: none)').matches) e.currentTarget.blur(); };
+    lbPrev.addEventListener('click', onTap(prevLightbox));
+    lbNext.addEventListener('click', onTap(nextLightbox));
+    lbClose.addEventListener('click', onTap(closeLightbox));
+    lbEl.addEventListener('click', (e) => { if (e.target === lbEl) closeLightbox(); });
+    document.addEventListener('keydown', (e) => {
+      if (!LB_OPEN) return;
+      if (e.key === 'Escape') { e.preventDefault(); closeLightbox(); }
+      else if (e.key === 'ArrowLeft') { e.preventDefault(); prevLightbox(); }
+      else if (e.key === 'ArrowRight') { e.preventDefault(); nextLightbox(); }
+    });
+    let startX = null;
+    lbEl.addEventListener('pointerdown', (e) => { startX = e.clientX; });
+    lbEl.addEventListener('pointerup', (e) => {
+      if (startX == null) return;
+      const dx = e.clientX - startX; startX = null;
+      const SWIPE_MIN = 40;
+      if (dx > SWIPE_MIN) prevLightbox(); else if (dx < -SWIPE_MIN) nextLightbox();
+    });
+    lbEl.addEventListener('touchmove', (e) => { e.preventDefault(); }, { passive: false });
+  }
+
+  // Language switch: keep subpage & store pref
   (function(){
     const box = document.querySelector('.lang-switch'); if(!box) return;
     const links = box.querySelectorAll('.lang-link');
 
-    // Pfad normalisieren: /index/ -> /, Query/Hash entfernen, doppelte Slashes glätten
     const norm = (p)=>{
       if(!p.startsWith('/')) p = '/' + p;
       p = p.split('#')[0].split('?')[0];
-      // /index oder /index/ -> /
       p = p.replace(/\/index(?:\/)?$/i, '/');
-      // .../seite/ -> .../seite/
-      p = p.replace(/\/$/i, '/');
       p = p.replace(/\/{2,}/g,'/');
-      return p;
+      return p.endsWith('/') ? p : p + '/';
     };
 
     const path = norm(location.pathname);
@@ -744,20 +1117,17 @@
     const currentLang = m ? m[1] : null;
     const rest = m ? (m[2] || '/') : '/products/';
 
-    // Set target links for both languages (preserve subpage)
     links.forEach(a=>{
       const lang = a.dataset.lang;
       a.href = `/${lang}${rest === '/' ? '/' : rest}`;
       a.setAttribute('aria-pressed', lang === currentLang ? 'true' : 'false');
     });
 
-    // Store preference on click
     box.addEventListener('click', e=>{
       const a = e.target.closest('.lang-link'); if(!a) return;
       try{ localStorage.setItem('cw_lang', a.dataset.lang); }catch(_){}
     });
 
-    // If someone lands without /de or /en/, redirect to preferred route of this page
     if(!currentLang){
       let pref = null; try{ pref = localStorage.getItem('cw_lang'); }catch(_){}
       const fallback = (navigator.language||'en').toLowerCase().startsWith('de') ? 'de' : 'en';
