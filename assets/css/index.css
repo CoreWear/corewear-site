@@ -1323,3 +1323,5 @@ html.no-smooth, body.no-smooth { scroll-behavior: auto !important; }
       width: 100%;
       overflow: hidden; /* Fallback für Desktop */
     }
+
+.eg-empty { opacity: .75; font-style: italic; padding: .25rem 0; }

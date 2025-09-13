@@ -969,7 +969,13 @@ async function mountExamplesOnDemand(dir, baseName, listEl, galleryWrap){
   const urls = await discoverExampleUrls(dir, baseName);
 
   if(!urls || urls.length === 0){
-    galleryWrap.style.display = 'none';
+    // Galerie sichtbar lassen und leeren Zustand anzeigen
+    galleryWrap.style.display = '';
+    listEl.innerHTML = `
+      <div class="eg-empty" role="status" aria-live="polite">
+        Zu diesem Produkt haben wir noch keine Beispielbilder.
+      </div>
+    `;
     return;
   }
 

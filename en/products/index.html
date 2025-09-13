@@ -914,7 +914,16 @@
 
   async function mountExamplesOnDemand(dir, baseName, listEl, galleryWrap){
     const urls = await discoverExampleUrls(dir, baseName);
-    if(!urls || urls.length===0){ galleryWrap.style.display='none'; return; }
+    if(!urls || urls.length===0){
+      // Keep the gallery visible and show an empty-state notice
+      galleryWrap.style.display = '';
+      listEl.innerHTML = `
+        <div class="eg-empty" role="status" aria-live="polite">
+          We don&rsquo;t have sample images for this product yet.
+        </div>
+      `;
+      return;
+    }
 
     urls.forEach((url, idx) => {
       const li  = document.createElement('div');
