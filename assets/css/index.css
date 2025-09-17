@@ -1295,6 +1295,7 @@ html.no-smooth, body.no-smooth { scroll-behavior: auto !important; }
       -webkit-user-select: none;
       user-select: none;
       transition: transform .1s ease;
+      right: 30px;
     }
     /* sichtbarer Fokusrahmen ohne Farbkleben */
     .lightbox .lb-btn:focus-visible,
