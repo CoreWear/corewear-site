@@ -117,10 +117,17 @@
 </script>
 
 <script>
-  // Year in footer
-  document.getElementById('y').textContent = new Date().getFullYear();
+  /* =========================
+     Year in footer
+  ========================= */
+  (function(){ const y=document.getElementById('y'); if(y) y.textContent=new Date().getFullYear(); })();
 
-  // Base image path (relative to /en/products/)
+  /* =========================
+     Image path helpers
+     Cards: AVIF/WebP/PNG
+     Examples: AVIF/WebP/JPG
+     Base (relative to /en/products/): ../resources/img/Clothes
+  ========================= */
   const IMG_BASE = "../resources/img/Clothes";
 
   function encodePathSegment(seg){
@@ -138,21 +145,34 @@
       png:  buildImgPath(dir, baseName, "png")
     };
   }
-  // Example image (JPG): .../{dir}/{baseName}/{baseName}{index}.jpg
-  function buildExampleSrc(dir, baseName, index){
+
+  // ▶ Example images: AVIF → WebP → JPG
+  // Paths: .../{dir}/{baseName}/{baseName}{index}.{ext}
+  function buildExamplePaths(dir, baseName, index){
     const safeDir   = dir.split("/").map(encodePathSegment).join("/");
     const folder    = encodePathSegment(baseName);
-    const fileJpg   = encodePathSegment(baseName) + String(index) + ".jpg";
-    return `${IMG_BASE}/${safeDir}/${folder}/${fileJpg}`;
+    const root      = encodePathSegment(baseName) + String(index);
+    const base      = `${IMG_BASE}/${safeDir}/${folder}/${root}`;
+    return { avif: `${base}.avif`, webp: `${base}.webp`, jpg: `${base}.jpg` };
   }
-  // Optional manifest: .../{dir}/{baseName}/examples.json
+  // Manifest (optional): .../{dir}/{baseName}/examples.json
   function buildExamplesManifestUrl(dir, baseName){
     const safeDir   = dir.split("/").map(encodePathSegment).join("/");
     const folder    = encodePathSegment(baseName);
     return `${IMG_BASE}/${safeDir}/${folder}/examples.json`;
   }
+  // From arbitrary filename (any extension) to triplet roots
+  function tripletFromRoot(dir, baseName, rootName){
+    const safeDir   = dir.split("/").map(encodePathSegment).join("/");
+    const folder    = encodePathSegment(baseName);
+    const rootNoExt = rootName.replace(/\.(avif|webp|jpe?g|png)$/i,'');
+    const base      = `${IMG_BASE}/${safeDir}/${folder}/${encodePathSegment(rootNoExt)}`;
+    return { avif: `${base}.avif`, webp: `${base}.webp`, jpg: `${base}.jpg` };
+  }
 
-  // Mobile helpers
+  /* =========================
+     Mobile helpers
+  ========================= */
   const MOBILE_MAX = 959.98;
   function isMobile(){ return window.matchMedia(`(max-width:${MOBILE_MAX}px)`).matches; }
   function getHeaderHeight(){
@@ -165,7 +185,9 @@
     window.scrollTo({ top: y, behavior: 'smooth' });
   }
 
-  // Categories (English)
+  /* =========================
+     Categories (English)
+  ========================= */
   const CATEGORIES = [
     {
       title: "Tops",
@@ -283,7 +305,9 @@
     }
   ];
 
-  // Product details (English)
+  /* =========================
+     Product details (English)
+  ========================= */
   const ITEM_DETAILS = {
     // ---------- Tops ----------
     "Blouses": {
@@ -761,7 +785,9 @@
     }
   };
 
-  // ===== Render =====
+  /* =========================
+     Render (cards with <picture>)
+  ========================= */
   const rowsWrap = document.querySelector('.product-rows');
 
   function createRow(cat, index){
@@ -794,10 +820,10 @@
         <img src="${urls.png}" alt="${it.name}">
       `;
 
+      // Extra JS fallback in case a file is missing (404)
       const imgEl = picture.querySelector('img');
       let triedWebp = false;
-      let triedPng = false;
-
+      let triedPng = true; // PNG is already initial src
       imgEl.addEventListener('error', () => {
         if (!triedWebp) { triedWebp = true; imgEl.src = urls.webp; return; }
         if (!triedPng) { triedPng = true; imgEl.src = urls.png; return; }
@@ -810,7 +836,7 @@
       titleEl.textContent = it.name;
       card.appendChild(titleEl);
 
-      card.addEventListener('click', (e) => {
+      card.addEventListener('click', () => {
         const panel = showInfoInline(cat, it, row);
         if (isMobile()) scrollToPanel(panel);
       });
@@ -822,10 +848,14 @@
   }
 
   /* =========================
-     Example Images: On-Demand
+     Example Images (ON-DEMAND, ROBUST FALLBACKS)
+     - Check which formats exist per image (HEAD)
+     - Only add available <source> formats
+     - onerror cascade: AVIF → WebP → JPG
   ========================= */
   const MAX_EXAMPLES = 24;
   const STOP_AFTER_MISSES = 1;
+  // Cache items as { avif?: string, webp?: string, jpg?: string }
   const exampleCache = new Map();
 
   const PLACEHOLDER_1PX =
@@ -843,6 +873,7 @@
   }
   const loaderQueue = new ImageQueue(8);
 
+  // IO enables <picture> sources and swaps data-src -> src
   const io = ('IntersectionObserver' in window)
     ? new IntersectionObserver((entries)=>{
         entries.forEach(entry=>{
@@ -850,8 +881,13 @@
           const img = entry.target;
           io.unobserve(img);
           loaderQueue.add(async ()=>{
+            const pic = img.parentElement && img.parentElement.tagName === 'PICTURE' ? img.parentElement : null;
+            if (pic) {
+              const sources = pic.querySelectorAll('source[data-srcset]');
+              sources.forEach(s => { s.srcset = s.dataset.srcset; s.removeAttribute('data-srcset'); });
+            }
             const url = img.dataset.src;
-            if(!url) return;
+            if(!url){ img.classList.add('loaded'); return; }
             const preload = new Image();
             preload.decoding = 'async';
             preload.src = url;
@@ -865,10 +901,11 @@
     : null;
 
   async function headExists(url){
-    try{ const res = await fetch(url, { method:'HEAD' }); return res && res.ok; }
+    try{ const res = await fetch(url, { method:'HEAD' }); return !!(res && res.ok); }
     catch{ return false; }
   }
 
+  // Manifest loader: returns items with only existing formats
   async function tryLoadExamplesFromManifest(dir, baseName){
     const url = buildExamplesManifestUrl(dir, baseName);
     try{
@@ -876,46 +913,77 @@
       if(!res.ok) return null;
       const data = await res.json();
       if(!Array.isArray(data) || data.length===0) return [];
-      const list = [];
+      const items = [];
       for(const entry of data){
+        let t;
         if(typeof entry === 'number'){
-          list.push(buildExampleSrc(dir, baseName, entry));
+          t = buildExamplePaths(dir, baseName, entry);
         } else if(typeof entry === 'string'){
-          const safeDir   = dir.split("/").map(encodePathSegment).join("/");
-          const folder    = encodePathSegment(baseName);
-          const file      = encodePathSegment(entry);
-          list.push(`${IMG_BASE}/${safeDir}/${folder}/${file}`);
+          t = tripletFromRoot(dir, baseName, entry);
+        } else continue;
+
+        /* eslint-disable no-await-in-loop */
+        const hasAvif = await headExists(t.avif);
+        const hasWebp = hasAvif ? false : await headExists(t.webp);
+        const hasJpg  = (hasAvif || hasWebp) ? false : await headExists(t.jpg);
+
+        if (hasAvif || hasWebp || hasJpg) {
+          items.push({
+            avif: hasAvif ? t.avif : undefined,
+            webp: hasWebp ? t.webp : undefined,
+            jpg:  hasJpg  ? t.jpg  : undefined
+          });
         }
       }
-      return list;
+      return items;
     }catch{ return null; }
   }
 
+  // Numeric discovery: prefer AVIF, then WebP, then JPG; record which exist
   async function discoverExampleUrls(dir, baseName){
     const cacheKey = `${dir}///${baseName}`;
     if(exampleCache.has(cacheKey)) return exampleCache.get(cacheKey);
 
-    let urls = await tryLoadExamplesFromManifest(dir, baseName);
-    if(urls && urls.length){ exampleCache.set(cacheKey, urls); return urls; }
-    if(urls && urls.length===0){ exampleCache.set(cacheKey, []); return []; }
+    // 1) Manifest
+    let items = await tryLoadExamplesFromManifest(dir, baseName);
+    if(items && items.length){ exampleCache.set(cacheKey, items); return items; }
+    if(items && items.length===0){ exampleCache.set(cacheKey, []); return []; }
 
-    urls = [];
+    // 2) Probe 1..MAX_EXAMPLES; stop after first miss
+    items = [];
     let misses = 0;
     for(let i=1; i<=MAX_EXAMPLES; i++){
-      const url = buildExampleSrc(dir, baseName, i);
+      const t = buildExamplePaths(dir, baseName, i);
       /* eslint-disable no-await-in-loop */
-      const ok = await headExists(url);
-      if(ok){ urls.push(url); misses = 0; }
-      else { misses++; if(misses >= STOP_AFTER_MISSES) break; }
+      const hasAvif = await headExists(t.avif);
+      const hasWebp = hasAvif ? false : await headExists(t.webp);
+      const hasJpg  = (hasAvif || hasWebp) ? false : await headExists(t.jpg);
+
+      if(hasAvif || hasWebp || hasJpg){
+        items.push({
+          avif: hasAvif ? t.avif : undefined,
+          webp: hasWebp ? t.webp : undefined,
+          jpg:  hasJpg  ? t.jpg  : undefined
+        });
+        misses = 0;
+      } else {
+        misses++;
+        if(misses >= STOP_AFTER_MISSES) break;
+      }
     }
-    exampleCache.set(cacheKey, urls);
-    return urls;
+    exampleCache.set(cacheKey, items);
+    return items;
+  }
+
+  function removePictureSources(pic){
+    if (!pic) return;
+    const sources = pic.querySelectorAll('source');
+    sources.forEach(s => s.remove());
   }
 
   async function mountExamplesOnDemand(dir, baseName, listEl, galleryWrap){
-    const urls = await discoverExampleUrls(dir, baseName);
-    if(!urls || urls.length===0){
-      // Keep the gallery visible and show an empty-state notice
+    const items = await discoverExampleUrls(dir, baseName);
+    if(!items || items.length===0){
       galleryWrap.style.display = '';
       listEl.innerHTML = `
         <div class="eg-empty" role="status" aria-live="polite">
@@ -925,14 +993,31 @@
       return;
     }
 
-    urls.forEach((url, idx) => {
+    items.forEach((t, idx) => {
       const li  = document.createElement('div');
       li.className = 'eg-item';
+
+      const picture = document.createElement('picture');
+
+      // Add only available formats as <source>
+      if (t.avif){
+        const sAvif = document.createElement('source');
+        sAvif.type = 'image/avif';
+        sAvif.setAttribute('data-srcset', t.avif);
+        picture.appendChild(sAvif);
+      }
+      if (t.webp){
+        const sWebp = document.createElement('source');
+        sWebp.type = 'image/webp';
+        sWebp.setAttribute('data-srcset', t.webp);
+        picture.appendChild(sWebp);
+      }
 
       const img = document.createElement('img');
       img.alt = `${baseName} example`;
       img.src = PLACEHOLDER_1PX;
-      img.setAttribute('data-src', url);
+      const baseFallback = t.jpg || t.webp || t.avif; // pick best existing base
+      if (baseFallback) img.setAttribute('data-src', baseFallback);
       img.decoding = 'async';
       img.loading = 'lazy';
       img.setAttribute('fetchpriority', 'low');
@@ -940,17 +1025,44 @@
       img.setAttribute('role', 'button');
       img.setAttribute('aria-label', 'Open image in lightbox');
 
-      const open = (ev) => { ev.preventDefault(); openLightbox(urls, idx, img); };
+      // Track current try format for onerror cascade
+      img.dataset.tryFmt = t.avif ? 'avif' : (t.webp ? 'webp' : 'jpg');
+
+      // onerror fallback: AVIF → WebP → JPG
+      img.addEventListener('error', () => {
+        const pic = img.parentElement && img.parentElement.tagName === 'PICTURE' ? img.parentElement : null;
+        const cur = img.dataset.tryFmt || '';
+        if (cur === 'avif') {
+          removePictureSources(pic);
+          if (t.webp) { img.dataset.tryFmt = 'webp'; img.src = t.webp; }
+          else if (t.jpg) { img.dataset.tryFmt = 'jpg'; img.src = t.jpg; }
+        } else if (cur === 'webp') {
+          removePictureSources(pic);
+          if (t.jpg) { img.dataset.tryFmt = 'jpg'; img.src = t.jpg; }
+        }
+      });
+
+      const open = (ev) => { ev.preventDefault(); openLightbox(items, idx, img); };
       img.addEventListener('click', open);
       img.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') open(e); });
 
-      li.appendChild(img);
+      picture.appendChild(img);
+      li.appendChild(picture);
       listEl.appendChild(li);
 
-      if (io) io.observe(img); else { img.src = url; img.classList.add('loaded'); }
+      if (io) {
+        io.observe(img);
+      } else {
+        const sources = picture.querySelectorAll('source[data-srcset]');
+        sources.forEach(s => { s.srcset = s.dataset.srcset; s.removeAttribute('data-srcset'); });
+        if (baseFallback) { img.src = baseFallback; img.classList.add('loaded'); }
+      }
     });
   }
 
+  /* =========================
+     Info panel + on-demand examples
+  ========================= */
   function showInfoInline(cat, item, rowEl){
     const title = item.name;
     const det = ITEM_DETAILS[title] || {};
@@ -999,13 +1111,15 @@
     return panel;
   }
 
+  // Render rows
   CATEGORIES.forEach((c, i) => rowsWrap.appendChild(createRow(c, i)));
 
-  if ('scrollRestoration' in history) {
-    history.scrollRestoration = 'manual';
-  }
+  // Scroll restoration off
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 
-  // Off-canvas nav
+  /* =========================
+     Off-canvas nav
+  ========================= */
   (function () {
     const btn = document.querySelector('.hamburger');
     const nav = document.getElementById('mobile-nav');
@@ -1034,22 +1148,33 @@
     nav.addEventListener('click', (e) => { const a = e.target.closest('a'); if (a) closeMenu(); });
   })();
 
-  // Lightbox + body lock
+  /* =========================
+     Lightbox + body lock
+     with AVIF → WebP → JPG fallback
+  ========================= */
   const lbEl = document.querySelector('.lightbox');
   const lbImg = lbEl?.querySelector('.lb-img');
   const lbPrev = lbEl?.querySelector('.lb-prev');
   const lbNext = lbEl?.querySelector('.lb-next');
   const lbClose = lbEl?.querySelector('.lb-close');
 
-  let LB_LIST = [];
+  let LB_LIST = []; // array of items {avif?, webp?, jpg?}
   let LB_INDEX = 0;
   let LB_OPEN = false;
   let restoreFocusEl = null;
 
+  function setLbSrcWithFallback(item){
+    if (!lbImg || !item) return;
+    if (item.avif) { lbImg.dataset.tryfmt = 'avif'; lbImg.src = item.avif; }
+    else if (item.webp) { lbImg.dataset.tryfmt = 'webp'; lbImg.src = item.webp; }
+    else if (item.jpg) { lbImg.dataset.tryfmt = 'jpg'; lbImg.src = item.jpg; }
+  }
   function updateLightbox() {
     if (!LB_LIST.length) return;
-    lbImg.src = LB_LIST[LB_INDEX];
+    const t = LB_LIST[LB_INDEX];
+    setLbSrcWithFallback(t);
   }
+
   function lockBodyScroll() {
     const y = window.scrollY || document.documentElement.scrollTop || 0;
     document.body.dataset.lockScrollY = String(y);
@@ -1085,7 +1210,21 @@
   function prevLightbox() { if (!LB_LIST.length) return; LB_INDEX = (LB_INDEX - 1 + LB_LIST.length) % LB_LIST.length; updateLightbox(); }
   function nextLightbox() { if (!LB_LIST.length) return; LB_INDEX = (LB_INDEX + 1) % LB_LIST.length; updateLightbox(); }
 
-  if (lbPrev && lbNext && lbClose) {
+  if (lbPrev && lbNext && lbClose && lbImg) {
+    // onerror fallback cascade
+    lbImg.addEventListener('error', ()=>{
+      const step = lbImg.dataset.tryfmt || '';
+      const t = LB_LIST[LB_INDEX];
+      if (!t) return;
+      if (step === 'avif' && t.webp) {
+        lbImg.dataset.tryfmt = 'webp';
+        lbImg.src = t.webp;
+      } else if ((step === 'avif' || step === 'webp') && t.jpg) {
+        lbImg.dataset.tryfmt = 'jpg';
+        lbImg.src = t.jpg;
+      }
+    });
+
     const onTap = (fn) => (e) => { fn(); if (matchMedia('(hover: none)').matches) e.currentTarget.blur(); };
     lbPrev.addEventListener('click', onTap(prevLightbox));
     lbNext.addEventListener('click', onTap(nextLightbox));
@@ -1108,7 +1247,9 @@
     lbEl.addEventListener('touchmove', (e) => { e.preventDefault(); }, { passive: false });
   }
 
-  // Language switch: keep subpage & store pref
+  /* =========================
+     Language switch: keep subpage & store pref
+  ========================= */
   (function(){
     const box = document.querySelector('.lang-switch'); if(!box) return;
     const links = box.querySelectorAll('.lang-link');
@@ -1123,7 +1264,8 @@
 
     const path = norm(location.pathname);
     const m = path.match(/^\/(de|en)(\/.*)?$/);
-    const currentLang = m ? m[1] : null;
+    theLang = m ? m[1] : null;
+    const currentLang = theLang;
     const rest = m ? (m[2] || '/') : '/products/';
 
     links.forEach(a=>{

@@ -120,7 +120,7 @@
 })();
 
 /* =====================================
-   Bildpfad-Utils (AVIF/WebP/PNG für Karten) + JPG für Beispielbilder
+   Bildpfad-Utils (AVIF/WebP/PNG für Karten) + AVIF/WebP/JPG für Beispielbilder
    Basis relativ zu /de/products/  =>  ../resources/img/Clothes
    (Wie EN-Seite: parser-gesteuertes Laden via <picture>)
 ===================================== */
@@ -141,12 +141,15 @@ function buildAllImgPaths(dir, baseName){
     png:  buildImgPath(dir, baseName, "png")
   };
 }
-// Beispielbild (JPG) Pfad: .../{dir}/{baseName}/{baseName}{index}.jpg
-function buildExampleSrc(dir, baseName, index){
+
+// ▶️ Beispielbilder: AVIF → WebP → JPG
+// Pfade: .../{dir}/{baseName}/{baseName}{index}.{ext}
+function buildExamplePaths(dir, baseName, index){
   const safeDir   = dir.split("/").map(encodePathSegment).join("/");
   const folder    = encodePathSegment(baseName);
-  const fileJpg   = encodePathSegment(baseName) + String(index) + ".jpg";
-  return `${IMG_BASE}/${safeDir}/${folder}/${fileJpg}`;
+  const root      = encodePathSegment(baseName) + String(index);
+  const base      = `${IMG_BASE}/${safeDir}/${folder}/${root}`;
+  return { avif: `${base}.avif`, webp: `${base}.webp`, jpg: `${base}.jpg` };
 }
 // Optionales Manifest (falls vorhanden): .../{dir}/{baseName}/examples.json
 function buildExamplesManifestUrl(dir, baseName){
@@ -766,7 +769,7 @@ const ITEM_DETAILS = {
 /* =====================================
    Lazy Loader mit Queue (max 8 parallel)
    + IntersectionObserver
-   👉 Für BEISPIELBILDER weiterverwendet (NICHT für die Kartenbilder)
+   👉 Für BEISPIELBILDER (jetzt mit <picture> & AVIF/WebP/JPG)
 ===================================== */
 const PLACEHOLDER_1PX =
   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGMAAQAABQABDQottQAAAABJRU5ErkJggg==";
@@ -791,31 +794,46 @@ class ImageQueue {
 }
 const loaderQueue = new ImageQueue(8);
 
+// ⬇️ IO lädt jetzt <picture>-Quellen (data-srcset) + <img data-src>
 const io = ('IntersectionObserver' in window)
   ? new IntersectionObserver((entries)=>{
       entries.forEach(entry=>{
         if(!entry.isIntersecting) return;
-        const img = entry.target;
-        io.unobserve(img);
-        loaderQueue.add(async ()=>{
-          const url = img.dataset.src;
-          if(!url) return;
-          const preload = new Image();
-          preload.decoding = 'async';
-          preload.src = url;
-          try { await preload.decode(); } catch {}
-          img.src = url;
-          img.removeAttribute('data-src');
-          img.classList.add('loaded');
-        });
+        const el = entry.target;
+        io.unobserve(el);
+
+        // IMG in <picture>
+        if (el.tagName === 'IMG') {
+          loaderQueue.add(async ()=>{
+            // Quellen in <picture> aktivieren (nur vorhandene)
+            const pic = el.parentElement && el.parentElement.tagName === 'PICTURE' ? el.parentElement : null;
+            if (pic) {
+              const sources = pic.querySelectorAll('source[data-srcset]');
+              sources.forEach(s => {
+                s.srcset = s.dataset.srcset;
+                s.removeAttribute('data-srcset');
+              });
+            }
+            const url = el.dataset.src;
+            if(url){
+              const preload = new Image();
+              preload.decoding = 'async';
+              preload.src = url;
+              try { await preload.decode(); } catch {}
+              el.src = url; // jpg Fallback; Browser nimmt dank <source> bevorzugt AVIF/WebP
+              el.removeAttribute('data-src');
+              el.classList.add('loaded');
+            }
+          });
+        }
       });
     }, { rootMargin: '200px' })
   : null;
 
 /* =====================================
    Rendering der Karten
-   👉 Jetzt wie EN: <picture> mit AVIF/WebP/PNG (ohne Lazy-Queue)
-   (Beispielbilder-Logik bleibt unberührt und nutzt weiter IO/Queue)
+   👉 wie EN: <picture> mit AVIF/WebP/PNG (ohne Lazy-Queue)
+   (Beispielbilder nutzen IO/Queue)
 ===================================== */
 const rowsWrap = document.querySelector('.product-rows');
 
@@ -854,8 +872,8 @@ function createRow(cat, index){
     const imgEl = picture.querySelector('img');
     let triedWebp = false;
     let triedPng = true; // wir starten schon mit PNG als src
-    // Wenn AVIF/WebP in <source> 404en, probieren wir per onerror webp → png (png ist schon gesetzt)
     imgEl.addEventListener('error', () => {
+      // Fallback auf WebP → PNG (für Karten; Karten nutzen PNG statt JPG)
       if (!triedWebp) {
         triedWebp = true;
         imgEl.src = urls.webp;
@@ -891,21 +909,31 @@ function createRow(cat, index){
 }
 
 /* =====================================
-   Beispielbilder-Logik: On-Demand (UNVERÄNDERT)
-   - Erst laden, NACHDEM das Info-Panel geöffnet wurde
-   - Versucht zuerst ein Manifest (examples.json)
-   - Fallback: HEAD-Probe (ohne Cache-Buster), bricht nach erster Lücke ab
-   - Ergebnisse session-weit cachen
+   Beispielbilder-Logik: On-Demand (ROBUSTE FALLBACKS)
+   - Manifest unterstützt Zahlen ODER Dateinamen
+   - Für jeden Eintrag wird per HEAD geprüft, welche Formate existieren
+   - Rendering setzt nur vorhandene <source>-Formate
+   - onerror-Kaskade: AVIF → WebP → JPG
 ===================================== */
 const MAX_EXAMPLES = 24;
-const STOP_AFTER_MISSES = 1; // bei erster Lücke abbrechen (verhindert 404-Sturm)
-const exampleCache = new Map(); // key: `${dir}///${baseName}` => string[] URLs oder []
+const STOP_AFTER_MISSES = 1; // bei erster Lücke abbrechen
+// Cache speichert Array von Items: { avif?:string, webp?:string, jpg?:string }
+const exampleCache = new Map(); // key: `${dir}///${baseName}` => Array<...>
 
 async function headExists(url){
   try{
     const res = await fetch(url, { method: 'HEAD' });
-    return res && res.ok;
+    return !!(res && res.ok);
   }catch{ return false; }
+}
+
+// Hilfsfunktion: aus Dateinamen beliebiger Endung (oder root) Pfad-Basis bilden
+function tripletFromRoot(dir, baseName, rootName){
+  const safeDir   = dir.split("/").map(encodePathSegment).join("/");
+  const folder    = encodePathSegment(baseName);
+  const rootNoExt = rootName.replace(/\.(avif|webp|jpe?g|png)$/i,'');
+  const base      = `${IMG_BASE}/${safeDir}/${folder}/${encodePathSegment(rootNoExt)}`;
+  return { avif: `${base}.avif`, webp: `${base}.webp`, jpg: `${base}.jpg` };
 }
 
 async function tryLoadExamplesFromManifest(dir, baseName){
@@ -914,18 +942,28 @@ async function tryLoadExamplesFromManifest(dir, baseName){
     const res = await fetch(url, { method: 'GET' });
     if(!res.ok) return null;
     const data = await res.json();
-    // Erlaubte Formen: [1,2,3] oder ["1.jpg","2.jpg"] oder ["basename1.jpg", ...]
     if(!Array.isArray(data) || data.length === 0) return [];
     const list = [];
     for(const entry of data){
+      let t;
       if(typeof entry === 'number'){
-        list.push(buildExampleSrc(dir, baseName, entry));
+        t = buildExamplePaths(dir, baseName, entry);
       } else if(typeof entry === 'string'){
-        // Wenn bereits vollständiger Dateiname inkl. .jpg geliefert wird
-        const safeDir   = dir.split("/").map(encodePathSegment).join("/");
-        const folder    = encodePathSegment(baseName);
-        const file      = encodePathSegment(entry);
-        list.push(`${IMG_BASE}/${safeDir}/${folder}/${file}`);
+        t = tripletFromRoot(dir, baseName, entry);
+      } else {
+        continue;
+      }
+      // Existenz je Format prüfen
+      /* eslint-disable no-await-in-loop */
+      const hasAvif = await headExists(t.avif);
+      const hasWebp = hasAvif ? false : await headExists(t.webp);
+      const hasJpg  = (hasAvif || hasWebp) ? false : await headExists(t.jpg);
+      if (hasAvif || hasWebp || hasJpg) {
+        list.push({
+          avif: hasAvif ? t.avif : undefined,
+          webp: hasWebp ? t.webp : undefined,
+          jpg:  hasJpg  ? t.jpg  : undefined
+        });
       }
     }
     return list;
@@ -937,38 +975,53 @@ async function discoverExampleUrls(dir, baseName){
   if(exampleCache.has(cacheKey)) return exampleCache.get(cacheKey);
 
   // 1) Manifest versuchen
-  let urls = await tryLoadExamplesFromManifest(dir, baseName);
-  if(urls && urls.length){
-    exampleCache.set(cacheKey, urls);
-    return urls;
+  let items = await tryLoadExamplesFromManifest(dir, baseName);
+  if(items && items.length){
+    exampleCache.set(cacheKey, items);
+    return items;
   }
-  if(urls && urls.length === 0){
+  if(items && items.length === 0){
     exampleCache.set(cacheKey, []);
     return [];
   }
 
-  // 2) Fallback: numerisch 1..MAX_EXAMPLES prüfen (HEAD), bei erster Lücke abbrechen
-  urls = [];
+  // 2) Fallback: numerisch 1..MAX_EXAMPLES prüfen (HEAD) mit Format-Priorität
+  items = [];
   let misses = 0;
   for(let i=1; i<=MAX_EXAMPLES; i++){
-    const url = buildExampleSrc(dir, baseName, i);
+    const t = buildExamplePaths(dir, baseName, i);
     /* eslint-disable no-await-in-loop */
-    const ok = await headExists(url);
-    if(ok){ urls.push(url); misses = 0; }
-    else {
+    const hasAvif = await headExists(t.avif);
+    const hasWebp = hasAvif ? false : await headExists(t.webp);
+    const hasJpg  = (hasAvif || hasWebp) ? false : await headExists(t.jpg);
+
+    if(hasAvif || hasWebp || hasJpg){
+      items.push({
+        avif: hasAvif ? t.avif : undefined,
+        webp: hasWebp ? t.webp : undefined,
+        jpg:  hasJpg  ? t.jpg  : undefined
+      });
+      misses = 0;
+    } else {
       misses++;
       if(misses >= STOP_AFTER_MISSES) break;
     }
   }
-  exampleCache.set(cacheKey, urls);
-  return urls;
+  exampleCache.set(cacheKey, items);
+  return items;
+}
+
+function removePictureSources(pic){
+  if (!pic) return;
+  const sources = pic.querySelectorAll('source');
+  sources.forEach(s => s.remove());
 }
 
 async function mountExamplesOnDemand(dir, baseName, listEl, galleryWrap){
-  // URLs ermitteln (Manifest oder HEAD); lädt noch KEINE Bilder
-  const urls = await discoverExampleUrls(dir, baseName);
+  // Items ermitteln (Manifest oder HEAD); lädt noch KEINE Bilder
+  const items = await discoverExampleUrls(dir, baseName);
 
-  if(!urls || urls.length === 0){
+  if(!items || items.length === 0){
     // Galerie sichtbar lassen und leeren Zustand anzeigen
     galleryWrap.style.display = '';
     listEl.innerHTML = `
@@ -979,15 +1032,33 @@ async function mountExamplesOnDemand(dir, baseName, listEl, galleryWrap){
     return;
   }
 
-  // Rendern: Bilder als Placeholder + data-src, lazy via IO
-  urls.forEach((url, idx) => {
+  // Rendern: Bilder als <picture> mit data-srcset/data-src, lazy via IO
+  items.forEach((t, idx) => {
     const li  = document.createElement('div');
     li.className = 'eg-item';
 
+    const picture = document.createElement('picture');
+
+    // Nur vorhandene Formate als <source> vormerken
+    if (t.avif){
+      const sAvif = document.createElement('source');
+      sAvif.type = 'image/avif';
+      sAvif.setAttribute('data-srcset', t.avif);
+      picture.appendChild(sAvif);
+    }
+    if (t.webp){
+      const sWebp = document.createElement('source');
+      sWebp.type = 'image/webp';
+      sWebp.setAttribute('data-srcset', t.webp);
+      picture.appendChild(sWebp);
+    }
+
     const img = document.createElement('img');
     img.alt = `${baseName} Beispiel`;
-    img.src = PLACEHOLDER_1PX;
-    img.setAttribute('data-src', url);
+    img.src = PLACEHOLDER_1PX; // echter Start-Placeholder
+    // Basis-Fallback in data-src: nimm bevorzugt JPG, sonst WebP, sonst AVIF
+    const baseFallback = t.jpg || t.webp || t.avif;
+    if (baseFallback) img.setAttribute('data-src', baseFallback);
     img.decoding = 'async';
     img.loading = 'lazy';
     img.setAttribute('fetchpriority', 'low');
@@ -995,19 +1066,57 @@ async function mountExamplesOnDemand(dir, baseName, listEl, galleryWrap){
     img.setAttribute('role', 'button');
     img.setAttribute('aria-label', 'Bild groß anzeigen');
 
+    // Merke, was wir als nächstes testen sollen (für onerror)
+    img.dataset.tryFmt = t.avif ? 'avif' : (t.webp ? 'webp' : 'jpg');
+
+    // onerror-Kaskade: AVIF → WebP → JPG
+    img.addEventListener('error', () => {
+      const pic = img.parentElement && img.parentElement.tagName === 'PICTURE' ? img.parentElement : null;
+      const cur = img.dataset.tryFmt || '';
+      if (cur === 'avif') {
+        // AVIF fehlgeschlagen → WebP oder JPG
+        removePictureSources(pic); // verhindere erneutes AVIF-Pick
+        if (t.webp) {
+          img.dataset.tryFmt = 'webp';
+          img.src = t.webp;
+        } else if (t.jpg) {
+          img.dataset.tryFmt = 'jpg';
+          img.src = t.jpg;
+        }
+      } else if (cur === 'webp') {
+        // WebP fehlgeschlagen → JPG
+        removePictureSources(pic);
+        if (t.jpg) {
+          img.dataset.tryFmt = 'jpg';
+          img.src = t.jpg;
+        }
+      }
+    });
+
     const open = (ev) => {
       ev.preventDefault();
-      openLightbox(urls, idx, img);
+      openLightbox(items, idx, img);
     };
     img.addEventListener('click', open);
     img.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') open(e);
     });
 
-    li.appendChild(img);
+    picture.appendChild(img);
+    li.appendChild(picture);
     listEl.appendChild(li);
 
-    if (io) io.observe(img); else { img.src = url; img.classList.add('loaded'); }
+    if (io) {
+      io.observe(img);
+    } else {
+      // Kein IO: Quellen sofort aktivieren
+      const sources = picture.querySelectorAll('source[data-srcset]');
+      sources.forEach(s => { s.srcset = s.dataset.srcset; s.removeAttribute('data-srcset'); });
+      if (baseFallback) {
+        img.src = baseFallback;
+        img.classList.add('loaded');
+      }
+    }
   });
 }
 
@@ -1165,6 +1274,7 @@ if ('scrollRestoration' in history) {
 
 /* =====================================
    Lightbox (mit Mobile Button-Fix & Body-Lock)
+   + Format-Fallbacks für AVIF/WebP/JPG
 ===================================== */
 const lbEl = document.querySelector('.lightbox');
 const lbImg = lbEl?.querySelector('.lb-img');
@@ -1172,15 +1282,30 @@ const lbPrev = lbEl?.querySelector('.lb-prev');
 const lbNext = lbEl?.querySelector('.lb-next');
 const lbClose = lbEl?.querySelector('.lb-close');
 
-let LB_LIST = [];
+let LB_LIST = []; // Array von Items: {avif?,webp?,jpg?}
 let LB_INDEX = 0;
 let LB_OPEN = false;
 let restoreFocusEl = null;
 
+function setLbSrcWithFallback(item){
+  if (!lbImg || !item) return;
+  // Merke aktuellen Schritt
+  if (item.avif) {
+    lbImg.dataset.tryfmt = 'avif';
+    lbImg.src = item.avif;
+  } else if (item.webp) {
+    lbImg.dataset.tryfmt = 'webp';
+    lbImg.src = item.webp;
+  } else if (item.jpg) {
+    lbImg.dataset.tryfmt = 'jpg';
+    lbImg.src = item.jpg;
+  }
+}
+
 function updateLightbox() {
   if (!LB_LIST.length) return;
-  const url = LB_LIST[LB_INDEX];
-  lbImg.src = url; // JPG in Originalgröße
+  const t = LB_LIST[LB_INDEX];
+  setLbSrcWithFallback(t);
 }
 
 // Body-Lock Utils
@@ -1250,9 +1375,22 @@ function nextLightbox() {
   updateLightbox();
 }
 
-if (lbPrev && lbNext && lbClose) {
+if (lbPrev && lbNext && lbClose && lbImg) {
+  // onerror-Kaskade für Lightbox
+  lbImg.addEventListener('error', ()=>{
+    const step = lbImg.dataset.tryfmt || '';
+    const t = LB_LIST[LB_INDEX];
+    if (!t) return;
+    if (step === 'avif' && t.webp) {
+      lbImg.dataset.tryfmt = 'webp';
+      lbImg.src = t.webp;
+    } else if ((step === 'avif' || step === 'webp') && t.jpg) {
+      lbImg.dataset.tryfmt = 'jpg';
+      lbImg.src = t.jpg;
+    }
+  });
+
   // Tap-Wrapper: Aktion ausführen und auf Touch sofort blur()
-  // (verhindert sticky :focus Styles)
   const onTap = (fn) => (e) => {
     fn();
     if (matchMedia('(hover: none)').matches) {
