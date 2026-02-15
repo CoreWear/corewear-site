@@ -56,8 +56,9 @@
   <body>
     <header>
       <div class="header-bar">
-        <a href="/de/" class="brand">
-          <img src="/assets/img/sample-shirt.jpg" alt="OEM Bekleidung Musterproduktion T-Shirt" loading="lazy"/>
+        <!-- Logo -->
+        <a href="/de/" class="brand" title="CoreWear – B2B Textilproduktion, Private Label & OEM Bekleidung">
+          <img src="/assets/img/Logo.png" alt="CoreWear Logo" loading="lazy"/>
         </a>
 
         <!-- ✨ Hamburger-Button (nur Mobile sichtbar) -->
@@ -68,26 +69,27 @@
         </button>
 
         <!-- Hauptnavigation (wird mobil als Off-Canvas genutzt) -->
-        <nav id="mobile-nav" class="main-nav">
-          <a href="/de/" class="active" aria-current="page">Start</a>
-          <a href="/de/products/">Produkte – B2B Textilproduktion</a>
-          <a href="/de/process/">Ablauf – B2B Textilproduktion</a>
-          <a href="/de/about/">Über uns – B2B Textilproduktion</a>
-          <a href="/de/faq/">FAQ – B2B Textilproduktion</a>
-          <a href="/de/contact/" class="btn">Kontakt - B2B Textilproduktion</a>
+        <nav id="mobile-nav" class="main-nav" aria-label="Hauptnavigation">
+          <a href="/de/" class="active" aria-current="page" title="Startseite">Start</a>
+          <a href="/de/products/" title="Produkte von CoreWear">Produkte</a>
+          <a href="/de/process/" title="Unser Produktionsablauf">Ablauf</a>
+          <a href="/de/about/" title="Über CoreWear">Über uns</a>
+          <a href="/de/faq/" title="Häufige Fragen">FAQ</a>
+          <a href="/de/contact/" class="btn" title="Kontakt zu CoreWear">Kontakt</a>
+
           <!-- ▶️ Sprachschalter (DE | EN) – Bildvariante -->
           <div class="lang-switch" role="group" aria-label="Sprachauswahl">
-            <a class="lang-link" href="/de/" data-lang="de" role="button" aria-pressed="false" title="Deutsch">
+            <a class="lang-link" href="/de/" data-lang="de" role="button" aria-pressed="true" title="Deutsch">
               <img src="/assets/img/de.jpg" alt="Deutsch" loading="lazy">
             </a>
             <a class="lang-link" href="/en/" data-lang="en" role="button" aria-pressed="false" title="English">
               <img src="/assets/img/en.jpg" alt="English" loading="lazy">
             </a>
           </div>
-      </div>
-
+        </nav>
       </div>
     </header>
+
 
     <!-- Overlay für das Off-Canvas-Menü -->
     <div class="nav-overlay" hidden></div>
