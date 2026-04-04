@@ -8,12 +8,10 @@
 
     <!-- hreflang: DE/EN + x-default -->
     <link rel="alternate" href="https://corewear.pro/de/legal/" hreflang="de" />
-    <link rel="alternate" href="https://corewear.pro/en/imprint/" hreflang="en" />
-    <link rel="alternate" href="https://corewear.pro/en/imprint/" hreflang="x-default" />
-    <link rel="canonical" href="https://corewear.pro/en/imprint/" />
-
-    <!-- canonical -->
-    <link rel="canonical" href="https://corewear.pro/en/imprint/" />
+  <link rel="alternate" href="https://corewear.pro/en/legal/" hreflang="en" />
+  <link rel="alternate" href="https://corewear.pro/en/legal/" hreflang="x-default" />
+  <link rel="canonical" href="https://corewear.pro/en/legal/" />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
 
     <link rel="stylesheet" href="/assets/css/index.css" />
     <link rel="icon" type="image/png" href="/assets/img/favicon.png" />
@@ -46,7 +44,7 @@
             <a class="lang-link" href="/de/legal/" data-lang="de" role="button" aria-pressed="false" title="Deutsch">
               <img src="/assets/img/de.jpg" width="36" height="24" alt="Deutsch">
             </a>
-            <a class="lang-link" href="/en/imprint/" data-lang="en" role="button" aria-pressed="true" aria-current="true" title="English">
+            <a class="lang-link" href="/en/legal/" data-lang="en" role="button" aria-pressed="true" aria-current="true" title="English">
               <img src="/assets/img/en.jpg" width="36" height="24" alt="English">
             </a>
           </div>
@@ -146,7 +144,7 @@
       <div class="wrap">
         <small>© <span id="y"></span> CoreWear</small>
         <div style="display:flex;gap:14px">
-          <a href="/en/imprint/">Imprint</a>
+          <a href="/en/legal/">Imprint</a>
           <a href="/en/privacy/">Privacy</a>
         </div>
       </div>
@@ -249,7 +247,7 @@
         const rp = norm(r || '/');
         // Sonderfall: imprint/legal
         if (/^\/imprint\/?$/i.test(rp) && lang === 'de') return '/legal/';
-        if (/^\/legal\/?$/i.test(rp)   && lang === 'en') return '/imprint/';
+        if (/^\/legal\/?$/i.test(rp)   && lang === 'en') return '/legal/';
         return rp; // sonst gleiche Unterseite
       }
 
@@ -281,7 +279,7 @@
         // Wenn ohne Präfix schon eine imprint/legal-Seite aufgerufen wurde, korrekt mappen
         let baseRest = rest;
         if (/^\/imprint\/?$/i.test(rest) && target === 'de') baseRest = '/legal/';
-        if (/^\/legal\/?$/i.test(rest)   && target === 'en') baseRest = '/imprint/';
+        if (/^\/legal\/?$/i.test(rest)   && target === 'en') baseRest = '/legal/';
 
         location.replace(norm(`/${target}${baseRest}`));
       }
