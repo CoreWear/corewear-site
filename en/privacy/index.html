@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Privacy Policy – CoreWear B2B Textile Manufacturing</title>
+    <title>Privacy Policy â€“ CoreWear B2B Textile Manufacturing</title>
     <meta name="description" content="Information about data processing, cookies, tracking and privacy compliance according to GDPR." />
 
     <link rel="alternate" href="https://corewear.pro/de/privacy/" hreflang="de" />
@@ -38,7 +38,7 @@
           <a href="/en/about/">About</a>
           <a href="/en/faq/">FAQ</a>
           <a href="/en/contact/" class="btn">Contact</a>
-          <!-- ▶️ Language switch (DE | EN) – image variant -->
+          <!-- â–¶ï¸ Language switch (DE | EN) â€“ image variant -->
           <div class="lang-switch" role="group" aria-label="Language selection">
             <a class="lang-link" href="/de/privacy/" data-lang="de" role="button" aria-pressed="false" title="Deutsch">
               <img src="/assets/img/de.jpg" width="36" height="24" alt="Deutsch">
@@ -56,7 +56,7 @@
 
     <main>
       <div class="section-title">
-        <h2>Privacy</h2>
+        <h1>Privacy Policy</h1>
         <span class="muted">Information on the processing of personal data when using this website (B2B)</span>
       </div>
 
@@ -68,8 +68,8 @@
           <ul class="list imprint-address" style="margin:6px 0 0">
             <li><strong>Core Wear</strong></li>
             <li>Diren Bulut</li>
-            <li>Bensbergerstraße&nbsp;192</li>
-            <li>51503 Rösrath, Germany</li>
+            <li>BensbergerstraÃŸe&nbsp;192</li>
+            <li>51503 RÃ¶srath, Germany</li>
           </ul>
           <div class="info-slot">
             <span class="chip">Email</span>
@@ -221,7 +221,7 @@
 
     <footer>
       <div class="wrap">
-        <small>© <span id="y"></span> CoreWear</small>
+        <small>Â© <span id="y"></span> CoreWear</small>
         <div style="display:flex;gap:14px">
           <a href="/en/legal/">Imprint</a>
           <a href="/en/privacy/">Privacy</a>
@@ -334,13 +334,13 @@
         a.href = norm(`/${lang}${rest}`);
       });
 
-      // Präferenz speichern
+      // PrÃ¤ferenz speichern
       box.addEventListener('click', e=>{
         const a = e.target.closest('.lang-link'); if(!a) return;
         try{ localStorage.setItem('cw_lang', (a.dataset.lang || '').toLowerCase()); }catch(_){}
       });
 
-      // Ohne Sprachpräfix → auf bevorzugte Sprache + gleiche Route
+      // Ohne SprachprÃ¤fix â†’ auf bevorzugte Sprache + gleiche Route
       if(!currentLang){
         let pref = null; try{ pref = (localStorage.getItem('cw_lang') || '').toLowerCase(); }catch(_){}
         const fallback = (navigator.language||'en').toLowerCase().startsWith('de') ? 'de' : 'en';
