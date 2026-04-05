@@ -100,7 +100,7 @@
 
 <footer>
   <div class="wrap">
-    <small>Â© <span id="y"></span> CoreWear</small>
+    <small>&copy; <span id="y"></span> CoreWear</small>
     <div style="display:flex;gap:14px">
       <a href="/en/legal/">Imprint</a>
       <a href="/en/privacy/">Privacy</a>
@@ -110,10 +110,10 @@
 
 <!-- Lightbox -->
 <div class="lightbox" hidden aria-hidden="true" role="dialog" aria-label="Image preview">
-  <button class="lb-close" type="button" aria-label="Close">Ã—</button>
-  <button class="lb-btn lb-prev" type="button" aria-label="Previous image">â€¹</button>
+  <button class="lb-close" type="button" aria-label="Close">&times;</button>
+  <button class="lb-btn lb-prev" type="button" aria-label="Previous image">&lsaquo;</button>
   <img class="lb-img" alt="Preview">
-  <button class="lb-btn lb-next" type="button" aria-label="Next image">â€º</button>
+  <button class="lb-btn lb-next" type="button" aria-label="Next image">&rsaquo;</button>
 </div>
 
 <!-- Optional structured data -->
@@ -158,7 +158,7 @@
     };
   }
 
-  // â–¶ Example images: AVIF â†’ WebP â†’ JPG
+  // â–¶ Example images: AVIF &rarr; WebP &rarr; JPG
   // Paths: .../{dir}/{baseName}/{baseName}{index}.{ext}
   function buildExamplePaths(dir, baseName, index){
     const safeDir   = dir.split("/").map(encodePathSegment).join("/");
@@ -863,7 +863,7 @@
      Example Images (ON-DEMAND, ROBUST FALLBACKS)
      - Check which formats exist per image (HEAD)
      - Only add available <source> formats
-     - onerror cascade: AVIF â†’ WebP â†’ JPG
+     - onerror cascade: AVIF &rarr; WebP &rarr; JPG
   ========================= */
   const MAX_EXAMPLES = 24;
   const STOP_AFTER_MISSES = 1;
@@ -1040,7 +1040,7 @@
       // Track current try format for onerror cascade
       img.dataset.tryFmt = t.avif ? 'avif' : (t.webp ? 'webp' : 'jpg');
 
-      // onerror fallback: AVIF â†’ WebP â†’ JPG
+      // onerror fallback: AVIF &rarr; WebP &rarr; JPG
       img.addEventListener('error', () => {
         const pic = img.parentElement && img.parentElement.tagName === 'PICTURE' ? img.parentElement : null;
         const cur = img.dataset.tryFmt || '';
@@ -1162,7 +1162,7 @@
 
   /* =========================
      Lightbox + body lock
-     with AVIF â†’ WebP â†’ JPG fallback
+     with AVIF &rarr; WebP &rarr; JPG fallback
   ========================= */
   const lbEl = document.querySelector('.lightbox');
   const lbImg = lbEl?.querySelector('.lb-img');

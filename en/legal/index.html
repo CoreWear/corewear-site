@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Imprint â€“ CoreWear B2B Textile Manufacturing</title>
+    <title>Imprint &ndash; CoreWear B2B Textile Manufacturing</title>
     <meta name="description" content="Legal company information, business details and contact information according to German law." />
 
     <!-- hreflang: DE/EN + x-default -->
@@ -39,7 +39,7 @@
           <a href="/en/about/">About</a>
           <a href="/en/faq/">FAQ</a>
           <a href="/en/contact/" class="btn">Contact</a>
-          <!-- â–¶ï¸ Language switch (DE | EN) â€“ image variant -->
+          <!-- â–¶ï¸ Language switch (DE | EN) &ndash; image variant -->
           <div class="lang-switch" role="group" aria-label="Language selection">
             <a class="lang-link" href="/de/legal/" data-lang="de" role="button" aria-pressed="false" title="Deutsch">
               <img src="/assets/img/de.jpg" width="36" height="24" alt="Deutsch">
@@ -68,8 +68,8 @@
           <ul class="list imprint-address" style="margin:6px 0 0">
             <li><strong>Core Wear</strong></li>
             <li>Diren Bulut</li>
-            <li>BensbergerstraÃŸe&nbsp;192</li>
-            <li>51503 RÃ¶srath, Germany</li>
+            <li>Bensbergerstra&szlig;e&nbsp;192</li>
+            <li>51503 R&ouml;srath, Germany</li>
           </ul>
 
           <div class="info-slot">
@@ -90,7 +90,7 @@
             If applicable, add your VAT ID or register data here:
             <ul class="list" style="margin:6px 0 0">
               <li>VAT ID: DE&nbsp;[Number]</li>
-              <li>Register court / number: [e.g., Amtsgericht KÃ¶ln, HRA/HRB â€¦]</li>
+              <li>Register court / number: [e.g., Amtsgericht K&ouml;ln, HRA/HRB &hellip;]</li>
               <li id="rep">Authorized representative: Diren Bulut</li>
             </ul>
           -->
@@ -142,7 +142,7 @@
 
     <footer>
       <div class="wrap">
-        <small>Â© <span id="y"></span> CoreWear</small>
+        <small>&copy; <span id="y"></span> CoreWear</small>
         <div style="display:flex;gap:14px">
           <a href="/en/legal/">Imprint</a>
           <a href="/en/privacy/">Privacy</a>
@@ -264,19 +264,19 @@
         a.href = norm(`/${lang}${mapRestFor(lang, rest)}`);
       });
 
-      // SprachprÃ¤ferenz speichern
+      // Sprachpr&auml;ferenz speichern
       box.addEventListener('click', e=>{
         const a = e.target.closest('.lang-link'); if(!a) return;
         try{ localStorage.setItem('cw_lang', (a.dataset.lang || '').toLowerCase()); }catch(_){}
       });
 
-      // Falls jemand ohne SprachprÃ¤fix landet, leite auf bevorzugte Sprache + gemappte Route um
+      // Falls jemand ohne Sprachpr&auml;fix landet, leite auf bevorzugte Sprache + gemappte Route um
       if(!currentLang){
         let pref = null; try{ pref = (localStorage.getItem('cw_lang') || '').toLowerCase(); }catch(_){}
         const fallback = (navigator.language||'en').toLowerCase().startsWith('de') ? 'de' : 'en';
         const target = pref || fallback;
 
-        // Wenn ohne PrÃ¤fix schon eine imprint/legal-Seite aufgerufen wurde, korrekt mappen
+        // Wenn ohne Pr&auml;fix schon eine imprint/legal-Seite aufgerufen wurde, korrekt mappen
         let baseRest = rest;
         if (/^\/imprint\/?$/i.test(rest) && target === 'de') baseRest = '/legal/';
         if (/^\/legal\/?$/i.test(rest)   && target === 'en') baseRest = '/legal/';

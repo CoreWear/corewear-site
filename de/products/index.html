@@ -40,7 +40,7 @@
     </a>
 
     <!-- Hamburger (nur sichtbar auf Mobile) -->
-    <button class="hamburger" aria-label="MenÃƒÂ¼ ÃƒÂ¶ffnen" aria-controls="mobile-nav" aria-expanded="false">
+    <button class="hamburger" aria-label="Men&uuml; &ouml;ffnen" aria-controls="mobile-nav" aria-expanded="false">
       <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
       </svg>
@@ -51,11 +51,11 @@
       <a href="/de/">Start</a>
       <a href="/de/products/" class="active" aria-current="page">Produkte</a>
       <a href="/de/process/">Ablauf</a>
-      <a href="/de/about/">ÃƒÅ“ber uns</a>
+      <a href="/de/about/">&Uuml;ber uns</a>
       <a href="/de/faq/">FAQ</a>
       <a href="/de/contact/" class="btn">Kontakt</a>
 
-      <!-- Ã¢â€“Â¶Ã¯Â¸Â Sprachschalter (DE | EN) &ndash; Bildvariante -->
+      <!-- â–¶ï¸ Sprachschalter (DE | EN) &ndash; Bildvariante -->
       <div class="lang-switch" role="group" aria-label="Sprachauswahl">
         <a class="lang-link" href="/de/" data-lang="de" role="button" aria-pressed="false" title="Deutsch">
           <img src="/assets/img/de.jpg" alt="Deutsch">
@@ -80,21 +80,21 @@
   </div>
 
   <section class="product-layout">
-    <div class="product-rows"><!-- Kategorien werden per JS eingefÃƒÂ¼gt --></div>
+    <div class="product-rows"><!-- Kategorien werden per JS eingef&uuml;gt --></div>
   </section>
 
   <div class="section-title">
-    <h2>Noch mehr MÃƒÂ¶glichkeiten</h2>
-    <span class="muted">Wir sind flexibel &ndash; auch ÃƒÂ¼ber die aufgefÃƒÂ¼hrten Produkte hinaus.</span>
+    <h2>Noch mehr M&ouml;glichkeiten</h2>
+    <span class="muted">Wir sind flexibel &ndash; auch &uuml;ber die aufgef&uuml;hrten Produkte hinaus.</span>
   </div>
 
   <section class="grid cols-1">
     <article class="card">
       <p class="muted">
-        Dein gewÃƒÂ¼nschtes Produkt ist nicht in unserer Liste? Kein Problem &ndash; dank unseres Maschinenparks und Partnernetzwerks prÃƒÂ¼fen wir gern, ob eine Umsetzung mÃƒÂ¶glich ist.
+        Dein gew&uuml;nschtes Produkt ist nicht in unserer Liste? Kein Problem &ndash; dank unseres Maschinenparks und Partnernetzwerks pr&uuml;fen wir gern, ob eine Umsetzung m&ouml;glich ist.
       </p>
       <p class="muted">
-        AuÃƒÅ¸erdem kÃƒÂ¶nnen wir komplette Kollektionen fÃƒÂ¼r dich <strong>nachbilden</strong> oder gemeinsam <strong>neue Kollektionen entwickeln und produzieren</strong>.
+        Au&szlig;erdem k&ouml;nnen wir komplette Kollektionen f&uuml;r dich <strong>nachbilden</strong> oder gemeinsam <strong>neue Kollektionen entwickeln und produzieren</strong>.
         Ob Einzelartikel oder Full-Service &ndash; bei uns bist du richtig.
       </p>
     </article>
@@ -107,7 +107,7 @@
 
 <footer>
   <div class="wrap">
-    <small>Ã‚Â© <span id="y"></span> CoreWear</small>
+    <small>&copy; <span id="y"></span> CoreWear</small>
     <div style="display:flex;gap:14px">
       <a href="/de/legal/">Impressum</a>
       <a href="/de/privacy/">Datenschutz</a>
@@ -117,10 +117,10 @@
 
 <!-- Lightbox -->
 <div class="lightbox" hidden aria-hidden="true" role="dialog" aria-label="Bildvorschau">
-  <button class="lb-close" type="button" aria-label="SchlieÃƒÅ¸en">Ãƒâ€”</button>
-  <button class="lb-btn lb-prev" type="button" aria-label="Vorheriges Bild">Ã¢â‚¬Â¹</button>
+  <button class="lb-close" type="button" aria-label="Schlie&szlig;en">&times;</button>
+  <button class="lb-btn lb-prev" type="button" aria-label="Vorheriges Bild">&lsaquo;</button>
   <img class="lb-img" alt="Vorschau">
-  <button class="lb-btn lb-next" type="button" aria-label="NÃƒÂ¤chstes Bild">Ã¢â‚¬Âº</button>
+  <button class="lb-btn lb-next" type="button" aria-label="N&auml;chstes Bild">&rsaquo;</button>
 </div>
 
 <script>
@@ -133,7 +133,7 @@
 })();
 
 /* =====================================
-   Bildpfad-Utils (AVIF/WebP/PNG fÃƒÂ¼r Karten) + AVIF/WebP/JPG fÃƒÂ¼r Beispielbilder
+   Bildpfad-Utils (AVIF/WebP/PNG f&uuml;r Karten) + AVIF/WebP/JPG f&uuml;r Beispielbilder
    Basis relativ zu /de/products/  =>  ../resources/img/Clothes
    (Wie EN-Seite: parser-gesteuertes Laden via <picture>)
 ===================================== */
@@ -155,7 +155,7 @@ function buildAllImgPaths(dir, baseName){
   };
 }
 
-// Ã¢â€“Â¶Ã¯Â¸Â Beispielbilder: AVIF Ã¢â€ â€™ WebP Ã¢â€ â€™ JPG
+// â–¶ï¸ Beispielbilder: AVIF &rarr; WebP &rarr; JPG
 // Pfade: .../{dir}/{baseName}/{baseName}{index}.{ext}
 function buildExamplePaths(dir, baseName, index){
   const safeDir   = dir.split("/").map(encodePathSegment).join("/");
@@ -215,9 +215,9 @@ const CATEGORIES = [
       { de:"Jeans" },
       { de:"Jogginghosen" },
       { de:"Leggings" },
-      { de:"MaxirÃƒÂ¶cke" },
-      { de:"MidirÃƒÂ¶cke" },
-      { de:"MinirÃƒÂ¶cke" },
+      { de:"Maxir&ouml;cke" },
+      { de:"Midir&ouml;cke" },
+      { de:"Minir&ouml;cke" },
       { de:"Shorts" }
     ]
   },
@@ -229,10 +229,10 @@ const CATEGORIES = [
       { de:"Overall (Herren)" },
       { de:"Schutzhosen" },
       { de:"Sicherheitswesten" },
-      { de:"AnzÃƒÂ¼ge (Sakko+Hose)" },
+      { de:"Anz&uuml;ge (Sakko+Hose)" },
       { de:"Overall (Damen)" },
-      { de:"DamenanzÃƒÂ¼ge (Blazer+Hose)" },
-      { de:"DamenanzÃƒÂ¼ge (Blazer+Rock)" },
+      { de:"Damenanz&uuml;ge (Blazer+Hose)" },
+      { de:"Damenanz&uuml;ge (Blazer+Rock)" },
       { de:"Arbeitsjacken" }
     ]
   },
@@ -254,17 +254,17 @@ const CATEGORIES = [
     items: [
       { de:"Baseballtrikots" },
       { de:"Football-Trikots" },
-      { de:"FuÃƒÅ¸balltrikots" },
+      { de:"Fu&szlig;balltrikots" },
       { de:"Radlerhosen" },
-      { de:"JogginganzÃƒÂ¼ge" },
+      { de:"Jogginganz&uuml;ge" },
       { de:"Funktionsshirts" },
       { de:"Sport-BHs" },
-      { de:"TrainingsanzÃƒÂ¼ge" }
+      { de:"Trainingsanz&uuml;ge" }
     ]
   },
   {
-    title: "Jacken & MÃƒÂ¤ntel",
-    dir: "Jacken & MÃƒÂ¤ntel",
+    title: "Jacken & M&auml;ntel",
+    dir: "Jacken & M&auml;ntel",
     items: [
       { de: "Bomberjacken" },
       { de: "Daunenjacken" },
@@ -284,7 +284,7 @@ const CATEGORIES = [
     items: [
       { de:"Baby-Bodys" },
       { de:"Jungen-Schuluniformen" },
-      { de:"MÃƒÂ¤dchen-Schuluniformen" },
+      { de:"M&auml;dchen-Schuluniformen" },
       { de:"Kinderjacken" },
       { de:"Kinder-T-Shirts" },
       { de:"Strampler" }
@@ -294,11 +294,11 @@ const CATEGORIES = [
     title: "Haushalt",
     dir: "Haushalt",
     items: [
-      { de:"BademÃƒÂ¤ntel", file:"BademÃƒÂ¤ntel" },
-      { de:"HandtÃƒÂ¼cher", file:"HandtÃƒÂ¼cher" },
+      { de:"Badem&auml;ntel", file:"Badem&auml;ntel" },
+      { de:"Handt&uuml;cher", file:"Handt&uuml;cher" },
       { de:"Badevorleger", file:"Badevorleger" },
       { de:"Bettdecken", file:"Bettdecken" },
-      { de:"KissenbezÃƒÂ¼ge", file:"KissenbezÃƒÂ¼ge" },
+      { de:"Kissenbez&uuml;ge", file:"Kissenbez&uuml;ge" },
       { de:"Bettlaken", file:"Bettlaken" },
       { de:"Tischdecken", file:"Tischdecken" },
       { de:"Servietten", file:"Servietten" },
@@ -310,33 +310,33 @@ const CATEGORIES = [
 const ITEM_DETAILS = {
   // ---------- Oberteile ----------
   "Blusen": {
-    fabrics: ["Feingewebe: Viskose, TENCELÃ¢â€žÂ¢ Lyocell, Crepe de Chine (90&ndash;140 GSM)"],
-    methods: ["Feine Kapp-/FranzÃƒÂ¶sische NÃƒÂ¤hte", "Knopfleisten, Paspel-Details", "Lockere/taillierte Passform"],
-    notes: ["Weicher Fall, geringe Knitterneigung", "Option: verdeckte Knopfleiste, RÃƒÂ¼schen, Manschettenvarianten"]
+    fabrics: ["Feingewebe: Viskose, TENCELâ„¢ Lyocell, Crepe de Chine (90&ndash;140 GSM)"],
+    methods: ["Feine Kapp-/Franz&ouml;sische N&auml;hte", "Knopfleisten, Paspel-Details", "Lockere/taillierte Passform"],
+    notes: ["Weicher Fall, geringe Knitterneigung", "Option: verdeckte Knopfleiste, R&uuml;schen, Manschettenvarianten"]
   },
   "Hoodies": {
-    fabrics: ["Fleece 300&ndash;420 GSM (gebÃƒÂ¼rstet)", "French Terry 280&ndash;360 GSM"],
-    methods: ["Coverstitch-NÃƒÂ¤hte", "KÃƒÂ¤ngurutasche, Kapuzenfutter", "Rippe an Saum & Ãƒâ€žrmel"],
-    notes: ["Heavyweight Streetwear mÃƒÂ¶glich", "Druck/Stick groÃƒÅ¸flÃƒÂ¤chig, ReiÃƒÅ¸verschluss optional"]
+    fabrics: ["Fleece 300&ndash;420 GSM (geb&uuml;rstet)", "French Terry 280&ndash;360 GSM"],
+    methods: ["Coverstitch-N&auml;hte", "K&auml;ngurutasche, Kapuzenfutter", "Rippe an Saum & &Auml;rmel"],
+    notes: ["Heavyweight Streetwear m&ouml;glich", "Druck/Stick gro&szlig;fl&auml;chig, Rei&szlig;verschluss optional"]
   },
   "Poloshirts": {
-    fabrics: ["PiquÃƒÂ© 180&ndash;240 GSM (Baumwolle/Poly)", "Interlock 170&ndash;210 GSM"],
-    methods: ["Knopfleiste mit VerstÃƒÂ¤rkung", "Kragen mit Einlage", "Saum-Schlitze mit Bartack"],
-    notes: ["Corporate Wear tauglich", "Option: Kontrastkragen/-bÃƒÂ¼ndchen, Sticklogo"]
+    fabrics: ["PiquÃ© 180&ndash;240 GSM (Baumwolle/Poly)", "Interlock 170&ndash;210 GSM"],
+    methods: ["Knopfleiste mit Verst&auml;rkung", "Kragen mit Einlage", "Saum-Schlitze mit Bartack"],
+    notes: ["Corporate Wear tauglich", "Option: Kontrastkragen/-b&uuml;ndchen, Sticklogo"]
   },
   "Hemden": {
     fabrics: ["Popeline, Oxford, Twill (110&ndash;160 GSM)"],
     methods: ["Kragenvarianten (Kent, Button-down)", "Brusttasche optional", "Saubere Innenverarbeitung"],
-    notes: ["Slim/Regular/Relaxed Fit", "Option: bÃƒÂ¼gelleicht, Easy-Iron-Finish"]
+    notes: ["Slim/Regular/Relaxed Fit", "Option: b&uuml;gelleicht, Easy-Iron-Finish"]
   },
   "Pullover": {
     fabrics: ["Wollmischungen (Merino/Poly)", "Baumwoll-Strick, Feinstrick"],
-    methods: ["Fully-Fashioned Linking", "RippenbÃƒÂ¼ndchen 1x1/2x2", "Raglan/Set-in Ãƒâ€žrmel"],
+    methods: ["Fully-Fashioned Linking", "Rippenb&uuml;ndchen 1x1/2x2", "Raglan/Set-in &Auml;rmel"],
     notes: ["Edel, formstabil", "Option: Wascheffekte, Strukturstrick"]
   },
   "Sweatshirts": {
     fabrics: ["French Terry 260&ndash;340 GSM", "Loopback Jersey"],
-    methods: ["Flatlock-NÃƒÂ¤hte", "Set-in/Raglan", "Gerippte BÃƒÂ¼ndchen"],
+    methods: ["Flatlock-N&auml;hte", "Set-in/Raglan", "Gerippte B&uuml;ndchen"],
     notes: ["Print/Stick, Applikationen", "Klassische Streetwear-Silhouetten"]
   },
   "Tanktops": {
@@ -346,143 +346,143 @@ const ITEM_DETAILS = {
   },
   "Tops": {
     fabrics: ["Modal-/Viskose-Jersey", "Rib Jersey 180&ndash;220 GSM"],
-    methods: ["Coverstitch-SÃƒÂ¤ume", "Nahtverdeckter ReiÃƒÅ¸verschluss (elegant)"],
+    methods: ["Coverstitch-S&auml;ume", "Nahtverdeckter Rei&szlig;verschluss (elegant)"],
     notes: ["Basic bis Fashion", "Option: Cropped, Cut-Outs"]
   },
   "T-Shirts": {
-    fabrics: ["Single Jersey 160&ndash;220 GSM (Bio-Cotton mÃƒÂ¶glich)"],
-    methods: ["Tubular oder SeitennÃƒÂ¤hte", "Nackenband, Schulter-to-Schulter-Tape"],
-    notes: ["Oversize/Boxy mÃƒÂ¶glich", "Reaktive Drucke, DTG, DTF, Siebdruck"]
+    fabrics: ["Single Jersey 160&ndash;220 GSM (Bio-Cotton m&ouml;glich)"],
+    methods: ["Tubular oder Seitenn&auml;hte", "Nackenband, Schulter-to-Schulter-Tape"],
+    notes: ["Oversize/Boxy m&ouml;glich", "Reaktive Drucke, DTG, DTF, Siebdruck"]
   },
   "Westen": {
     fabrics: ["Stepp: Nylon/Poly mit Wattierung", "Fleece-Weste 220&ndash;300 GSM"],
-    methods: ["ReiÃƒÅ¸verschluss vorn, Kinnschutz", "Steppmuster: horizontal/diamant"],
-    notes: ["Leicht, Layering-fÃƒÂ¤hig", "Option: Softshell-Weste, wasserabweisend"]
+    methods: ["Rei&szlig;verschluss vorn, Kinnschutz", "Steppmuster: horizontal/diamant"],
+    notes: ["Leicht, Layering-f&auml;hig", "Option: Softshell-Weste, wasserabweisend"]
   },
 
   // ---------- Unterteile ----------
   "Chinos": {
     fabrics: ["Stretch-Twill 240&ndash;300 GSM", "Baumwolle/Elasthan"],
-    methods: ["Bund mit GÃƒÂ¼rtelschlaufen", "Hosen-Haken, Paspeltaschen hinten"],
+    methods: ["Bund mit G&uuml;rtelschlaufen", "Hosen-Haken, Paspeltaschen hinten"],
     notes: ["Business-Casual", "Option: Tapered/Regular Fit"]
   },
   "Anzughosen": {
     fabrics: ["Feiner Woll-/Poly-Mix", "Gabardine, Twill (200&ndash;260 GSM)"],
-    methods: ["BÃƒÂ¼gelbruch, Futter bis Knie", "Hosenhaken+Knopf, Saum mit StoÃƒÅ¸band"],
+    methods: ["B&uuml;gelbruch, Futter bis Knie", "Hosenhaken+Knopf, Saum mit Sto&szlig;band"],
     notes: ["Anzugskompatibel", "Option: Stoff-Garnituren passend zum Sakko"]
   },
   "Jeans": {
     fabrics: ["Denim 11&ndash;14 oz (Baumwolle/Elasthan)"],
-    methods: ["Kettenstich-NÃƒÂ¤hte, Nieten", "YKK-Zip oder Button-Fly"],
-    notes: ["Stone/Enzyme-Wash mÃƒÂ¶glich", "Passformen: Skinny bis Loose"]
+    methods: ["Kettenstich-N&auml;hte, Nieten", "YKK-Zip oder Button-Fly"],
+    notes: ["Stone/Enzyme-Wash m&ouml;glich", "Passformen: Skinny bis Loose"]
   },
   "Jogginghosen": {
     fabrics: ["French Terry 280&ndash;340 GSM", "Tech-Jersey (Sport)"],
-    methods: ["Elastikbund mit Kordel", "RippenbÃƒÂ¼ndchen am Saum"],
+    methods: ["Elastikbund mit Kordel", "Rippenb&uuml;ndchen am Saum"],
     notes: ["Sport/Streetwear", "Option: Seitentaschen mit Zipper"]
   },
   "Leggings": {
     fabrics: ["Hochstretch-Interlock 220&ndash;280 GSM", "Nylon/Spandex, squat-proof"],
-    methods: ["FlachnÃƒÂ¤hte (Flatlock) gegen Reibung", "Breiter Formbund"],
+    methods: ["Flachn&auml;hte (Flatlock) gegen Reibung", "Breiter Formbund"],
     notes: ["Performance-Einsatz", "Option: Handy-Tasche seitlich"]
   },
-  "MaxirÃƒÂ¶cke": {
-    fabrics: ["Viskose-CrÃƒÂªpe, Satin", "Jersey (casual)"],
-    methods: ["Verdeckter ReiÃƒÅ¸verschluss/Elastikbund", "Saubere SÃƒÂ¤ume"],
-    notes: ["FlieÃƒÅ¸ender Fall", "Option: Schlitz, Print allover"]
+  "Maxir&ouml;cke": {
+    fabrics: ["Viskose-CrÃªpe, Satin", "Jersey (casual)"],
+    methods: ["Verdeckter Rei&szlig;verschluss/Elastikbund", "Saubere S&auml;ume"],
+    notes: ["Flie&szlig;ender Fall", "Option: Schlitz, Print allover"]
   },
-  "MidirÃƒÂ¶cke": {
+  "Midir&ouml;cke": {
     fabrics: ["Satin/Crepe 120&ndash;180 GSM", "Strukturgewebe"],
-    methods: ["Formbund, AbnÃƒÂ¤her", "Innenfutter optional"],
+    methods: ["Formbund, Abn&auml;her", "Innenfutter optional"],
     notes: ["Business/Fashion", "Option: A-Linie/Plissee"]
   },
-  "MinirÃƒÂ¶cke": {
+  "Minir&ouml;cke": {
     fabrics: ["Twill/Denim", "Kunstleder (Fashion)"],
-    methods: ["AbnÃƒÂ¤her, ReiÃƒÅ¸verschluss hinten/seitlich", "Saum fixiert oder raw edge (Denim)"] ,
-    notes: ["Trend-Piece", "Option: GÃƒÂ¼rtel/Ãƒâ€“sen-Details"]
+    methods: ["Abn&auml;her, Rei&szlig;verschluss hinten/seitlich", "Saum fixiert oder raw edge (Denim)"] ,
+    notes: ["Trend-Piece", "Option: G&uuml;rtel/&Ouml;sen-Details"]
   },
   "Shorts": {
     fabrics: ["Twill/Chino", "French Terry (Casual)"],
-    methods: ["Bund: Elastik+Kordel oder Haken", "Taschen: SchrÃƒÂ¤g vorn, Paspel hinten"],
-    notes: ["Sommer/Teamwear", "Option: KontrastnÃƒÂ¤hte, Prints"]
+    methods: ["Bund: Elastik+Kordel oder Haken", "Taschen: Schr&auml;g vorn, Paspel hinten"],
+    notes: ["Sommer/Teamwear", "Option: Kontrastn&auml;hte, Prints"]
   },
 
   // ---------- Business & Arbeitskleidung ----------
   "Latzhosen": {
     fabrics: ["Heavy Twill 300&ndash;360 GSM", "Poly/Cotton 65/35"],
-    methods: ["DreifachnÃƒÂ¤hte, KnieverstÃƒÂ¤rkung", "Mehrfach-Werkzeugtaschen"],
-    notes: ["Robust & langlebig", "Option: Reflektpaspeln, Stretch-EinsÃƒÂ¤tze"]
+    methods: ["Dreifachn&auml;hte, Knieverst&auml;rkung", "Mehrfach-Werkzeugtaschen"],
+    notes: ["Robust & langlebig", "Option: Reflektpaspeln, Stretch-Eins&auml;tze"]
   },
   "Overall (Herren)": {
     fabrics: ["Twill/Canvas 260&ndash;320 GSM"],
-    methods: ["Front-Zip, Elastik im RÃƒÂ¼cken", "CorduraÃ‚Â®-VerstÃƒÂ¤rkungen optional"],
+    methods: ["Front-Zip, Elastik im R&uuml;cken", "CorduraÂ®-Verst&auml;rkungen optional"],
     notes: ["Industrie-geeignet", "Option: Namenspatch, Firmenbranding"]
   },
   "Schutzhosen": {
     fabrics: ["Ripstop, Twill, Mischgewebe", "Optional: schwer entflammbar (Norm)"],
-    methods: ["DreifachnÃƒÂ¤hte, Kniepolster-FÃƒÂ¤cher", "Reflex-BÃƒÂ¤nder"],
+    methods: ["Dreifachn&auml;hte, Kniepolster-F&auml;cher", "Reflex-B&auml;nder"],
     notes: ["Normen nach Briefing (z. B. EN ISO)", "Hohe Abriebfestigkeit"]
   },
   "Sicherheitswesten": {
-    fabrics: ["Hi-Vis Mesh/Trikot", "Reflextransfer-BÃƒÂ¤nder zertifiziert"],
+    fabrics: ["Hi-Vis Mesh/Trikot", "Reflextransfer-B&auml;nder zertifiziert"],
     methods: ["Bindung/Umkettelung Kanten", "Klett-Verschluss vorn"],
-    notes: ["Neonfarben EN-konform", "Option: GroÃƒÅ¸flÃƒÂ¤chiger RÃƒÂ¼cken-Print"]
+    notes: ["Neonfarben EN-konform", "Option: Gro&szlig;fl&auml;chiger R&uuml;cken-Print"]
   },
-  "AnzÃƒÂ¼ge (Sakko+Hose)": {
+  "Anz&uuml;ge (Sakko+Hose)": {
     fabrics: ["Wolle/Poly/Elasthan", "Feine Garne, Fall 200&ndash;260 GSM"],
-    methods: ["Halb-/Vollcanvas mÃƒÂ¶glich", "AMF-Stich, Innenfutter & Paspeltaschen"],
-    notes: ["MaÃƒÅ¸tabellen & Gradierung", "Serienfertigung Business-QualitÃƒÂ¤t"]
+    methods: ["Halb-/Vollcanvas m&ouml;glich", "AMF-Stich, Innenfutter & Paspeltaschen"],
+    notes: ["Ma&szlig;tabellen & Gradierung", "Serienfertigung Business-Qualit&auml;t"]
   },
   "Overall (Damen)": {
-    fabrics: ["Crepe/Poly-Mix", "Stretch-Twill fÃƒÂ¼r bequeme Passform"],
-    methods: ["Taillierung, verdeckter Zip", "GÃƒÂ¼rtel/Bindeband mÃƒÂ¶glich"],
+    fabrics: ["Crepe/Poly-Mix", "Stretch-Twill f&uuml;r bequeme Passform"],
+    methods: ["Taillierung, verdeckter Zip", "G&uuml;rtel/Bindeband m&ouml;glich"],
     notes: ["Business bis Fashion", "Option: weites Bein, Culotte-Form"]
   },
-  "DamenanzÃƒÂ¼ge (Blazer+Hose)": {
+  "Damenanz&uuml;ge (Blazer+Hose)": {
     fabrics: ["Woll-/Poly-Stretch", "Kammgarn-Optik"],
-    methods: ["Taillierter Blazer, Futter", "Zigarettenhose mit BÃƒÂ¼gelfalte"],
-    notes: ["Feminine SchnittfÃƒÂ¼hrung", "Option: Farben nach CI"]
+    methods: ["Taillierter Blazer, Futter", "Zigarettenhose mit B&uuml;gelfalte"],
+    notes: ["Feminine Schnittf&uuml;hrung", "Option: Farben nach CI"]
   },
-  "DamenanzÃƒÂ¼ge (Blazer+Rock)": {
+  "Damenanz&uuml;ge (Blazer+Rock)": {
     fabrics: ["Woll-/Poly-Mix", "Feine Strukturgewebe"],
     methods: ["Blazer mit Revers, Rock bis Knie", "Innenfutter, Paspel"],
     notes: ["Business-Set", "Option: Rock Bleistift/ausgestellt"]
   },
   "Arbeitsjacken": {
     fabrics: ["Twill/Softshell", "Fleece-Futter optional"],
-    methods: ["VerstÃƒÂ¤rkte Ellenbogen", "Mehr-Taschen, ReiÃƒÅ¸verschlusstaschen"],
-    notes: ["Robuste ReiÃƒÅ¸verschlÃƒÂ¼sse", "Option: Reflexelemente, Branding"]
+    methods: ["Verst&auml;rkte Ellenbogen", "Mehr-Taschen, Rei&szlig;verschlusstaschen"],
+    notes: ["Robuste Rei&szlig;verschl&uuml;sse", "Option: Reflexelemente, Branding"]
   },
 
   // ---------- Kleider ----------
   "Businesskleider": {
     fabrics: ["Ponte Roma, Scuba-Knit", "Viskose-Mischung"],
-    methods: ["AbnÃƒÂ¤her, figurbetont", "Nahtverdeckter Zip, Futter optional"],
-    notes: ["Knielang klassisch", "Option: 3/4-Ãƒâ€žrmel, Schlitze"]
+    methods: ["Abn&auml;her, figurbetont", "Nahtverdeckter Zip, Futter optional"],
+    notes: ["Knielang klassisch", "Option: 3/4-&Auml;rmel, Schlitze"]
   },
   "Cocktailkleider": {
     fabrics: ["Satin, Crepe, Spitze"],
-    methods: ["Futter, Nahtband", "Zierdetails: RÃƒÂ¼schen, Drapierung"],
+    methods: ["Futter, Nahtband", "Zierdetails: R&uuml;schen, Drapierung"],
     notes: ["Event-tauglich", "Option: Glitzer/Applikationen"]
   },
   "Abendkleider": {
     fabrics: ["Chiffon, Satin, Seidenoptik"],
-    methods: ["Mehrlagig, Futter", "Reichere Verarbeitung, Korsage mÃƒÂ¶glich"],
+    methods: ["Mehrlagig, Futter", "Reichere Verarbeitung, Korsage m&ouml;glich"],
     notes: ["Bodenlang", "Option: Perlenstickerei, Schlitz"]
   },
   "Maxikleider": {
     fabrics: ["Viskose, Rayon, leichte Gewebe"],
     methods: ["Gummizug in Taille", "Knopfleiste/Bindeband"],
-    notes: ["FlieÃƒÅ¸end & luftig", "Option: Allover-Print"]
+    notes: ["Flie&szlig;end & luftig", "Option: Allover-Print"]
   },
   "Etuikleider": {
     fabrics: ["Strukturstoffe, Stretch-Crepe"],
-    methods: ["Etuiform, AbnÃƒÂ¤her", "Nahtverdeckter Zip hinten"],
+    methods: ["Etuiform, Abn&auml;her", "Nahtverdeckter Zip hinten"],
     notes: ["Business-elegant", "Option: Farb-Piping"]
   },
   "Sommerkleider": {
     fabrics: ["Baumwolle/Leinen leicht", "Viskose-Jersey"],
-    methods: ["TrÃƒÂ¤gervarianten, KnÃƒÂ¶pfe", "Saum-Volants optional"],
+    methods: ["Tr&auml;gervarianten, Kn&ouml;pfe", "Saum-Volants optional"],
     notes: ["Atmungsaktiv", "Option: AOP-Print, Stickerei"]
   },
 
@@ -490,45 +490,45 @@ const ITEM_DETAILS = {
   "Baseballtrikots": {
     fabrics: ["Poly Mesh/Interlock"],
     methods: ["Knopfleiste vorn", "Kontrastpaspel, Team-Applikationen"],
-    notes: ["Nummern/Namen individualisierbar", "Sublimation oder Flock mÃƒÂ¶glich"]
+    notes: ["Nummern/Namen individualisierbar", "Sublimation oder Flock m&ouml;glich"]
   },
   "Football-Trikots": {
     fabrics: ["Robustes Poly-Mesh"],
-    methods: ["VerstÃƒÂ¤rkte SchulternÃƒÂ¤hte", "Breite Ãƒâ€žrmel fÃƒÂ¼r Pads"],
-    notes: ["Teamfarben & Logos", "Nummern vorne/hinten/Ãƒâ€žrmel"]
+    methods: ["Verst&auml;rkte Schultern&auml;hte", "Breite &Auml;rmel f&uuml;r Pads"],
+    notes: ["Teamfarben & Logos", "Nummern vorne/hinten/&Auml;rmel"]
   },
-  "FuÃƒÅ¸balltrikots": {
+  "Fu&szlig;balltrikots": {
     fabrics: ["Leichter Poly-Interlock"],
-    methods: ["Atmungsaktive EinsÃƒÂ¤tze", "Raglan/Set-in mÃƒÂ¶glich"],
+    methods: ["Atmungsaktive Eins&auml;tze", "Raglan/Set-in m&ouml;glich"],
     notes: ["Schnelltrocknend", "Individuelle Club-Designs"]
   },
   "Radlerhosen": {
     fabrics: ["Kompressionsstoff 220&ndash;260 GSM"],
-    methods: ["Flatlock-NÃƒÂ¤hte", "Sitzpolster (Mehrdichte)"],
-    notes: ["Rutschfeste BeinabschlÃƒÂ¼sse", "Reflekt-Details optional"]
+    methods: ["Flatlock-N&auml;hte", "Sitzpolster (Mehrdichte)"],
+    notes: ["Rutschfeste Beinabschl&uuml;sse", "Reflekt-Details optional"]
   },
-  "JogginganzÃƒÂ¼ge": {
+  "Jogginganz&uuml;ge": {
     fabrics: ["French Terry 300&ndash;360 GSM"],
-    methods: ["Hoodie+Jogger Set", "Kordeln, MetallÃƒÂ¶sen"],
+    methods: ["Hoodie+Jogger Set", "Kordeln, Metall&ouml;sen"],
     notes: ["Street & Team", "Option: Allover-Print Panel"]
   },
   "Funktionsshirts": {
     fabrics: ["Mikrofaser-Poly, antibakteriell"],
-    methods: ["Nahtarm (Raglan)", "FlachnÃƒÂ¤hte"],
+    methods: ["Nahtarm (Raglan)", "Flachn&auml;hte"],
     notes: ["Feuchtetransport", "Option: Mesh-Panels"]
   },
   "Sport-BHs": {
     fabrics: ["Nylon/Spandex Kompression"],
     methods: ["Doppellagig, Gummibund", "Herausnehmbare Pads"],
-    notes: ["Low/Mid/High Support Optionen", "VerstÃƒÂ¤rkte TrÃƒÂ¤ger"]
+    notes: ["Low/Mid/High Support Optionen", "Verst&auml;rkte Tr&auml;ger"]
   },
-  "TrainingsanzÃƒÂ¼ge": {
-    fabrics: ["Poly-Trikot", "Warmes Knit fÃƒÂ¼r Winter"],
-    methods: ["Jacke+Hose, ReiÃƒÅ¸verschlÃƒÂ¼sse", "Kontrast-Paspeln"],
-    notes: ["Teamwear", "Nummern/Logos mÃƒÂ¶glich"]
+  "Trainingsanz&uuml;ge": {
+    fabrics: ["Poly-Trikot", "Warmes Knit f&uuml;r Winter"],
+    methods: ["Jacke+Hose, Rei&szlig;verschl&uuml;sse", "Kontrast-Paspeln"],
+    notes: ["Teamwear", "Nummern/Logos m&ouml;glich"]
   },
 
-  /* ---------- Jacken & MÃƒÂ¤ntel ---------- */
+  /* ---------- Jacken & M&auml;ntel ---------- */
   "Bomberjacken": {
     fabrics: [
       "Nylon/Oxford 70&ndash;120 D, optional mit PU/DWR-Beschichtung",
@@ -536,14 +536,14 @@ const ITEM_DETAILS = {
       "Wattierung 80&ndash;150 GSM (Poly) &ndash; leicht bis mittelwarm"
     ],
     methods: [
-      "RippenbÃƒÂ¼ndchen an Kragen/Ãƒâ€žrmel/Saum (1x1/2x2)",
+      "Rippenb&uuml;ndchen an Kragen/&Auml;rmel/Saum (1x1/2x2)",
       "Front-Zip (YKK) mit Windleiste, Kinnschutz",
-      "Ãƒâ€žrmeltasche mit ReiÃƒÅ¸verschluss + StiftkanÃƒÂ¤len (MA-1-Style)"
+      "&Auml;rmeltasche mit Rei&szlig;verschluss + Stiftkan&auml;len (MA-1-Style)"
     ],
     notes: [
-      "Steppkammern horizontal/diamant mÃƒÂ¶glich",
-      "Innen-/AuÃƒÅ¸entaschen mit Druckknopf oder Zip",
-      "Option: reversible, Flight-Tag, groÃƒÅ¸flÃƒÂ¤chiger Stick/Print"
+      "Steppkammern horizontal/diamant m&ouml;glich",
+      "Innen-/Au&szlig;entaschen mit Druckknopf oder Zip",
+      "Option: reversible, Flight-Tag, gro&szlig;fl&auml;chiger Stick/Print"
     ]
   },
 
@@ -551,17 +551,17 @@ const ITEM_DETAILS = {
     fabrics: [
       "Downproof-Nylon 20&ndash;40 D (calendered), DWR",
       "Futter: ultraleichter Taft 20&ndash;30 D",
-      "FÃƒÂ¼llung: 90/10 Daune/Feder oder Synthetik 120&ndash;250 GSM"
+      "F&uuml;llung: 90/10 Daune/Feder oder Synthetik 120&ndash;250 GSM"
     ],
     methods: [
-      "Kammern: gesteppte Baffles oder Box-WÃƒÂ¤nde",
-      "Elastische InnenbÃƒÂ¼ndchen, verstellbare Kapuze",
-      "Option: versiegelte NÃƒÂ¤hte im Schulterbereich"
+      "Kammern: gesteppte Baffles oder Box-W&auml;nde",
+      "Elastische Innenb&uuml;ndchen, verstellbare Kapuze",
+      "Option: versiegelte N&auml;hte im Schulterbereich"
     ],
     notes: [
       "RDS-zertifizierte Daunen auf Wunsch, Fill-Power z. B. 650+",
-      "DWR-Finish nachrÃƒÂ¼stbar, wasserabweisend",
-      "Packbar in Innentasche; Gewicht & WÃƒÂ¤rmegrad nach Briefing"
+      "DWR-Finish nachr&uuml;stbar, wasserabweisend",
+      "Packbar in Innentasche; Gewicht & W&auml;rmegrad nach Briefing"
     ]
   },
 
@@ -569,7 +569,7 @@ const ITEM_DETAILS = {
     fabrics: [
       "Baumwoll-/Poly-Twill 200&ndash;260 GSM",
       "Softshell 280&ndash;320 GSM (atmungsaktiv, leicht wasserabweisend)",
-      "UngefÃƒÂ¼ttert oder Teilfutter (Mesh/Taft 60&ndash;80 GSM)"
+      "Ungef&uuml;ttert oder Teilfutter (Mesh/Taft 60&ndash;80 GSM)"
     ],
     methods: [
       "Front-Zip oder Druckknopfleiste",
@@ -577,7 +577,7 @@ const ITEM_DETAILS = {
       "Stehkragen/Umlegekragen, formstabile Belege"
     ],
     notes: [
-      "ÃƒÅ“bergangsjacke; bequeme Regular/Oversize-Fits",
+      "&Uuml;bergangsjacke; bequeme Regular/Oversize-Fits",
       "Option: Kordel in Saum/Kapuze, elastische Manschetten",
       "CI-Branding via Stick, DTF, Lederpatch"
     ]
@@ -586,17 +586,17 @@ const ITEM_DETAILS = {
   "Jeansjacken": {
     fabrics: [
       "Denim 11&ndash;14 oz (100 % CO oder CO/Elasthan)",
-      "Twill-Futter optional (KÃƒÂ¶rper) oder Sherpa-Futter 250&ndash;350 GSM",
+      "Twill-Futter optional (K&ouml;rper) oder Sherpa-Futter 250&ndash;350 GSM",
       "Kontrastgarne Core-Spun 20/3"
     ],
     methods: [
-      "Kapp-/DoppelnÃƒÂ¤hte, Riegel-/Bartacks an Belastungspunkten",
-      "Metall-DruckknÃƒÂ¶pfe/Shank-Buttons, Brusttaschen mit Klappe",
+      "Kapp-/Doppeln&auml;hte, Riegel-/Bartacks an Belastungspunkten",
+      "Metall-Druckkn&ouml;pfe/Shank-Buttons, Brusttaschen mit Klappe",
       "Waschungen: Stone/Enzyme, Bleach, Vintage"
     ],
     notes: [
       "Passformen: Classic/Boxy/Relaxed",
-      "Option: abknÃƒÂ¶pfbares Sherpa-Kragenfutter",
+      "Option: abkn&ouml;pfbares Sherpa-Kragenfutter",
       "Dezente Whiskers/Hand-Sand je nach Look"
     ]
   },
@@ -605,17 +605,17 @@ const ITEM_DETAILS = {
     fabrics: [
       "Echtes Leder: Lamm-Nappa 0,7&ndash;1,0 mm / Rindsleder 1,1&ndash;1,3 mm",
       "Veganes Leder (PU/microfiber) 0,6&ndash;0,9 mm",
-      "Futter: Satin/Taft 60&ndash;80 GSM, Ãƒâ€žrmel ggf. gleitfÃƒÂ¤hig"
+      "Futter: Satin/Taft 60&ndash;80 GSM, &Auml;rmel ggf. gleitf&auml;hig"
     ],
     methods: [
-      "Panel-Schnitt mit Ziersteppungen, Kanten gefÃƒÂ¤rbt/versiegelt",
-      "Metall-Zipper (YKK Excella) + DruckknÃƒÂ¶pfe",
-      "Revers/Biker-Kragen oder Stehkragen, Schulterstepp mÃƒÂ¶glich"
+      "Panel-Schnitt mit Ziersteppungen, Kanten gef&auml;rbt/versiegelt",
+      "Metall-Zipper (YKK Excella) + Druckkn&ouml;pfe",
+      "Revers/Biker-Kragen oder Stehkragen, Schulterstepp m&ouml;glich"
     ],
     notes: [
-      "Gerbung & REACH-KonformitÃƒÂ¤t nachweisbar",
-      "Vorserie fÃƒÂ¼r Passform empfohlen (Leder fÃƒÂ¤llt individuell)",
-      "Option: abnehmbares Futter, PrÃƒÂ¤gung/Embossing"
+      "Gerbung & REACH-Konformit&auml;t nachweisbar",
+      "Vorserie f&uuml;r Passform empfohlen (Leder f&auml;llt individuell)",
+      "Option: abnehmbares Futter, Pr&auml;gung/Embossing"
     ]
   },
 
@@ -623,28 +623,28 @@ const ITEM_DETAILS = {
     fabrics: [
       "Canvas/Oxford 160&ndash;220 GSM mit DWR",
       "Membran-Laminate 2- oder 3-Lagen (5k&ndash;10k mm WS)",
-      "Isolierung 120&ndash;200 GSM (KÃƒÂ¶rper hÃƒÂ¶her als Ãƒâ€žrmel)"
+      "Isolierung 120&ndash;200 GSM (K&ouml;rper h&ouml;her als &Auml;rmel)"
     ],
     methods: [
       "Lange Form mit Fischteilschlitz, Tunnelzug in Taille",
       "Abnehmbare Kapuze mit Schirm, Storm-Cuffs",
-      "Viele Taschen (Cargo/HandwÃƒÂ¤rmer), Windleiste ÃƒÂ¼ber Frontzip"
+      "Viele Taschen (Cargo/Handw&auml;rmer), Windleiste &uuml;ber Frontzip"
     ],
     notes: [
-      "Winter- oder ÃƒÅ“bergangsvariante mÃƒÂ¶glich",
+      "Winter- oder &Uuml;bergangsvariante m&ouml;glich",
       "Option: Fellimitat-Besatz an Kapuze",
-      "Reflex-Piping/Transfers fÃƒÂ¼r Work/City"
+      "Reflex-Piping/Transfers f&uuml;r Work/City"
     ]
   },
 
   "Regenjacken": {
     fabrics: [
       "2,5-Lagen Laminat 90&ndash;130 GSM (WP 10k, MVP 10k)",
-      "3-Lagen Shell 120&ndash;160 GSM fÃƒÂ¼r robusten Einsatz",
+      "3-Lagen Shell 120&ndash;160 GSM f&uuml;r robusten Einsatz",
       "Nylon/Poly mit PFC-freier DWR"
     ],
     methods: [
-      "VollstÃƒÂ¤ndig getapte NÃƒÂ¤hte (HeiÃƒÅ¸band)",
+      "Vollst&auml;ndig getapte N&auml;hte (Hei&szlig;band)",
       "Wasserabweisende Zipper, Kinnschutz, Laminat-Visier",
       "Unterarm-Ventilations-Zips (Pit-Zips)"
     ],
@@ -658,17 +658,17 @@ const ITEM_DETAILS = {
   "Trenchcoats": {
     fabrics: [
       "Gabardine 200&ndash;260 GSM (CO/Poly/Elasthan)",
-      "Satin-/Twill-Futter 70&ndash;90 GSM (teil- oder vollgefÃƒÂ¼ttert)",
-      "GÃƒÂ¼rtelband mit Einlage"
+      "Satin-/Twill-Futter 70&ndash;90 GSM (teil- oder vollgef&uuml;ttert)",
+      "G&uuml;rtelband mit Einlage"
     ],
     methods: [
-      "Doppelreihig, Sturmklappe & RÃƒÂ¼ckenkoller",
-      "Epauletten, Ãƒâ€žrmelriegel, Gehschlitz hinten",
+      "Doppelreihig, Sturmklappe & R&uuml;ckenkoller",
+      "Epauletten, &Auml;rmelriegel, Gehschlitz hinten",
       "Kragen mit Unterkragen-Filz, Stepp 0,6&ndash;0,8 cm"
     ],
     notes: [
-      "Klassische Knopfpositionen & LÃƒÂ¤ngen (Knie/Oberschenkel)",
-      "Horn-Optik-KnÃƒÂ¶pfe oder echte Corozo",
+      "Klassische Knopfpositionen & L&auml;ngen (Knie/Oberschenkel)",
+      "Horn-Optik-Kn&ouml;pfe oder echte Corozo",
       "Option: wasserabweisendes Finish"
     ]
   },
@@ -676,18 +676,18 @@ const ITEM_DETAILS = {
   "Windbreakers": {
     fabrics: [
       "Leichtes Nylon/Taffeta 70&ndash;110 GSM, DWR",
-      "Mesh-Futter 60&ndash;80 GSM (AtmungsaktivitÃƒÂ¤t)",
-      "Ripstop-Variante fÃƒÂ¼r mehr ReiÃƒÅ¸festigkeit"
+      "Mesh-Futter 60&ndash;80 GSM (Atmungsaktivit&auml;t)",
+      "Ripstop-Variante f&uuml;r mehr Rei&szlig;festigkeit"
     ],
     methods: [
-      "Gummizug an Saum/Ãƒâ€žrmel, Kordel an Kapuze",
+      "Gummizug an Saum/&Auml;rmel, Kordel an Kapuze",
       "Front-Zip (1/2 oder full), Kinnschutz",
-      "Packbar in KÃƒÂ¤ngurutasche/Seitentasche"
+      "Packbar in K&auml;ngurutasche/Seitentasche"
     ],
     notes: [
-      "Sehr leicht, ideal fÃƒÂ¼r Promotion/Teamwear",
+      "Sehr leicht, ideal f&uuml;r Promotion/Teamwear",
       "Option: reflektierende Paspeln/Logos",
-      "Allover-Sublimation oder Panel-Print mÃƒÂ¶glich"
+      "Allover-Sublimation oder Panel-Print m&ouml;glich"
     ]
   },
 
@@ -695,15 +695,15 @@ const ITEM_DETAILS = {
     fabrics: [
       "Robuster Oxford/Canvas 180&ndash;240 GSM mit DWR",
       "Futter: Taft/Quilt, Microfleece im Kragen",
-      "Isolierung 180&ndash;300 GSM (zoniert: KÃƒÂ¶rper/Ãƒâ€žrmel/Kapuze)"
+      "Isolierung 180&ndash;300 GSM (zoniert: K&ouml;rper/&Auml;rmel/Kapuze)"
     ],
     methods: [
-      "Mehrlagiger Aufbau mit Windleiste (innen/auÃƒÅ¸en)",
+      "Mehrlagiger Aufbau mit Windleiste (innen/au&szlig;en)",
       "Storm-Cuffs, Schneefang optional (urban/outdoor)",
-      "GroÃƒÅ¸e Taschen: HandwÃƒÂ¤rmer oben, Cargo unten"
+      "Gro&szlig;e Taschen: Handw&auml;rmer oben, Cargo unten"
     ],
     notes: [
-      "Sehr warm; fÃƒÂ¼r &minus;5 Ã‚Â°C bis &minus;20 Ã‚Â°C je nach FÃƒÂ¼llmenge",
+      "Sehr warm; f&uuml;r &minus;5 Â°C bis &minus;20 Â°C je nach F&uuml;llmenge",
       "Option: 3-in-1 mit herausnehmbarem Innenfleece",
       "Sicherheits-Features: Reflex, Notfallpfeife am Zipper"
     ]
@@ -712,16 +712,16 @@ const ITEM_DETAILS = {
   // ---------- Kinder ----------
   "Baby-Bodys": {
     fabrics: ["Bio-Baumwolle Interlock 180&ndash;220 GSM"],
-    methods: ["Nickelfreie DruckknÃƒÂ¶pfe", "Umschlag-Schultern"],
-    notes: ["Hautfreundlich", "Zertifizierungen mÃƒÂ¶glich (z. B. OEKO-TEX)"]
+    methods: ["Nickelfreie Druckkn&ouml;pfe", "Umschlag-Schultern"],
+    notes: ["Hautfreundlich", "Zertifizierungen m&ouml;glich (z. B. OEKO-TEX)"]
   },
   "Jungen-Schuluniformen": {
-    fabrics: ["Poloshirts/Westen: PiquÃƒÂ© & Twill"],
-    methods: ["StrapazierfÃƒÂ¤hig", "Beschriftungen/Logos"],
-    notes: ["Standardisierte GrÃƒÂ¶ÃƒÅ¸en", "Serienlieferungen planbar"]
+    fabrics: ["Poloshirts/Westen: PiquÃ© & Twill"],
+    methods: ["Strapazierf&auml;hig", "Beschriftungen/Logos"],
+    notes: ["Standardisierte Gr&ouml;&szlig;en", "Serienlieferungen planbar"]
   },
-  "MÃƒÂ¤dchen-Schuluniformen": {
-    fabrics: ["Blusen/RÃƒÂ¶cke: Popeline/Twill"],
+  "M&auml;dchen-Schuluniformen": {
+    fabrics: ["Blusen/R&ouml;cke: Popeline/Twill"],
     methods: ["Rockfalten, verstellbarer Bund", "Knopfleisten"],
     notes: ["Pflegeleicht", "CI-Farben umsetzbar"]
   },
@@ -732,57 +732,57 @@ const ITEM_DETAILS = {
   },
   "Kinder-T-Shirts": {
     fabrics: ["Baumwoll-Jersey 160&ndash;200 GSM"],
-    methods: ["Weiche NÃƒÂ¤hte", "Schulter-to-Schulter-Tape"],
+    methods: ["Weiche N&auml;hte", "Schulter-to-Schulter-Tape"],
     notes: ["Hautfreundlich", "Prints kindgerecht"]
   },
   "Strampler": {
     fabrics: ["Interlock/Rib", "Hoher Baumwollanteil"],
-    methods: ["Front-Zip/Knopfleiste", "Bein-DruckknÃƒÂ¶pfe"],
-    notes: ["Einfaches An-/Ausziehen", "Option: FuÃƒÅ¸teil geschlossen/offen"]
+    methods: ["Front-Zip/Knopfleiste", "Bein-Druckkn&ouml;pfe"],
+    notes: ["Einfaches An-/Ausziehen", "Option: Fu&szlig;teil geschlossen/offen"]
   },
 
   // ---------- Haushalt ----------
-  "BademÃƒÂ¤ntel": {
+  "Badem&auml;ntel": {
     fabrics: ["Frottier 320&ndash;450 GSM (100% Baumwolle oder Bambus-Viskose-Mix)", "Waffelpikee 220&ndash;300 GSM (leichter)"],
-    methods: ["Doppelte SeitennÃƒÂ¤hte/Overlock", "GÃƒÂ¼rtel, Schlaufen, aufgesetzte Taschen", "Schalkragen oder Kapuze"],
-    notes: ["Vorgewaschen gegen Einlaufen", "Option: Sticklogo auf Brust/Ãƒâ€žrmel", "Personalisierung (Monogramm) mÃƒÂ¶glich"]
+    methods: ["Doppelte Seitenn&auml;hte/Overlock", "G&uuml;rtel, Schlaufen, aufgesetzte Taschen", "Schalkragen oder Kapuze"],
+    notes: ["Vorgewaschen gegen Einlaufen", "Option: Sticklogo auf Brust/&Auml;rmel", "Personalisierung (Monogramm) m&ouml;glich"]
   },
   "Badevorleger": {
     fabrics: ["Frottier 700&ndash;900 GSM (hochflorig)", "Rutschhemmende Unterlage optional (Latex/TPR)"],
-    methods: ["Einfassung mit Doppelstepp", "Jacquard- oder BordÃƒÂ¼renmuster"],
-    notes: ["Hohe SaugfÃƒÂ¤higkeit", "Option: Anti-Rutsch-Beschichtung", "Standard- & HotelgrÃƒÂ¶ÃƒÅ¸en verfÃƒÂ¼gbar"]
+    methods: ["Einfassung mit Doppelstepp", "Jacquard- oder Bord&uuml;renmuster"],
+    notes: ["Hohe Saugf&auml;higkeit", "Option: Anti-Rutsch-Beschichtung", "Standard- & Hotelgr&ouml;&szlig;en verf&uuml;gbar"]
   },
   "Bettdecken": {
-    fabrics: ["Downproof-Baumwollperkal 230&ndash;300 TC", "MikrofaserhÃƒÂ¼lle 70&ndash;110 GSM"],
-    methods: ["Kassetten- oder Boxsteppung", "Paspelierte Kanten, AufhÃƒÂ¤ngeschlaufen"],
-    notes: ["FÃƒÂ¼llungen: Daune/Feder oder Hohlfaser", "WÃƒÂ¤rmegrade (Sommer/ÃƒÅ“bergang/Winter)", "Option: waschbar bis 60 Ã‚Â°C (Hohlfaser)"]
+    fabrics: ["Downproof-Baumwollperkal 230&ndash;300 TC", "Mikrofaserh&uuml;lle 70&ndash;110 GSM"],
+    methods: ["Kassetten- oder Boxsteppung", "Paspelierte Kanten, Aufh&auml;ngeschlaufen"],
+    notes: ["F&uuml;llungen: Daune/Feder oder Hohlfaser", "W&auml;rmegrade (Sommer/&Uuml;bergang/Winter)", "Option: waschbar bis 60 Â°C (Hohlfaser)"]
   },
-  "KissenbezÃƒÂ¼ge": {
+  "Kissenbez&uuml;ge": {
     fabrics: ["Baumwollsatin 300&ndash;400 TC", "Perkal 200&ndash;300 TC", "Jersey 160&ndash;190 GSM"],
-    methods: ["Hotelverschluss (ÃƒÅ“berlappung) oder ReiÃƒÅ¸verschluss", "Saum 3 cm, Paspel optional"],
-    notes: ["Weich & atmungsaktiv", "Option: Stickereien/Piping", "Standard- & SondergrÃƒÂ¶ÃƒÅ¸en"]
+    methods: ["Hotelverschluss (&Uuml;berlappung) oder Rei&szlig;verschluss", "Saum 3 cm, Paspel optional"],
+    notes: ["Weich & atmungsaktiv", "Option: Stickereien/Piping", "Standard- & Sondergr&ouml;&szlig;en"]
   },
   "Bettlaken": {
     fabrics: ["Jersey 140&ndash;180 GSM mit Elasthan (Spannbettlaken)", "Perkal/Satin 120&ndash;160 GSM (Flat Sheet)"],
-    methods: ["Rundumgummi (Spannbettlaken)", "Doppelte SÃƒÂ¤ume, MiternÃƒÂ¤hte an Ecken"],
-    notes: ["Formstabil, sanfter Griff", "Option: Tiefe fÃƒÂ¼r hohe Matratzen", "Farbpalette nach CI"]
+    methods: ["Rundumgummi (Spannbettlaken)", "Doppelte S&auml;ume, Mitern&auml;hte an Ecken"],
+    notes: ["Formstabil, sanfter Griff", "Option: Tiefe f&uuml;r hohe Matratzen", "Farbpalette nach CI"]
   },
   "Tischdecken": {
-    fabrics: ["Poly/Baumwoll-Mischung 180&ndash;240 GSM", "Fleckschutz-Finish (z. B. TeflonÃ‚Â®)"],
+    fabrics: ["Poly/Baumwoll-Mischung 180&ndash;240 GSM", "Fleckschutz-Finish (z. B. TeflonÂ®)"],
     methods: ["Saum 2&ndash;3 cm, gewebte Jacquards", "Gehrungsecken (mitered corners)"],
-    notes: ["Pflegeleicht, bÃƒÂ¼gelleicht", "Option: Rund/Oval/SondermaÃƒÅ¸e", "Logo-Weaving/Allover mÃƒÂ¶glich"]
+    notes: ["Pflegeleicht, b&uuml;gelleicht", "Option: Rund/Oval/Sonderma&szlig;e", "Logo-Weaving/Allover m&ouml;glich"]
   },
   "Servietten": {
-    fabrics: ["Baumwolle/Twill 180&ndash;220 GSM", "Damast/Jacquard fÃƒÂ¼r Gastronomie"],
+    fabrics: ["Baumwolle/Twill 180&ndash;220 GSM", "Damast/Jacquard f&uuml;r Gastronomie"],
     methods: ["Schmaler Saum 1&ndash;1,5 cm", "Gehrungsecken, Doppelstepp"],
-    notes: ["Hohe FaltstabilitÃƒÂ¤t", "Option: Logo-Stick, Kettelrand", "Sets passend zur Tischdecke"]
+    notes: ["Hohe Faltstabilit&auml;t", "Option: Logo-Stick, Kettelrand", "Sets passend zur Tischdecke"]
   }
 };
 
 /* =====================================
    Lazy Loader mit Queue (max 8 parallel)
    + IntersectionObserver
-   Ã°Å¸â€˜â€° FÃƒÂ¼r BEISPIELBILDER (jetzt mit <picture> & AVIF/WebP/JPG)
+   ðŸ‘‰ F&uuml;r BEISPIELBILDER (jetzt mit <picture> & AVIF/WebP/JPG)
 ===================================== */
 const PLACEHOLDER_1PX =
   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGMAAQAABQABDQottQAAAABJRU5ErkJggg==";
@@ -807,7 +807,7 @@ class ImageQueue {
 }
 const loaderQueue = new ImageQueue(8);
 
-// Ã¢Â¬â€¡Ã¯Â¸Â IO lÃƒÂ¤dt jetzt <picture>-Quellen (data-srcset) + &lt;img data-src&gt;
+// â¬‡ï¸ IO l&auml;dt jetzt <picture>-Quellen (data-srcset) + &lt;img data-src&gt;
 const io = ('IntersectionObserver' in window)
   ? new IntersectionObserver((entries)=>{
       entries.forEach(entry=>{
@@ -845,7 +845,7 @@ const io = ('IntersectionObserver' in window)
 
 /* =====================================
    Rendering der Karten
-   Ã°Å¸â€˜â€° wie EN: <picture> mit AVIF/WebP/PNG (ohne Lazy-Queue)
+   ðŸ‘‰ wie EN: <picture> mit AVIF/WebP/PNG (ohne Lazy-Queue)
    (Beispielbilder nutzen IO/Queue)
 ===================================== */
 const rowsWrap = document.querySelector('.product-rows');
@@ -881,12 +881,12 @@ function createRow(cat, index){
       <img src="${urls.png}" alt="${it.de}">
     `;
 
-    // ZusÃƒÂ¤tzliche JS-Fallback-Kaskade, falls bestimmte Dateien fehlen (404)
+    // Zus&auml;tzliche JS-Fallback-Kaskade, falls bestimmte Dateien fehlen (404)
     const imgEl = picture.querySelector('img');
     let triedWebp = false;
     let triedPng = true; // wir starten schon mit PNG als src
     imgEl.addEventListener('error', () => {
-      // Fallback auf WebP Ã¢â€ â€™ PNG (fÃƒÂ¼r Karten; Karten nutzen PNG statt JPG)
+      // Fallback auf WebP &rarr; PNG (f&uuml;r Karten; Karten nutzen PNG statt JPG)
       if (!triedWebp) {
         triedWebp = true;
         imgEl.src = urls.webp;
@@ -907,7 +907,7 @@ function createRow(cat, index){
 
     card.appendChild(title);
 
-    // Klick Ã¢â€ â€™ Details rendern + mobiles Scrollen
+    // Klick &rarr; Details rendern + mobiles Scrollen
     card.addEventListener('click', (e) => {
       const panel = showInfoInline(cat, it, row);
       if (isMobile()) {
@@ -923,13 +923,13 @@ function createRow(cat, index){
 
 /* =====================================
    Beispielbilder-Logik: On-Demand (ROBUSTE FALLBACKS)
-   - Manifest unterstÃƒÂ¼tzt Zahlen ODER Dateinamen
-   - FÃƒÂ¼r jeden Eintrag wird per HEAD geprÃƒÂ¼ft, welche Formate existieren
+   - Manifest unterst&uuml;tzt Zahlen ODER Dateinamen
+   - F&uuml;r jeden Eintrag wird per HEAD gepr&uuml;ft, welche Formate existieren
    - Rendering setzt nur vorhandene <source>-Formate
-   - onerror-Kaskade: AVIF Ã¢â€ â€™ WebP Ã¢â€ â€™ JPG
+   - onerror-Kaskade: AVIF &rarr; WebP &rarr; JPG
 ===================================== */
 const MAX_EXAMPLES = 24;
-const STOP_AFTER_MISSES = 1; // bei erster LÃƒÂ¼cke abbrechen
+const STOP_AFTER_MISSES = 1; // bei erster L&uuml;cke abbrechen
 // Cache speichert Array von Items: { avif?:string, webp?:string, jpg?:string }
 const exampleCache = new Map(); // key: `${dir}///${baseName}` => Array<...>
 
@@ -966,7 +966,7 @@ async function tryLoadExamplesFromManifest(dir, baseName){
       } else {
         continue;
       }
-      // Existenz je Format prÃƒÂ¼fen
+      // Existenz je Format pr&uuml;fen
       /* eslint-disable no-await-in-loop */
       const hasAvif = await headExists(t.avif);
       const hasWebp = hasAvif ? false : await headExists(t.webp);
@@ -998,7 +998,7 @@ async function discoverExampleUrls(dir, baseName){
     return [];
   }
 
-  // 2) Fallback: numerisch 1..MAX_EXAMPLES prÃƒÂ¼fen (HEAD) mit Format-PrioritÃƒÂ¤t
+  // 2) Fallback: numerisch 1..MAX_EXAMPLES pr&uuml;fen (HEAD) mit Format-Priorit&auml;t
   items = [];
   let misses = 0;
   for(let i=1; i<=MAX_EXAMPLES; i++){
@@ -1031,7 +1031,7 @@ function removePictureSources(pic){
 }
 
 async function mountExamplesOnDemand(dir, baseName, listEl, galleryWrap){
-  // Items ermitteln (Manifest oder HEAD); lÃƒÂ¤dt noch KEINE Bilder
+  // Items ermitteln (Manifest oder HEAD); l&auml;dt noch KEINE Bilder
   const items = await discoverExampleUrls(dir, baseName);
 
   if(!items || items.length === 0){
@@ -1077,17 +1077,17 @@ async function mountExamplesOnDemand(dir, baseName, listEl, galleryWrap){
     img.setAttribute('fetchpriority', 'low');
     img.tabIndex = 0;
     img.setAttribute('role', 'button');
-    img.setAttribute('aria-label', 'Bild groÃƒÅ¸ anzeigen');
+    img.setAttribute('aria-label', 'Bild gro&szlig; anzeigen');
 
-    // Merke, was wir als nÃƒÂ¤chstes testen sollen (fÃƒÂ¼r onerror)
+    // Merke, was wir als n&auml;chstes testen sollen (f&uuml;r onerror)
     img.dataset.tryFmt = t.avif ? 'avif' : (t.webp ? 'webp' : 'jpg');
 
-    // onerror-Kaskade: AVIF Ã¢â€ â€™ WebP Ã¢â€ â€™ JPG
+    // onerror-Kaskade: AVIF &rarr; WebP &rarr; JPG
     img.addEventListener('error', () => {
       const pic = img.parentElement && img.parentElement.tagName === 'PICTURE' ? img.parentElement : null;
       const cur = img.dataset.tryFmt || '';
       if (cur === 'avif') {
-        // AVIF fehlgeschlagen Ã¢â€ â€™ WebP oder JPG
+        // AVIF fehlgeschlagen &rarr; WebP oder JPG
         removePictureSources(pic); // verhindere erneutes AVIF-Pick
         if (t.webp) {
           img.dataset.tryFmt = 'webp';
@@ -1097,7 +1097,7 @@ async function mountExamplesOnDemand(dir, baseName, listEl, galleryWrap){
           img.src = t.jpg;
         }
       } else if (cur === 'webp') {
-        // WebP fehlgeschlagen Ã¢â€ â€™ JPG
+        // WebP fehlgeschlagen &rarr; JPG
         removePictureSources(pic);
         if (t.jpg) {
           img.dataset.tryFmt = 'jpg';
@@ -1172,12 +1172,12 @@ function showInfoInline(cat, item, rowEl){
   slot.innerHTML = '';
   slot.appendChild(panel);
 
-  // Galerie NACH dem EinfÃƒÂ¼gen lazy initialisieren (on-demand)
+  // Galerie NACH dem Einf&uuml;gen lazy initialisieren (on-demand)
   const galleryWrap = panel.querySelector('.example-gallery');
   const listEl = panel.querySelector('.eg-list');
   mountExamplesOnDemand(cat.dir, key, listEl, galleryWrap);
 
-  // A11y: Fokus kurz auf die ÃƒÅ“berschrift
+  // A11y: Fokus kurz auf die &Uuml;berschrift
   const h3 = panel.querySelector('.info-inline-head h3');
   if (h3) {
     h3.setAttribute('tabindex', '-1');
@@ -1227,14 +1227,14 @@ if ('scrollRestoration' in history) {
   btn.addEventListener('click', toggleMenu);
   overlay.addEventListener('click', closeMenu);
 
-  // ESC zum SchlieÃƒÅ¸en
+  // ESC zum Schlie&szlig;en
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && document.body.classList.contains('menu-open')) {
       closeMenu();
     }
   });
 
-  // SchlieÃƒÅ¸en beim Klick auf einen Link
+  // Schlie&szlig;en beim Klick auf einen Link
   nav.addEventListener('click', (e) => {
     const a = e.target.closest('a');
     if (a) closeMenu();
@@ -1242,13 +1242,13 @@ if ('scrollRestoration' in history) {
 })();
 
 /* =====================================
-   Sprachschalter (behÃƒÂ¤lt Unterseite bei)
+   Sprachschalter (beh&auml;lt Unterseite bei)
 ===================================== */
 (function(){
   const box = document.querySelector('.lang-switch'); if(!box) return;
   const links = box.querySelectorAll('.lang-link');
 
-  // Pfad normalisieren: /index/ -> /, Query/Hash entfernen, doppelte Slashes glÃƒÂ¤tten
+  // Pfad normalisieren: /index/ -> /, Query/Hash entfernen, doppelte Slashes gl&auml;tten
   const norm = (p)=>{
     if(!p.startsWith('/')) p = '/' + p;
     p = p.split('#')[0].split('?')[0];
@@ -1270,7 +1270,7 @@ if ('scrollRestoration' in history) {
     a.setAttribute('aria-pressed', lang === currentLang ? 'true' : 'false');
   });
 
-  // PrÃƒÂ¤ferenz speichern
+  // Pr&auml;ferenz speichern
   box.addEventListener('click', e=>{
     const a = e.target.closest('.lang-link'); if(!a) return;
     try{ localStorage.setItem('cw_lang', a.dataset.lang); }catch(_){}
@@ -1287,7 +1287,7 @@ if ('scrollRestoration' in history) {
 
 /* =====================================
    Lightbox (mit Mobile Button-Fix & Body-Lock)
-   + Format-Fallbacks fÃƒÂ¼r AVIF/WebP/JPG
+   + Format-Fallbacks f&uuml;r AVIF/WebP/JPG
 ===================================== */
 const lbEl = document.querySelector('.lightbox');
 const lbImg = lbEl?.querySelector('.lb-img');
@@ -1325,7 +1325,7 @@ function updateLightbox() {
 function lockBodyScroll() {
   const y = window.scrollY || document.documentElement.scrollTop || 0;
   document.body.dataset.lockScrollY = String(y);
-  document.documentElement.classList.add('no-smooth'); // Smooth temporÃƒÂ¤r aus
+  document.documentElement.classList.add('no-smooth'); // Smooth tempor&auml;r aus
   document.body.classList.add('no-smooth', 'no-scroll');
   document.body.style.top = `-${y}px`;
 }
@@ -1338,7 +1338,7 @@ function unlockBodyScroll() {
   document.body.style.top = '';
   delete document.body.dataset.lockScrollY;
 
-  // In zwei RAF-Ticks zurÃƒÂ¼ckscrollen und Smooth erst danach wieder an
+  // In zwei RAF-Ticks zur&uuml;ckscrollen und Smooth erst danach wieder an
   requestAnimationFrame(() => {
     window.scrollTo(0, y);
     requestAnimationFrame(() => {
@@ -1360,7 +1360,7 @@ function openLightbox(list, index, sourceEl) {
   lockBodyScroll(); // robustes Scroll-Locking
   LB_OPEN = true;
 
-  // Fokus auf Close fÃƒÂ¼r A11y
+  // Fokus auf Close f&uuml;r A11y
   lbClose.focus({preventScroll:true});
 }
 
@@ -1371,7 +1371,7 @@ function closeLightbox() {
 
   unlockBodyScroll(); // Scroll wiederherstellen
 
-  // Fokus zurÃƒÂ¼ck
+  // Fokus zur&uuml;ck
   if (restoreFocusEl && typeof restoreFocusEl.focus === 'function') {
     restoreFocusEl.focus({preventScroll:true});
   }
@@ -1389,7 +1389,7 @@ function nextLightbox() {
 }
 
 if (lbPrev && lbNext && lbClose && lbImg) {
-  // onerror-Kaskade fÃƒÂ¼r Lightbox
+  // onerror-Kaskade f&uuml;r Lightbox
   lbImg.addEventListener('error', ()=>{
     const step = lbImg.dataset.tryfmt || '';
     const t = LB_LIST[LB_INDEX];
@@ -1403,7 +1403,7 @@ if (lbPrev && lbNext && lbClose && lbImg) {
     }
   });
 
-  // Tap-Wrapper: Aktion ausfÃƒÂ¼hren und auf Touch sofort blur()
+  // Tap-Wrapper: Aktion ausf&uuml;hren und auf Touch sofort blur()
   const onTap = (fn) => (e) => {
     fn();
     if (matchMedia('(hover: none)').matches) {
@@ -1415,7 +1415,7 @@ if (lbPrev && lbNext && lbClose && lbImg) {
   lbNext.addEventListener('click', onTap(nextLightbox));
   lbClose.addEventListener('click', onTap(closeLightbox));
 
-  // Klick auf Hintergrund schlieÃƒÅ¸t (aber nicht, wenn auf Bild/Buttons geklickt)
+  // Klick auf Hintergrund schlie&szlig;t (aber nicht, wenn auf Bild/Buttons geklickt)
   lbEl.addEventListener('click', (e) => {
     if (e.target === lbEl) closeLightbox();
   });
@@ -1440,7 +1440,7 @@ if (lbPrev && lbNext && lbClose && lbImg) {
     else if (dx < -SWIPE_MIN) nextLightbox();
   });
 
-  // iOS-Safari: Scrollen hinter der Lightbox zusÃƒÂ¤tzlich unterbinden
+  // iOS-Safari: Scrollen hinter der Lightbox zus&auml;tzlich unterbinden
   lbEl.addEventListener('touchmove', (e) => { e.preventDefault(); }, { passive: false });
 }
 </script>

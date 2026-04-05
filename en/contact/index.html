@@ -50,7 +50,7 @@
         <a href="/en/about/">About</a>
         <a href="/en/faq/">FAQ</a>
         <a href="/en/contact/" class="btn active" aria-current="page">Contact</a>
-        <!-- Ã¢â€“Â¶Ã¯Â¸Â Sprachschalter (DE | EN) Ã¢â‚¬â€œ Bildvariante -->
+        <!-- â–¶ï¸ Sprachschalter (DE | EN) &ndash; Bildvariante -->
         <div class="lang-switch" role="group" aria-label="Sprachauswahl">
           <a class="lang-link" href="/de/" data-lang="de" role="button" aria-pressed="false" title="Deutsch">
             <img src="/assets/img/de.jpg" alt="German language">
@@ -158,7 +158,7 @@
 
           <div class="field">
             <label for="target_price">Target price (optional)</label>
-            <input id="target_price" name="target_price" type="text" placeholder="e.g., Ã¢â€šÂ¬12.50 / unit" />
+            <input id="target_price" name="target_price" type="text" placeholder="e.g., &euro;12.50 / unit" />
           </div>
 
           <div class="field">
@@ -226,7 +226,7 @@
             <span class="chip">Email</span>
             <a class="underline" href="mailto:hello@corewear.pro">hello@corewear.pro</a>
           </div>
-          <li>Diren Bulut<br>Core Wear<br>BensbergerstraÃƒÅ¸e&nbsp;192<br>51503 RÃƒÂ¶srath</li>
+          <li>Diren Bulut<br>Core Wear<br>Bensbergerstra&szlig;e&nbsp;192<br>51503 R&ouml;srath</li>
         </ul>
 
         <p class="notice">
@@ -258,7 +258,7 @@
 
   <footer>
     <div class="wrap">
-      <small>Ã‚Â© <span id="y"></span> CoreWear</small>
+      <small>&copy; <span id="y"></span> CoreWear</small>
       <div style="display:flex;gap:14px">
         <a href="/en/legal/">Imprint</a>
         <a href="/en/privacy/">Privacy</a>
@@ -269,7 +269,7 @@
   <!-- 1:1 script from DE (translated) + off-canvas toggle -->
   <script>
   /* ===============================
-    CoreWear Ã¢â‚¬â€œ Frontend Script (v8)
+    CoreWear &ndash; Frontend Script (v8)
     =============================== */
 
   // Year in footer
@@ -339,12 +339,12 @@
 
   // --- Endpoints & limits ---
   const FORM_ENDPOINTS = {
-    // AJAX (no redirect) Ã¢â€ â€™ only without attachments
+    // AJAX (no redirect) &rarr; only without attachments
     Order:    'https://formsubmit.co/ajax/orders@corewear.pro',
     Question: 'https://formsubmit.co/ajax/hello@corewear.pro'
   };
   const FORM_ENDPOINTS_RAW = {
-    // classic POST Ã¢â€ â€™ for upload in hidden iFrame (files!)
+    // classic POST &rarr; for upload in hidden iFrame (files!)
     Order:    'https://formsubmit.co/orders@corewear.pro',
     Question: 'https://formsubmit.co/hello@corewear.pro'
   };
@@ -386,7 +386,7 @@
     toggleOrderFields();
   })();
 
-  // Contact preference Ã¢â€ â€™ required fields dynamically
+  // Contact preference &rarr; required fields dynamically
   function syncContactRequired() {
     const pref = (form.querySelector('input[name="contact_pref"]:checked') || {}).value;
     // reset all
@@ -403,7 +403,7 @@
   syncContactRequired();
 
   /* ===============================
-    Files Ã¢â‚¬â€ store as real inputs
+    Files &mdash; store as real inputs
     =============================== */
   let attachCounter = 0; // unique names: attachment_1, attachment_2, ...
 
@@ -444,7 +444,7 @@
 
       const rm = document.createElement('button');
       rm.type = 'button';
-      rm.textContent = 'Ã¢Å“â€¢';
+      rm.textContent = 'âœ•';
       rm.className = 'rm';
       rm.title = 'Remove';
       rm.style.border = '0';
@@ -535,11 +535,11 @@
       }
       // 4) total limit
       if (toMB(total + f.size) > MAX_TOTAL_MB) {
-        errors.push(`Total size > ${MAX_TOTAL_MB} MB Ã¢â‚¬â€ not added: ${name}`);
+        errors.push(`Total size > ${MAX_TOTAL_MB} MB &mdash; not added: ${name}`);
         continue;
       }
 
-      // 5) OK Ã¢â€ â€™ store
+      // 5) OK &rarr; store
       storeSingleFile(f);
       seenFiles.add(k);
       total += f.size;
@@ -597,7 +597,7 @@
     if (submitting) return; // double-submit guard
     submitting = true;
     clearErrors();
-    statusEl.textContent = 'SendingÃ¢â‚¬Â¦';
+    statusEl.textContent = 'Sending&hellip;';
     statusEl.style.color = '';
 
     // apply contact preference requireds
@@ -606,8 +606,8 @@
     // soft checks for clearer feedback
     const pref = (form.querySelector('input[name="contact_pref"]:checked') || {}).value;
     const softErrs = [];
-    if (pref === 'Email' && !emailEl.value.trim()) softErrs.push('Please enter your email or choose Ã¢â‚¬Å“PhoneÃ¢â‚¬Â as contact method.');
-    if (pref === 'Phone' && !phoneEl.value.trim()) softErrs.push('Please enter your phone number or choose Ã¢â‚¬Å“EmailÃ¢â‚¬Â as contact method.');
+    if (pref === 'Email' && !emailEl.value.trim()) softErrs.push('Please enter your email or choose â€œPhoneâ€ as contact method.');
+    if (pref === 'Phone' && !phoneEl.value.trim()) softErrs.push('Please enter your phone number or choose â€œEmailâ€ as contact method.');
     if (softErrs.length) {
       renderErrors(softErrs);
       statusEl.textContent = '';
@@ -669,7 +669,7 @@
     const submitBtn = form.querySelector('button[type="submit"]');
     if (submitBtn) { submitBtn.disabled = true; submitBtn.setAttribute('aria-busy', 'true'); }
 
-    // === Path A: WITH attachments Ã¢â€ â€™ iFrame POST ===
+    // === Path A: WITH attachments &rarr; iFrame POST ===
     if (hasAttachments) {
       try {
         // mirror extras as hidden inputs (if not present)
@@ -704,7 +704,7 @@
         };
 
         const onLoad = () => {
-          statusEl.textContent = 'Thanks! We&rsquo;ll get back to you within 12 business hours Ã¢â‚¬â€ quote within Ã¢â€°Â¤ 24h.';
+          statusEl.textContent = 'Thanks! We&rsquo;ll get back to you within 12 business hours &mdash; quote within &le; 24h.';
           statusEl.style.color = '#9fe2b0';
           ifr.removeEventListener('load', onLoad);
           // reset form attributes
@@ -732,16 +732,16 @@
       return; // do not fall through to AJAX path
     }
 
-    // === Path B: WITHOUT attachments Ã¢â€ â€™ AJAX /ajax ===
+    // === Path B: WITHOUT attachments &rarr; AJAX /ajax ===
     try {
       const endpointAjax = FORM_ENDPOINTS[payload.type] || FORM_ENDPOINTS.Question;
       const res = await fetch(endpointAjax, {
         method: 'POST',
         body: fd,
-        headers: { 'Accept': 'application/json' } // donÃ¢â‚¬â„¢t set Content-Type yourself
+        headers: { 'Accept': 'application/json' } // donâ€™t set Content-Type yourself
       });
       if (res.ok) {
-        statusEl.textContent = 'Thanks! We&rsquo;ll get back to you within 12 business hours Ã¢â‚¬â€ quote within Ã¢â€°Â¤ 24h.';
+        statusEl.textContent = 'Thanks! We&rsquo;ll get back to you within 12 business hours &mdash; quote within &le; 24h.';
         statusEl.style.color = '#9fe2b0';
         const chosenType = typeSel.value;
         setTimeout(() => {
@@ -793,7 +793,7 @@
       const isSelect = el.tagName === 'SELECT';
       el.style.transition = 'background-color .25s ease, border-color .25s ease';
 
-      // text color: full when filled, otherwise Ã¢â‚¬Å“placeholder lookÃ¢â‚¬Â
+      // text color: full when filled, otherwise â€œplaceholder lookâ€
       if (on) {
         el.style.color = TXT_COLOR;
         el.style.webkitTextFillColor = TXT_COLOR;
@@ -890,7 +890,7 @@
     const box = document.querySelector('.lang-switch'); if(!box) return;
     const links = box.querySelectorAll('.lang-link');
 
-    // Pfad normalisieren: /index/ -> /, Query/Hash entfernen, doppelte Slashes glÃƒÂ¤tten
+    // Pfad normalisieren: /index/ -> /, Query/Hash entfernen, doppelte Slashes gl&auml;tten
     const norm = (p)=>{
       if(!p.startsWith('/')) p = '/' + p;
       p = p.split('#')[0].split('?')[0];
@@ -907,20 +907,20 @@
     const currentLang = m ? m[1] : null;
     const rest = m ? (m[2] || '/') : '/';
 
-    // Ziel-Links fÃƒÂ¼r beide Sprachen dynamisch setzen (Unterseite bleibt erhalten)
+    // Ziel-Links f&uuml;r beide Sprachen dynamisch setzen (Unterseite bleibt erhalten)
     links.forEach(a=>{
       const lang = a.dataset.lang;
       a.href = `/${lang}${rest === '/' ? '/' : rest}`;
       a.setAttribute('aria-pressed', lang === currentLang ? 'true' : 'false');
     });
 
-    // Klick speichert PrÃƒÂ¤ferenz (Navigation ÃƒÂ¼bernimmt der href)
+    // Klick speichert Pr&auml;ferenz (Navigation &uuml;bernimmt der href)
     box.addEventListener('click', e=>{
       const a = e.target.closest('.lang-link'); if(!a) return;
       try{ localStorage.setItem('cw_lang', a.dataset.lang); }catch(_){}
     });
 
-    // Erster Besuch ohne /de|/en/ Ã¢â€ â€™ leite auf gespeicherte oder Browser-Sprache
+    // Erster Besuch ohne /de|/en/ &rarr; leite auf gespeicherte oder Browser-Sprache
     if(!currentLang){
       let pref = null; try{ pref = localStorage.getItem('cw_lang'); }catch(_){}
       const fallback = (navigator.language||'en').toLowerCase().startsWith('de') ? 'de' : 'en';

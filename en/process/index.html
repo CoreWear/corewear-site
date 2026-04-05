@@ -47,7 +47,7 @@
         <a href="/en/faq/">FAQ</a>
         <a href="/en/contact/" class="btn">Contact</a>
 
-        <!-- Ã¢â€“Â¶Ã¯Â¸Â Language switch (DE | EN) -->
+        <!-- â–¶ï¸ Language switch (DE | EN) -->
         <div class="lang-switch" role="group" aria-label="Language selection">
           <a class="lang-link" href="/de/process/" data-lang="de" role="button" aria-pressed="false" title="Deutsch">
             <img src="/assets/img/de.jpg" width="36" height="24" alt="Deutsch" decoding="async" loading="eager">
@@ -69,11 +69,11 @@
       <div class="hero-card">
         <h1>Production Process for B2B Textile Manufacturing</h1>
         <p class="sub">
-          Transparent, predictable, industrial: from the first sketch to delivery Ã¢â‚¬â€ with QC gates, clean documentation, and reliable timelines.
+          Transparent, predictable, industrial: from the first sketch to delivery &mdash; with QC gates, clean documentation, and reliable timelines.
         </p>
         <div class="badges">
           <span class="badge">Direct factory partners</span>
-          <span class="badge">QC Ã¢â‚¬â€ inline &amp; final</span>
+          <span class="badge">QC &mdash; inline &amp; final</span>
           <span class="badge">CAD/CAM cutting</span>
           <span class="badge">Export &amp; logistics</span>
         </div>
@@ -121,7 +121,7 @@
           <h3>3. CAD/CAM &amp; Cutting</h3>
           <p class="muted">Markers via CAD, efficient fabric utilization, precise size runs.</p>
           <ul>
-            <li>Marker optimization Ã¢â‚¬â€ minimizing waste</li>
+            <li>Marker optimization &mdash; minimizing waste</li>
             <li>Automatic cutter or manual cutting depending on fabric</li>
             <li>Part labeling for error-free sewing flow</li>
           </ul>
@@ -177,7 +177,7 @@
           <h3>7. Shipping &amp; Documents</h3>
           <p class="muted">Export-ready: packed, palletized, and labeled.</p>
           <ul>
-            <li>Sea, air, or EU road Ã¢â‚¬â€ aligned with your timeline</li>
+            <li>Sea, air, or EU road &mdash; aligned with your timeline</li>
             <li>Packing lists, customs docs, certificates of origin</li>
             <li>Tracking &amp; handover to your logistics or 3PL</li>
           </ul>
@@ -203,7 +203,7 @@
 
   <footer>
     <div class="wrap">
-      <small>Ã‚Â© <span id="y"></span> CoreWear</small>
+      <small>&copy; <span id="y"></span> CoreWear</small>
       <div style="display:flex;gap:14px">
         <a href="/en/legal/">Imprint</a>
         <a href="/en/privacy/">Privacy</a>
@@ -256,7 +256,7 @@
   })();
 
   // ================================
-  // Ultra-fast image loader (AVIF Ã¢â€ â€™ WEBP Ã¢â€ â€™ original ext) with queue + IO
+  // Ultra-fast image loader (AVIF &rarr; WEBP &rarr; original ext) with queue + IO
   // Applies to: &lt;img class="thumb" src="...jpg"&gt;
   // ================================
   (function(){
@@ -415,13 +415,13 @@
       a.href = norm(`/${lang}${rest}`);
     });
 
-    // PrÃƒÂ¤ferenz speichern
+    // Pr&auml;ferenz speichern
     box.addEventListener('click', e=>{
       const a = e.target.closest('.lang-link'); if(!a) return;
       try{ localStorage.setItem('cw_lang', (a.dataset.lang || '').toLowerCase()); }catch(_){}
     });
 
-    // Ohne SprachprÃƒÂ¤fix Ã¢â€ â€™ auf bevorzugte Sprache + gleiche Route
+    // Ohne Sprachpr&auml;fix &rarr; auf bevorzugte Sprache + gleiche Route
     if(!currentLang){
       let pref = null; try{ pref = (localStorage.getItem('cw_lang') || '').toLowerCase(); }catch(_){}
       const fallback = (navigator.language||'en').toLowerCase().startsWith('de') ? 'de' : 'en';

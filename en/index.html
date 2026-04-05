@@ -23,7 +23,7 @@
     <meta property="og:locale" content="en_GB">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="CoreWear">
-    <meta property="og:title" content="CoreWear â€” B2B Apparel Manufacturing in Record Time (MOQ 100)">
+    <meta property="og:title" content="CoreWear &mdash; B2B Apparel Manufacturing in Record Time (MOQ 100)">
     <meta property="og:description" content="Quotes in 24h, samples in 7&ndash;10 days, production start from 14&ndash;21 days. In-house production control, QC gates, clear timelines.">
     <meta property="og:url" content="https://corewear.pro/en/">
     <meta property="og:image" content="https://corewear.pro/assets/img/Logo.png">
@@ -59,8 +59,8 @@
           },
           "address": {
             "@type": "PostalAddress",
-            "streetAddress": "BensbergerstraÃŸe 192",
-            "addressLocality": "RÃ¶srath",
+            "streetAddress": "Bensbergerstra&szlig;e 192",
+            "addressLocality": "R&ouml;srath",
             "postalCode": "51503",
             "addressCountry": "DE"
           }
@@ -116,7 +116,7 @@
           <a href="/en/faq/">FAQ</a>
           <a href="/en/contact/" class="btn">Contact</a>
 
-          <!-- â–¶ï¸ Language switch (DE | EN) â€“ image variant -->
+          <!-- â–¶ï¸ Language switch (DE | EN) &ndash; image variant -->
           <div class="lang-switch" role="group" aria-label="Language">
             <a class="lang-link" href="/de/" data-lang="de" role="button" aria-pressed="false" title="Deutsch">
               <img src="/assets/img/de.jpg" width="36" height="24" alt="Deutsch">
@@ -187,7 +187,7 @@
         </a>
         <a class="card" href="/en/process/" style="display:block">
           <h3>Process</h3>
-          <p class="muted">5 steps with clear SLAs: quote â‰¤ 24h, samples 7&ndash;10 days, production start from 14&ndash;21 days.</p>
+          <p class="muted">5 steps with clear SLAs: quote &le; 24h, samples 7&ndash;10 days, production start from 14&ndash;21 days.</p>
         </a>
         <a class="card" href="/en/about/" style="display:block">
           <h3>About</h3>
@@ -210,7 +210,7 @@
       <!-- CONTACT FORM -->
       <div class="section-title" id="contact" style="justify-content:center;text-align:center">
         <h2>Contact &amp; Inquiry</h2>
-        <span class="muted">Orders from 100 units &ndash; reply within <strong>12 business hours</strong>, quote â‰¤ <strong>24h</strong>.</span>
+        <span class="muted">Orders from 100 units &ndash; reply within <strong>12 business hours</strong>, quote &le; <strong>24h</strong>.</span>
       </div>
 
       <section class="contact">
@@ -285,7 +285,7 @@
 
             <div class="field">
               <label for="target_price">Target price (optional)</label>
-              <input id="target_price" name="target_price" type="text" placeholder="e.g., â‚¬12.50 / unit" />
+              <input id="target_price" name="target_price" type="text" placeholder="e.g., &euro;12.50 / unit" />
             </div>
 
             <div class="field">
@@ -353,7 +353,7 @@
               <span class="chip">Email</span>
               <a class="underline" href="mailto:hello@corewear.pro">hello@corewear.pro</a>
             </div>
-            <li>Diren Bulut<br>Core Wear<br>BensbergerstraÃŸe&nbsp;192<br>51503 RÃ¶srath</li>
+            <li>Diren Bulut<br>Core Wear<br>Bensbergerstra&szlig;e&nbsp;192<br>51503 R&ouml;srath</li>
           </ul>
 
           <p class="notice">
@@ -367,7 +367,7 @@
 
     <footer>
       <div class="wrap">
-        <small>Â© <span id="y"></span> CoreWear</small>
+        <small>&copy; <span id="y"></span> CoreWear</small>
         <div style="display:flex;gap:14px">
           <a href="/en/legal/">Imprint</a>
           <a href="/en/privacy/">Privacy</a>
@@ -377,7 +377,7 @@
 
     <script>
     /* ===============================
-      CoreWear â€“ Frontend Script (v8) [EN]
+      CoreWear &ndash; Frontend Script (v8) [EN]
       =============================== */
 
     // Footer year
@@ -495,7 +495,7 @@
     contactRadios.forEach(r => r.addEventListener('change', () => { syncContactRequired(); clearErrors(); }));
     syncContactRequired();
 
-    /* Files â€“ keep as real inputs for FormSubmit transport */
+    /* Files &ndash; keep as real inputs for FormSubmit transport */
     let attachCounter = 0;
     function getStoredFileInputs() {
       return Array.from(fileBox.querySelectorAll('input[type="file"][data-attachment="1"]'));
@@ -602,7 +602,7 @@
 
         const sizeMB = toMB(f.size);
         if (sizeMB > 5) { errors.push(`File too large (> 5 MB): ${name}`); continue; }
-        if (toMB(total + f.size) > 5) { errors.push(`Total size > 5 MB â€” not added: ${name}`); continue; }
+        if (toMB(total + f.size) > 5) { errors.push(`Total size > 5 MB &mdash; not added: ${name}`); continue; }
 
         storeSingleFile(f);
         seenFiles.add(k);
@@ -646,7 +646,7 @@
       if (submitting) return;
       submitting = true;
       clearErrors();
-      statusEl.textContent = 'Sendingâ€¦';
+      statusEl.textContent = 'Sending&hellip;';
       statusEl.style.color = '';
 
       syncContactRequired();
@@ -716,7 +716,7 @@
           };
 
           const onLoad = () => {
-            statusEl.textContent = 'Thanks! We&rsquo;ll get back to you within 12 business hours â€” quote within â‰¤ 24h.';
+            statusEl.textContent = 'Thanks! We&rsquo;ll get back to you within 12 business hours &mdash; quote within &le; 24h.';
             statusEl.style.color = '#9fe2b0';
             ifr.removeEventListener('load', onLoad);
             form.removeAttribute('target');
@@ -746,7 +746,7 @@
         const endpointAjax = (isOrder ? 'https://formsubmit.co/ajax/orders@corewear.pro' : 'https://formsubmit.co/ajax/hello@corewear.pro');
         const res = await fetch(endpointAjax, { method: 'POST', body: fd, headers: { 'Accept': 'application/json' } });
         if (res.ok) {
-          statusEl.textContent = 'Thanks! We&rsquo;ll get back to you within 12 business hours â€” quote within â‰¤ 24h.';
+          statusEl.textContent = 'Thanks! We&rsquo;ll get back to you within 12 business hours &mdash; quote within &le; 24h.';
           statusEl.style.color = '#9fe2b0';
           const chosenType = typeSel.value;
           setTimeout(() => {
@@ -880,7 +880,7 @@
         try{ localStorage.setItem('cw_lang', a.dataset.lang); }catch(_){}
       });
 
-      // first visit without /de/|/en/ â†’ go to saved or browser language
+      // first visit without /de/|/en/ &rarr; go to saved or browser language
       if(!current){
         let pref = null; try{ pref = localStorage.getItem('cw_lang'); }catch(_){}
         const fallback = (navigator.language||'en').toLowerCase().startsWith('de') ? 'de' : 'en';
